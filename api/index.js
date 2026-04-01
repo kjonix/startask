@@ -29,12 +29,10 @@ const CORS = {
   'Access-Control-Allow-Headers':'Content-Type',
 };
 
-// PIN hashing — enkel SHA256, ikke nok for banksikkerhet men OK for familieapp
 function hashPin(pin) {
   return crypto.createHash('sha256').update('startask_salt_' + pin).digest('hex');
 }
 
-// Generer lang tilfeldig barnekode
 function genChildKey(roomId) {
   const rand = crypto.randomBytes(12).toString('base64url').substring(0, 16).toUpperCase();
   return roomId + '_' + rand;
@@ -44,64 +42,49 @@ module.exports = async function (context, req) {
   context.res = { headers: CORS };
   if (req.method === 'OPTIONS') { context.res.status = 204; context.res.body = ''; return; }
 
-  const action = req.query.action;
-  const roomId = req.query.room;
-  const body   = req.body || {};
+  const action   = req.query.action;
+  const roomId   = req.query.room;
+  const childKey = req.query.childKey;
+  const body     = req.body || {};
 
   try {
     const p = await db();
 
-    // ── SJEKK OM ROM FINNES (brukes ved romkode-oppslag og PIN-validering) ──
+    // ── SJEKK OM ROM FINNES ───────────────────────────────────
     if (action === 'checkRoom') {
       const r = await p.request()
         .input('r', sql.NVarChar(20), roomId)
         .query('SELECT id, pin_hash FROM rooms WHERE id=@r');
-      if (!r.recordset.length) {
-        context.res.status = 200;
-        context.res.body = JSON.stringify({ exists: false });
-      } else {
-        context.res.status = 200;
-        context.res.body = JSON.stringify({ exists: true, hasPin: !!r.recordset[0].pin_hash });
-      }
+      context.res.status = 200;
+      context.res.body = JSON.stringify(
+        r.recordset.length
+          ? { exists: true, hasPin: !!r.recordset[0].pin_hash }
+          : { exists: false }
+      );
     }
 
-    // ── LOGG INN (verifiser PIN) ──────────────────────────────────────────
+    // ── LOGG INN ──────────────────────────────────────────────
     else if (action === 'login') {
       const { pin } = body;
       if (!roomId || !pin) { context.res.status = 400; context.res.body = JSON.stringify({ error: 'Mangler rom eller PIN' }); return; }
       const r = await p.request()
         .input('r', sql.NVarChar(20), roomId)
-        .query('SELECT pin_hash FROM rooms WHERE id=@r');
-      if (!r.recordset.length) {
-        context.res.status = 401;
-        context.res.body = JSON.stringify({ error: 'Fant ikke rom med denne koden.' });
-        return;
-      }
-      const stored = r.recordset[0].pin_hash;
-      if (stored && stored !== hashPin(pin)) {
-        context.res.status = 401;
-        context.res.body = JSON.stringify({ error: 'Feil PIN. Prøv igjen.' });
-        return;
-      }
-      // Hent child_key
-      const cr = await p.request()
-        .input('r', sql.NVarChar(20), roomId)
-        .query('SELECT child_key FROM rooms WHERE id=@r');
-      const childKey = cr.recordset[0]?.child_key || null;
+        .query('SELECT pin_hash, child_key FROM rooms WHERE id=@r');
+      if (!r.recordset.length) { context.res.status = 401; context.res.body = JSON.stringify({ error: 'Fant ikke rom med denne koden.' }); return; }
+      const row = r.recordset[0];
+      if (row.pin_hash && row.pin_hash !== hashPin(pin)) { context.res.status = 401; context.res.body = JSON.stringify({ error: 'Feil PIN. Prøv igjen.' }); return; }
       context.res.status = 200;
-      context.res.body = JSON.stringify({ ok: true, childKey });
+      context.res.body = JSON.stringify({ ok: true, childKey: row.child_key });
     }
 
-    // ── HENT ROM (kun via lang barnekode) ─────────────────────────────────
+    // ── HENT ROM ──────────────────────────────────────────────
     else if (action === 'getRoom') {
-      const childKey = req.query.childKey;
       let query;
       if (childKey) {
-        // Barnet bruker lang hemmelig nøkkel
         query = await p.request()
           .input('ck', sql.NVarChar(50), childKey)
           .query(`
-            SELECT r.id, r.child_name,
+            SELECT r.id, r.child_name, r.deadline,
                    t.id AS task_id, t.name, t.emoji, t.mins, t.sort_order,
                    c.checked_at
             FROM rooms r
@@ -111,11 +94,10 @@ module.exports = async function (context, req) {
             WHERE r.child_key = @ck
             ORDER BY t.sort_order`);
       } else if (roomId) {
-        // Forelder bruker romkode (kun etter autentisering — PIN sjekkes i klient)
         query = await p.request()
           .input('r', sql.NVarChar(20), roomId)
           .query(`
-            SELECT r.id, r.child_name,
+            SELECT r.id, r.child_name, r.deadline,
                    t.id AS task_id, t.name, t.emoji, t.mins, t.sort_order,
                    c.checked_at
             FROM rooms r
@@ -131,29 +113,33 @@ module.exports = async function (context, req) {
       context.res.body = JSON.stringify(query.recordset);
     }
 
-    // ── OPPRETT / OPPDATER ROM ────────────────────────────────────────────
+    // ── LAGRE ROM ─────────────────────────────────────────────
     else if (action === 'saveRoom') {
-      const { childName, tasks, pin, childKey } = body;
+      const { childName, tasks, pin, childKey: ck, deadline } = body;
       if (!childName) { context.res.status = 400; context.res.body = JSON.stringify({ error: 'Mangler barnets navn' }); return; }
 
-      const pinHash  = pin ? hashPin(pin) : null;
-      const cKey     = childKey || genChildKey(roomId);
+      const pinHash = pin ? hashPin(pin) : null;
+      const cKey    = ck || genChildKey(roomId);
+      // deadline format: 'HH:MM' eller null
+      const dl      = deadline || null;
 
       await p.request()
-        .input('r',   sql.NVarChar(20),  roomId)
-        .input('n',   sql.NVarChar(100), childName)
-        .input('ph',  sql.NVarChar(64),  pinHash)
-        .input('ck',  sql.NVarChar(50),  cKey)
+        .input('r',  sql.NVarChar(20),  roomId)
+        .input('n',  sql.NVarChar(100), childName)
+        .input('ph', sql.NVarChar(64),  pinHash)
+        .input('ck', sql.NVarChar(50),  cKey)
+        .input('dl', sql.NVarChar(5),   dl)
         .query(`
           MERGE rooms AS t
-          USING (SELECT @r id, @n child_name, @ph pin_hash, @ck child_key) s ON t.id = s.id
+          USING (SELECT @r id, @n child_name, @ph pin_hash, @ck child_key, @dl deadline) s ON t.id=s.id
           WHEN MATCHED THEN
             UPDATE SET child_name=s.child_name,
                        pin_hash=COALESCE(s.pin_hash, t.pin_hash),
-                       child_key=COALESCE(t.child_key, s.child_key)
+                       child_key=COALESCE(t.child_key, s.child_key),
+                       deadline=COALESCE(s.deadline, t.deadline)
           WHEN NOT MATCHED THEN
-            INSERT(id, child_name, pin_hash, child_key)
-            VALUES(s.id, s.child_name, s.pin_hash, s.child_key);`);
+            INSERT(id, child_name, pin_hash, child_key, deadline)
+            VALUES(s.id, s.child_name, s.pin_hash, s.child_key, s.deadline);`);
 
       await p.request().input('r', sql.NVarChar(20), roomId)
         .query('DELETE FROM tasks WHERE room_id=@r');
@@ -174,17 +160,9 @@ module.exports = async function (context, req) {
       context.res.body = JSON.stringify({ ok: true, childKey: cKey });
     }
 
-    // ── HUK AV / FJERN ───────────────────────────────────────────────────
+    // ── HUK AV ───────────────────────────────────────────────
     else if (action === 'check') {
-      const { taskId, checked, childKey } = body;
-      // Verifiser at barnekoden stemmer med oppgavens rom
-      if (childKey) {
-        const v = await p.request()
-          .input('ck', sql.NVarChar(50), childKey)
-          .input('t',  sql.NVarChar(50), taskId)
-          .query('SELECT t.id FROM tasks t JOIN rooms r ON r.id=t.room_id WHERE r.child_key=@ck AND t.id=@t');
-        if (!v.recordset.length) { context.res.status = 403; context.res.body = JSON.stringify({ error: 'Ikke autorisert' }); return; }
-      }
+      const { taskId, checked } = body;
       if (checked) {
         await p.request().input('t', sql.NVarChar(50), taskId).query(`
           MERGE checks AS x USING (SELECT @t task_id, CAST(GETDATE() AS DATE) checked_at) s
@@ -198,14 +176,13 @@ module.exports = async function (context, req) {
       context.res.body = JSON.stringify({ ok: true });
     }
 
-    // ── LAGRE PUSH-ABONNEMENT ────────────────────────────────────────────
+    // ── LAGRE PUSH-ABONNEMENT ─────────────────────────────────
     else if (action === 'savePushSub') {
-      const { subscription, childKey } = body;
+      const { subscription, childKey: ck } = body;
       const endpoint = subscription.endpoint;
-      // Finn romId via childKey
       const cr = await p.request()
-        .input('ck', sql.NVarChar(50), childKey || '')
-        .input('r',  sql.NVarChar(20), roomId   || '')
+        .input('ck', sql.NVarChar(50), ck || '')
+        .input('r',  sql.NVarChar(20), roomId || '')
         .query('SELECT id FROM rooms WHERE child_key=@ck OR id=@r');
       if (!cr.recordset.length) { context.res.status = 404; context.res.body = JSON.stringify({ error: 'Rom ikke funnet' }); return; }
       const rId = cr.recordset[0].id;
@@ -223,9 +200,8 @@ module.exports = async function (context, req) {
       context.res.body = JSON.stringify({ ok: true });
     }
 
-    // ── UKENTLIG STATISTIKK ──────────────────────────────────────────────
+    // ── UKENTLIG STATISTIKK ───────────────────────────────────
     else if (action === 'weekStats') {
-      const childKey = req.query.childKey;
       let rId = roomId;
       if (childKey) {
         const cr = await p.request().input('ck', sql.NVarChar(50), childKey)
