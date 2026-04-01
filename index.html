@@ -67,7 +67,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .pstat-task.done .ptn { text-decoration:line-through; color:#555; }
 .ptn { flex:1; font-size:0.95rem; }
 
-/* ── CHILD HEADER MED TRAFIKKLYS ── */
 .child-header { padding:1.2rem 1rem 0.8rem; text-align:center; transition:background 0.5s; }
 .child-header.green  { background:linear-gradient(135deg,#065f46,#10b981); }
 .child-header.yellow { background:linear-gradient(135deg,#78350f,#f59e0b); }
@@ -76,9 +75,8 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .child-header h1 { font-size:1.8rem; font-weight:800; }
 .stars-row { font-size:0.95rem; margin-top:5px; color:#f9d71c; letter-spacing:2px; }
 
-/* ── COUNTDOWN WIDGET ── */
-.countdown-widget { margin: 0 1rem 0.8rem; max-width: 520px; margin-left:auto; margin-right:auto; }
-.cw-main { border-radius: 16px; padding: 1rem 1.2rem; display:flex; align-items:center; gap:1rem; }
+.countdown-widget { margin: 0 1rem 0.8rem; max-width:520px; margin-left:auto; margin-right:auto; }
+.cw-main { border-radius:16px; padding:1rem 1.2rem; display:flex; align-items:center; gap:1rem; }
 .cw-main.green  { background:#0d2a1e; border:2px solid #10b981; }
 .cw-main.yellow { background:#2a1a00; border:2px solid #f59e0b; }
 .cw-main.red    { background:#2a0a0a; border:2px solid #ef4444; }
@@ -97,7 +95,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .cw-main.over   .cw-status { color:#c77dff; }
 .cw-tasks { font-size:0.78rem; color:#888; margin-top:2px; }
 
-/* ── INGEN OPPGAVER ── */
 .no-tasks { text-align:center; padding:3rem 1.5rem; }
 .no-tasks .nt-icon { font-size:4rem; margin-bottom:1rem; }
 .no-tasks h2 { font-size:1.3rem; font-weight:800; color:#888; }
@@ -121,7 +118,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .alert-banner p { font-size:0.82rem; opacity:0.9; }
 @keyframes sd { from{transform:translateY(-100%)} to{transform:translateY(0)} }
 
-/* ── LOGIN ── */
 .login-wrap { max-width:380px; margin:0 auto; padding:2rem 1.5rem 5rem; }
 .login-logo { text-align:center; padding:2rem 0 1.5rem; }
 .login-logo h1 { font-size:2.5rem; font-weight:800; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
@@ -138,7 +134,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .room-input-big:focus { border-color:#c77dff; }
 .room-input-big::placeholder { color:#444; font-size:0.85rem; letter-spacing:1px; font-weight:400; }
 
-/* ── MODAL ── */
 .modal-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:1000; align-items:flex-end; justify-content:center; }
 .modal-overlay.show { display:flex; }
 .modal { background:#16213e; border-radius:20px 20px 0 0; padding:1.8rem 1.5rem 2.5rem; width:100%; max-width:520px; border-top:2px solid #c77dff; text-align:center; }
@@ -150,11 +145,9 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .step-os { font-size:0.75rem; font-weight:700; color:#f9d71c; min-width:60px; padding-top:2px; }
 .step-desc { font-size:0.85rem; color:#ccc; line-height:1.4; }
 
-/* ── PWA INSTALL KNAPP ── */
 .pwa-btn { display:none; background:#0f3460; border:1px solid #1a4a8a; border-radius:10px; padding:8px 14px; color:#c77dff; font-size:0.82rem; cursor:pointer; align-items:center; gap:6px; margin:0 auto 0.8rem; }
 .pwa-btn.show { display:flex; }
 
-/* ── ROMKODE VISNING ── */
 .room-code-display { background:#0f3460; border-radius:12px; padding:0.8rem 1rem; margin:0.8rem 0; display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .room-code-display .code { font-size:1.4rem; font-weight:800; color:#f9d71c; letter-spacing:4px; }
 .room-code-display .label { font-size:0.75rem; color:#888; }
@@ -203,7 +196,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 </head>
 <body>
 
-<!-- HJEMSKJERM MODAL FORELDER -->
 <div class="modal-overlay" id="modal-parent">
   <div class="modal">
     <div class="modal-icon">📌</div>
@@ -211,13 +203,12 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
     <p>Legg siden til på hjemskjermen så du alltid finner tilbake med ett trykk — uten adressefelt.</p>
     <div class="steps">
       <div class="step-row"><span class="step-os">iPhone</span><span class="step-desc">Trykk Del-knappen (firkant med pil opp) → «Legg til på hjemskjerm»</span></div>
-      <div class="step-row"><span class="step-os">Android</span><span class="step-desc">Trykk meny (tre prikker) → «Legg til på startskjerm» — eller trykk «Installer»-knappen som vises</span></div>
+      <div class="step-row"><span class="step-os">Android</span><span class="step-desc">Trykk meny (tre prikker) → «Legg til på startskjerm»</span></div>
     </div>
     <button class="btn btn-gold btn-full" onclick="closeModal('modal-parent')" style="margin-top:0">Forstått! ⭐</button>
   </div>
 </div>
 
-<!-- HJEMSKJERM MODAL BARN -->
 <div class="modal-overlay" id="modal-child">
   <div class="modal">
     <div class="modal-icon">📱</div>
@@ -239,15 +230,15 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 <div id="app"></div>
 
 <script>
-// ════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════
 const API_URL       = 'https://startask-api-gcb3cke7bagha3fu.norwayeast-01.azurewebsites.net/api/api';
 const VAPID_PUB_KEY = 'BNT1BSBplMNZzI_c4lpIjvXYlzc_yLa5KnjEkQgdHpvVvd8hEZvEbWrH2i-UggVMIfxB68pLnFyfNAUVMX3PdIg';
-// ════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════
 
 const EMOJIS = ['🦷','👕','🎒','🥣','👟','🛁','🚿','📚','🥤','😴','🧴','🧦','🍎','🎨','🧹'];
 const QUICK  = [{e:'🦷',n:'Pusse tenner',m:3},{e:'👕',n:'Kle på deg',m:5},{e:'🥣',n:'Spise frokost',m:10},{e:'🎒',n:'Pakke sekken',m:5},{e:'👟',n:'Ta på sko',m:2}];
 const DAYS   = ['Man','Tir','Ons','Tor','Fre','Lør','Søn'];
-const GRACE_MINUTES = 30; // Minutter etter deadline før oppgaver skjules
+const GRACE_MINUTES = 30;
 
 const S = {
   view:'login',
@@ -255,7 +246,7 @@ const S = {
   roomKey:null, childKey:null, childRoomKey:null,
   taskInput:'', taskMins:5, taskEmoji:'⭐',
   childName:'Barnet', weekStats:{},
-  deadline:null, // 'HH:MM'
+  deadline:null,
   deadlineInput:'07:30',
   customRoomCode:'', pinInput:'', pinStep:'room',
   push:'unknown', pushSub:null,
@@ -264,11 +255,9 @@ const S = {
   deferredInstallPrompt:null,
 };
 
-// ── PWA INSTALL PROMPT ────────────────────────────────────────
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   S.deferredInstallPrompt = e;
-  // Vis install-knapp
   document.querySelectorAll('.pwa-btn').forEach(b => b.classList.add('show'));
 });
 
@@ -282,13 +271,39 @@ async function installPWA() {
   }
 }
 
-// ── LOCALSTORAGE ──────────────────────────────────────────────
 function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 function saveSession(r){lsSet('st_room',r);}
 function loadSession(){return lsGet('st_room');}
 
-// ── TIDSSTYRING ───────────────────────────────────────────────
+// ── DEADLINE PARSING — robust mot SQL TIME, string og Date-objekt ──
+function parseDeadline(dl) {
+  if (!dl) return null;
+  // Allerede HH:MM format
+  if (typeof dl === 'string') {
+    // Kan være '07:30:00' eller '07:30'
+    return dl.substring(0, 5);
+  }
+  // Date-objekt (noen SQL-drivere returnerer dette)
+  if (dl instanceof Date) {
+    const h = dl.getUTCHours().toString().padStart(2, '0');
+    const m = dl.getUTCMinutes().toString().padStart(2, '0');
+    return `${h}:${m}`;
+  }
+  // Fallback: prøv å parse som string
+  try {
+    const str = String(dl);
+    if (str.includes('T')) {
+      // ISO-format: ta bare klokkeslettet
+      const t = new Date(str);
+      const h = t.getUTCHours().toString().padStart(2, '0');
+      const m = t.getUTCMinutes().toString().padStart(2, '0');
+      return `${h}:${m}`;
+    }
+    return str.substring(0, 5);
+  } catch(e) { return null; }
+}
+
 function getDeadlineMs(deadlineStr) {
   if (!deadlineStr) return null;
   const [h,m] = deadlineStr.split(':').map(Number);
@@ -298,49 +313,39 @@ function getDeadlineMs(deadlineStr) {
 }
 
 function getTimeStatus() {
-  if (!S.deadline) return { state:'green', remSec:null, behindSec:0 };
-
+  if (!S.deadline) return { state:'green', remSec:null };
   const now     = Date.now();
   const dlMs    = getDeadlineMs(S.deadline);
   const graceMs = dlMs + GRACE_MINUTES * 60000;
-  const remSec  = Math.floor((dlMs - now) / 1000);
+  const remaining = S.tasks.filter(t=>!S.checkedIds[t.id]);
+  const remainingSec = remaining.reduce((s,t)=>s+t.mins,0) * 60;
 
-  // Tid til å fullføre gjenstående oppgaver (sekunder)
-  const remainingMins = S.tasks.filter(t=>!S.checkedIds[t.id]).reduce((s,t)=>s+t.mins,0);
-  const remainingSec  = remainingMins * 60;
+  if (now > graceMs) return { state:'expired', remSec:0 };
 
-  if (now > graceMs) {
-    return { state:'expired', remSec:0, behindSec:0 };
-  }
+  const remSec = Math.floor((dlMs - now) / 1000);
 
   if (now > dlMs) {
-    const overSec = Math.floor((now - dlMs) / 1000);
-    return { state:'over', remSec:-overSec, behindSec:overSec };
+    return { state:'over', remSec: -Math.floor((now - dlMs) / 1000) };
   }
 
-  // Beregn om barnet er foran eller bak
   const bufferSec = remSec - remainingSec;
   let state = 'green';
-  if (bufferSec < 0) state = 'red';         // Rekker det ikke
-  else if (bufferSec < 300) state = 'red';  // Mindre enn 5 min buffer
-  else if (bufferSec < 600) state = 'yellow'; // Mindre enn 10 min buffer
+  if (bufferSec < 300) state = 'red';
+  else if (bufferSec < 600) state = 'yellow';
 
-  return { state, remSec, behindSec: -bufferSec, remainingSec };
+  return { state, remSec };
 }
 
 function fmtTime(totalSec) {
-  const neg = totalSec < 0;
-  const abs = Math.abs(totalSec);
+  const abs = Math.abs(Math.round(totalSec));
   const h = Math.floor(abs/3600);
   const m = Math.floor((abs%3600)/60);
   const s = abs%60;
-  const str = h > 0
+  return h > 0
     ? `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`
     : `${m}:${s.toString().padStart(2,'0')}`;
-  return neg ? `-${str}` : str;
 }
 
-// ── API ───────────────────────────────────────────────────────
 async function api(action, roomId, body, childKey) {
   let url = `${API_URL}?action=${action}`;
   if (roomId)   url += `&room=${encodeURIComponent(roomId)}`;
@@ -358,9 +363,7 @@ async function loadRoom(roomId, childKey) {
   const rows = await api('getRoom', roomId, null, childKey);
   if (!rows?.length) return false;
   S.childName = rows[0].child_name || 'Barnet';
-  // Parse deadline — SQL returnerer 'HH:MM:SS' eller null
-  const dl = rows[0].deadline;
-  S.deadline = dl ? dl.substring(0,5) : null;
+  S.deadline  = parseDeadline(rows[0].deadline);
   const m = {};
   rows.forEach(r => {
     if (!r.task_id) return;
@@ -371,7 +374,6 @@ async function loadRoom(roomId, childKey) {
   return true;
 }
 
-// ── PUSH ──────────────────────────────────────────────────────
 function b64ToUint8(s){const pad='='.repeat((4-s.length%4)%4);const b=atob((s+pad).replace(/-/g,'+').replace(/_/g,'/'));return Uint8Array.from(b,c=>c.charCodeAt(0));}
 
 async function initPush(){
@@ -384,7 +386,7 @@ async function enablePush(){
   S.error=null;
   try{
     const perm=await Notification.requestPermission();
-    if(perm!=='granted'){S.push='denied';S.error='Varsler ble avslått. Gå til telefoninnstillinger → StarTask → Tillat varsler.';render();return;}
+    if(perm!=='granted'){S.push='denied';S.error='Varsler ble avslått.';render();return;}
     const reg=await navigator.serviceWorker.ready;
     const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64ToUint8(VAPID_PUB_KEY)});
     S.pushSub=sub;S.push='granted';
@@ -393,16 +395,13 @@ async function enablePush(){
   }catch(e){S.push='denied';S.error='Kunne ikke aktivere varsler: '+e.message;render();}
 }
 
-// ── MODAL ─────────────────────────────────────────────────────
 function showModal(id){if(lsGet('st_modal_'+id))return;document.getElementById(id).classList.add('show');}
 function closeModal(id){document.getElementById(id).classList.remove('show');lsSet('st_modal_'+id,'1');}
 
-// ── URL ───────────────────────────────────────────────────────
 function updateParentUrl(roomKey){const u=new URL(location.href);u.searchParams.set('room',roomKey);u.searchParams.delete('child');u.searchParams.delete('childKey');history.replaceState({},'',u.toString());}
 function childLink(){const u=new URL(location.href.split('?')[0]);u.searchParams.set('childKey',S.childRoomKey);u.searchParams.set('child','1');return u.toString();}
 function parentLink(){const u=new URL(location.href.split('?')[0]);u.searchParams.set('room',S.roomKey);return u.toString();}
 
-// ── RENDER ────────────────────────────────────────────────────
 function render(){
   const app=document.getElementById('app');
   if      (S.view==='login')         app.innerHTML=tplLogin();
@@ -412,11 +411,9 @@ function render(){
   else if (S.view==='stats')         app.innerHTML=tplStats();
 }
 
-// ── LOGIN ─────────────────────────────────────────────────────
 function tplLogin(){
   const savedRoom=loadSession();
-  const pinFilled=S.pinInput.length;
-  const dots=[0,1,2,3].map(i=>`<div class="pin-dot ${i<pinFilled?'filled':''}"></div>`).join('');
+  const dots=[0,1,2,3].map(i=>`<div class="pin-dot ${i<S.pinInput.length?'filled':''}"></div>`).join('');
 
   if(S.pinStep==='room'){return`
     <div class="login-wrap">
@@ -518,7 +515,7 @@ async function createNewRoom(){
     const key=S.customRoomCode||genKey();
     const exists=await api('checkRoom',key);
     if(exists.exists){S.error=`Romkoden «${key}» er allerede i bruk. Velg en annen.`;S.saving=false;render();return;}
-    const r=await api('saveRoom',key,{childName:S.childName,tasks:[],pin:S.pinInput,deadline:S.deadlineInput});
+    const r=await api('saveRoom',key,{childName:S.childName,tasks:[],pin:S.pinInput,deadline:S.deadlineInput,childKey:null});
     S.roomKey=key;S.childRoomKey=r.childKey;S.customRoomCode=key;
     saveSession(key);updateParentUrl(key);
     S.saving=false;S.view='parent-setup';render();
@@ -526,7 +523,6 @@ async function createNewRoom(){
   }catch(e){S.error='Kunne ikke opprette rom. Sjekk internett.';S.saving=false;render();}
 }
 
-// ── PARENT SETUP ──────────────────────────────────────────────
 function tplSetup(){
   const rows=S.tasks.map((t,i)=>`
     <li class="task-item">
@@ -534,9 +530,7 @@ function tplSetup(){
       <span class="tag">${t.mins} min</span>
       <button class="btn-icon" onclick="removeTask(${i})">✕</button>
     </li>`).join('');
-
   const totalMins=S.tasks.reduce((s,t)=>s+t.mins,0);
-
   const linkBox=S.childRoomKey?`
     <div class="link-box">
       <p>📱 Send denne lenken til ${S.childName} — lenken er alltid den samme:</p>
@@ -552,18 +546,15 @@ function tplSetup(){
     <div class="view">
       ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
       ${S.ok?`<div class="success-box">✅ ${S.ok}</div>`:''}
-
       <div class="card">
         <h2>👶 Barnets navn</h2>
         <input type="text" value="${S.childName}" placeholder="F.eks. Emma" oninput="S.childName=this.value">
       </div>
-
       <div class="card">
         <h2>⏰ Frist — alt skal være ferdig innen:</h2>
         <input type="time" value="${S.deadlineInput}" oninput="S.deadlineInput=this.value" style="font-size:1.3rem;font-weight:800;text-align:center;padding:12px;">
         <div style="font-size:0.75rem;color:#888;margin-top:6px">Barnet ser nedtelling og trafikklys basert på denne fristen</div>
       </div>
-
       <div class="card">
         <h2>✏️ Legg til oppgave</h2>
         <span class="section-lbl">Velg ikon:</span>
@@ -576,25 +567,21 @@ function tplSetup(){
         </div>
         <div class="quick-btns">${QUICK.map(q=>`<button class="quick-btn" onclick="quickAdd('${q.e}','${q.n}',${q.m})">${q.e} ${q.n}</button>`).join('')}</div>
       </div>
-
       ${S.tasks.length?`
       <div class="card">
         <h2>📋 Oppgaver (${S.tasks.length}) — ${totalMins} min totalt</h2>
         <ul class="task-list">${rows}</ul>
       </div>`:''}
-
       <button class="btn btn-gold btn-full" ${(!S.tasks.length||S.saving)?'disabled':''} onclick="saveAndLink()">
         ${S.saving?'⏳ Lagrer...':'🚀 Lagre og lag lenke til '+(S.childName||'barnet')+'!'}
       </button>
       ${linkBox}
-
       <div style="text-align:center;margin-top:1rem;">
         <button onclick="doLogout()" style="background:none;border:none;color:#555;cursor:pointer;font-size:0.82rem;text-decoration:underline">Logg ut</button>
       </div>
     </div>`;
 }
 
-// ── PARENT STATUS ─────────────────────────────────────────────
 function tplStatus(){
   const done=S.tasks.filter(t=>S.checkedIds[t.id]).length;
   const pct=S.tasks.length?Math.round(done/S.tasks.length*100):0;
@@ -618,82 +605,54 @@ function tplStatus(){
     </div>`;
 }
 
-// ── CHILD VIEW ────────────────────────────────────────────────
 function tplChild(){
   if(S.loading)return`<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster oppgaver...</p></div>`;
-
-  const ts = getTimeStatus();
-
-  // Etter grace-perioden — ingen oppgaver
-  if(ts.state==='expired'){
-    return`
-      <div class="child-header over">
-        <h1>⭐ StarTask</h1>
-        <div style="color:rgba(255,255,255,0.8);font-size:0.88rem">Hei ${S.childName}!</div>
-      </div>
-      <div class="view" style="padding-top:1rem">
-        <div class="no-tasks">
-          <div class="nt-icon">😴</div>
-          <h2>Ingen oppgaver akkurat nå</h2>
-          <p>Fristen for i dag er passert.<br>Foreldre legger ut nye oppgaver til i morgen!</p>
-        </div>
-      </div>`;
-  }
+  const ts=getTimeStatus();
+  if(ts.state==='expired'){return`
+    <div class="child-header over"><h1>⭐ StarTask</h1><div style="color:rgba(255,255,255,0.8);font-size:0.88rem">Hei ${S.childName}!</div></div>
+    <div class="view" style="padding-top:1rem">
+      <div class="no-tasks"><div class="nt-icon">😴</div><h2>Ingen oppgaver akkurat nå</h2><p>Fristen for i dag er passert.<br>Foreldre legger ut nye oppgaver til i morgen!</p></div>
+    </div>`;}
 
   const done=S.tasks.filter(t=>S.checkedIds[t.id]).length;
   const allDone=done===S.tasks.length&&S.tasks.length>0;
   const remaining=S.tasks.filter(t=>!S.checkedIds[t.id]);
   const next=remaining[0];
+  const headerColor=ts.state==='over'?'red':ts.state;
 
-  // Trafikklys-farge på header
-  const headerColor = ts.state==='over' ? 'red' : ts.state;
-
-  // Countdown widget
   let cwHtml='';
   if(S.deadline){
-    const timeStr = fmtTime(ts.remSec||0);
+    const absSec=Math.abs(ts.remSec||0);
+    const timeStr=fmtTime(absSec);
+    const isOver=ts.state==='over';
     let statusText='';
-    if(ts.state==='over') statusText=`⚠️ Fristen er passert! ${fmtTime(Math.abs(ts.remSec||0))} over tid`;
+    if(isOver) statusText=`⚠️ Fristen er passert!`;
     else if(ts.state==='red') statusText=`🔴 Du rekker det IKKE — skynd deg!`;
-    else if(ts.state==='yellow') statusText=`🟡 Det begynner å haste — hold fokus!`;
+    else if(ts.state==='yellow') statusText=`🟡 Det begynner å haste!`;
     else statusText=`🟢 Du rekker det fint — bra jobbet!`;
-
-    const remTaskText=remaining.length>0
-      ? `${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`
-      : '🎉 Alle oppgaver er gjort!';
-
+    const remTaskText=remaining.length>0?`${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`:'🎉 Alle oppgaver er gjort!';
     cwHtml=`
       <div class="countdown-widget">
         <div class="cw-main ${ts.state==='over'?'red':ts.state}">
-          <div class="cw-time">${ts.state==='over'?'-':''}${fmtTime(Math.abs(ts.remSec||0))}</div>
+          <div class="cw-time">${isOver?'-':''}${timeStr}</div>
           <div class="cw-info">
             <div class="cw-label">Frist: ${S.deadline}</div>
             <div class="cw-status">${statusText}</div>
             <div class="cw-tasks">${remTaskText}</div>
           </div>
         </div>
-      </div>`;
-  }
+      </div>`;}
 
   let pushUI='';
-  if(S.push==='granted') pushUI=`<div class="push-ok" style="margin:0 0 0.8rem"><div class="dot"></div>🔔 Lydvarsler er aktivert</div>`;
-  else if(S.push==='denied') pushUI=`<div class="push-err" style="margin:0 0 0.8rem">🔕 Varsler blokkert — gå til telefoninnstillinger → Tillat varsler</div>`;
-  else if(S.push==='unknown'||S.push==='pending') pushUI=`
-    <div class="push-card">
-      <h3>🔔 Aktiver lydvarsler</h3>
-      <p>Få lyd og varsel på telefonen hvert 30. sekund!</p>
-      <button class="btn btn-purple btn-full" onclick="enablePush()" style="margin-top:0">🔔 Aktiver</button>
-    </div>`;
+  if(S.push==='granted') pushUI=`<div class="push-ok"><div class="dot"></div>🔔 Lydvarsler er aktivert</div>`;
+  else if(S.push==='denied') pushUI=`<div class="push-err">🔕 Varsler blokkert — gå til telefoninnstillinger → Tillat varsler</div>`;
+  else if(S.push==='unknown'||S.push==='pending') pushUI=`<div class="push-card"><h3>🔔 Aktiver lydvarsler</h3><p>Få lyd og varsel på telefonen hvert 30. sekund!</p><button class="btn btn-purple btn-full" onclick="enablePush()" style="margin-top:0">🔔 Aktiver</button></div>`;
 
   const cards=S.tasks.map(t=>{
-    const isDone=!!S.checkedIds[t.id];
-    const isNext=!isDone&&t===next;
+    const isDone=!!S.checkedIds[t.id],isNext=!isDone&&t===next;
     return`<div class="child-task ${isDone?'done':''} ${isNext?'next-up':''}" onclick="toggleTask('${t.id}')">
       <span class="ct-emoji">${t.emoji}</span>
-      <div class="ct-info">
-        <div class="ct-name">${t.name}</div>
-        <div class="ct-sub">${t.mins} min${isNext?' ← neste!':''}</div>
-      </div>
+      <div class="ct-info"><div class="ct-name">${t.name}</div><div class="ct-sub">${t.mins} min${isNext?' ← neste!':''}</div></div>
       <div class="ct-check">${isDone?'✅':''}</div>
     </div>`;
   }).join('');
@@ -718,7 +677,6 @@ function tplChild(){
     </div>`;
 }
 
-// ── STATS ─────────────────────────────────────────────────────
 function tplStats(){
   const today=dateKey(new Date()),week=getWeekDays();
   const total=Object.values(S.weekStats).reduce((s,v)=>s+(v||0),0);
@@ -745,15 +703,13 @@ function tplStats(){
     </div>`;
 }
 
-// ── HELPERS ───────────────────────────────────────────────────
 function dateKey(d){return d.toISOString().split('T')[0];}
 function getWeekDays(){const t=new Date(),d=[];for(let i=6;i>=0;i--){const x=new Date(t);x.setDate(t.getDate()-i);d.push({key:dateKey(x),label:DAYS[x.getDay()===0?6:x.getDay()-1]});}return d;}
 function calcStreak(){let n=0;const d=new Date();for(let i=0;i<30;i++){if((S.weekStats[dateKey(d)]||0)>0)n++;else if(i>0)break;d.setDate(d.getDate()-1);}return n;}
 function motMsg(t,s){if(t===0)return'Start i dag og tjen din første stjerne! 💪';if(s>=5)return`Utrolig! ${s} dager på rad! Du er en ekte SuperHelt! 🦸`;if(t>=20)return`Wow, ${t} stjerner! Du er verdens beste! 🌟`;if(s>=3)return`${s} dager på rad! Kjempebra! 🔥`;return`${t} stjerner denne uken! Fortsett slik! ⭐`;}
 function genKey(){return Math.random().toString(36).substring(2,8).toUpperCase();}
-function copyChildLink(){navigator.clipboard.writeText(childLink()).then(()=>{S.ok='Barnets lenke er kopiert — send den via SMS eller WhatsApp!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
+function copyChildLink(){navigator.clipboard.writeText(childLink()).then(()=>{S.ok='Barnets lenke er kopiert!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
 
-// ── ACTIONS ───────────────────────────────────────────────────
 function selEmoji(e){S.taskEmoji=e;render();}
 function addTask(){const el=document.getElementById('ti');const n=(el?el.value:S.taskInput).trim();if(!n)return;S.tasks.push({id:Date.now().toString(),name:n,mins:S.taskMins,emoji:S.taskEmoji});S.taskInput='';render();}
 function quickAdd(e,n,m){S.tasks.push({id:Date.now().toString(),name:n,mins:m,emoji:e});render();}
@@ -776,17 +732,12 @@ async function saveAndLink(){
 async function toggleTask(id){
   const was=!!S.checkedIds[id];
   if(was){delete S.checkedIds[id];}
-  else{
-    S.checkedIds[id]=true;
-    const today=dateKey(new Date());
-    S.weekStats[today]=(S.weekStats[today]||0)+1;
-  }
+  else{S.checkedIds[id]=true;const today=dateKey(new Date());S.weekStats[today]=(S.weekStats[today]||0)+1;}
   playTap();render();
   try{await api('check',null,{taskId:id,checked:!was},S.childRoomKey);}catch(e){S.error='Lagring feilet.';render();}
   if(!was&&S.tasks.every(t=>S.checkedIds[t.id]))confetti();
 }
 
-// ── NAVIGASJON ────────────────────────────────────────────────
 function goSetup(){S.view='parent-setup';stopIntervals();render();}
 async function goStatus(){S.view='parent-status';stopIntervals();render();try{await loadRoom(S.roomKey,null);render();}catch(e){}S.pollInterval=setInterval(async()=>{try{await loadRoom(S.roomKey,null);if(S.view==='parent-status')render();}catch(e){}},3000);}
 async function goStatsParent(){S.view='stats';try{const r=await api('weekStats',S.roomKey);S.weekStats={};r.forEach(x=>{S.weekStats[x.checked_at.split('T')[0]]=x.stars;});}catch(e){}render();}
@@ -794,19 +745,14 @@ async function goChildStats(){S.view='stats';try{const r=await api('weekStats',n
 function goChildTasks(){S.view='child';render();}
 function stopIntervals(){if(S.pollInterval){clearInterval(S.pollInterval);S.pollInterval=null;}if(S.tickInterval){clearInterval(S.tickInterval);S.tickInterval=null;}}
 
-// ── LYD ──────────────────────────────────────────────────────
 function playTap(){try{const c=new(AudioContext||webkitAudioContext)();[523,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(0.2,c.currentTime+i*0.08);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.08+0.15);o.start(c.currentTime+i*0.08);o.stop(c.currentTime+i*0.08+0.2);});}catch(e){}}
 function playAlert(){try{const c=new(AudioContext||webkitAudioContext)();[523,659,784,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(0.3,c.currentTime+i*0.12);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.12+0.2);o.start(c.currentTime+i*0.12);o.stop(c.currentTime+i*0.12+0.25);});}catch(e){}}
 function showFallbackAlert(name,emoji){document.getElementById('alert-msg').textContent=`${emoji} ${name} — husk å hake av!`;document.getElementById('alert-sub').textContent='Trykk på oppgaven når du er ferdig ✅';const b=document.getElementById('alert-banner');b.classList.add('show');setTimeout(()=>b.classList.remove('show'),6000);if(S.push!=='granted')playAlert();}
 function startAlerts(){if(S.alertInterval)clearInterval(S.alertInterval);S.alertInterval=setInterval(()=>{const ts=getTimeStatus();if(ts.state==='expired')return;const nx=S.tasks.find(t=>!S.checkedIds[t.id]);if(nx&&S.push!=='granted')showFallbackAlert(nx.name,nx.emoji);},30000);}
 function confetti(){const c=['#f9d71c','#ff6b6b','#c77dff','#10b981','#ff8c42','#60a5fa'];for(let i=0;i<70;i++){setTimeout(()=>{const el=document.createElement('div');el.className='cp';el.style.cssText=`left:${Math.random()*100}vw;background:${c[Math.floor(Math.random()*c.length)]};animation-duration:${1.5+Math.random()*2}s;`;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);},i*35);}}
 
-// ── INIT ──────────────────────────────────────────────────────
 async function init(){
-  // Registrer service worker
-  if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('./sw.js').catch(()=>{});
-  }
+  if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js').catch(()=>{});
 
   const params=new URLSearchParams(location.search);
   const childKey=params.get('childKey');
@@ -814,7 +760,6 @@ async function init(){
   const roomParam=params.get('room');
 
   if(childKey&&isChild){
-    // BARNETS VISNING — statisk URL, alltid oppdaterte oppgaver
     S.childRoomKey=childKey;S.childKey=childKey;S.view='child';S.loading=true;render();
     await initPush();
     try{
@@ -822,28 +767,20 @@ async function init(){
       S.loading=false;render();
       setTimeout(()=>showModal('modal-child'),1000);
     }catch(e){S.error='Kunne ikke laste oppgaver. Sjekk internett.';S.loading=false;render();}
-
-    // Poll for oppdateringer fra forelder hvert 30. sek
     S.pollInterval=setInterval(async()=>{
       try{
         const prevChecked={...S.checkedIds};
         await loadRoom(null,childKey);
-        // Behold lokale avhukinger
         Object.keys(prevChecked).forEach(id=>{if(prevChecked[id])S.checkedIds[id]=true;});
         if(S.view==='child')render();
       }catch(e){}
     },30000);
-
-    // Tick hvert sekund for nedtelling
     S.tickInterval=setInterval(()=>{if(S.view==='child')render();},1000);
     startAlerts();
-
   } else if(roomParam){
-    S.customRoomCode=roomParam;
-    S.pinStep='pin';
+    S.customRoomCode=roomParam;S.pinStep='pin';
     try{const r=await api('checkRoom',roomParam);if(!r.exists){S.pinStep='room';S.customRoomCode='';}}catch(e){}
     S.view='login';render();
-
   } else {
     const saved=loadSession();
     if(saved){S.customRoomCode=saved;S.pinStep='pin';}
