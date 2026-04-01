@@ -1,0 +1,9 @@
+{
+  "name": "startask-api",
+  "version": "1.0.0",
+  "main": "src/functions/*.js",
+  "dependencies": {
+    "mssql": "^10.0.1",
+    "web-push": "^3.6.7"
+  }
+}
