@@ -120,7 +120,6 @@ module.exports = async function (context, req) {
 
       const pinHash = pin ? hashPin(pin) : null;
       const cKey    = ck || genChildKey(roomId);
-      // deadline format: 'HH:MM' eller null
       const dl      = deadline || null;
 
       await p.request()
@@ -136,7 +135,7 @@ module.exports = async function (context, req) {
             UPDATE SET child_name=s.child_name,
                        pin_hash=COALESCE(s.pin_hash, t.pin_hash),
                        child_key=COALESCE(t.child_key, s.child_key),
-                       deadline=COALESCE(s.deadline, t.deadline)
+                       deadline=s.deadline
           WHEN NOT MATCHED THEN
             INSERT(id, child_name, pin_hash, child_key, deadline)
             VALUES(s.id, s.child_name, s.pin_hash, s.child_key, s.deadline);`);
