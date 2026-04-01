@@ -67,34 +67,30 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .ptn { flex:1; font-size:0.95rem; }
 
 /* ── CHILD HEADER ── */
-.child-header { padding: 1.5rem 1rem 1.2rem; text-align:center; transition:background 0.5s; }
-.child-header.green  { background:linear-gradient(135deg,#065f46,#10b981); }
-.child-header.yellow { background:linear-gradient(135deg,#78350f,#f59e0b); }
-.child-header.red    { background:linear-gradient(135deg,#7f1d1d,#ef4444); }
-.child-header.over   { background:linear-gradient(135deg,#3b0764,#7c3aed); }
+.child-header { padding:1.5rem 1rem 1.2rem; text-align:center; transition:background 0.5s; }
+.child-header.green { background:linear-gradient(135deg,#065f46,#10b981); }
+.child-header.red   { background:linear-gradient(135deg,#7f1d1d,#ef4444); }
+.child-header.over  { background:linear-gradient(135deg,#3b0764,#7c3aed); }
 .child-header h1 { font-size:1.8rem; font-weight:800; margin-bottom:0.3rem; }
 .child-header .greeting { color:rgba(255,255,255,0.85); font-size:0.92rem; margin-bottom:0.5rem; }
 .stars-row { font-size:1.1rem; margin-top:0.3rem; color:#f9d71c; letter-spacing:3px; }
 
-/* ── COUNTDOWN WIDGET ── */
+/* ── COUNTDOWN ── */
 .countdown-widget { max-width:520px; margin:0 auto; padding:1rem 1rem 0; }
 .cw-main { border-radius:16px; padding:1.3rem 1.4rem; display:flex; align-items:center; gap:1.2rem; }
-.cw-main.green  { background:#0d2a1e; border:2px solid #10b981; }
-.cw-main.yellow { background:#2a1a00; border:2px solid #f59e0b; }
-.cw-main.red    { background:#2a0a0a; border:2px solid #ef4444; }
-.cw-main.over   { background:#1a0a2e; border:2px solid #c77dff; }
+.cw-main.green { background:#0d2a1e; border:2px solid #10b981; }
+.cw-main.red   { background:#2a0a0a; border:2px solid #ef4444; }
+.cw-main.over  { background:#1a0a2e; border:2px solid #c77dff; }
 .cw-time { font-size:2.6rem; font-weight:800; font-variant-numeric:tabular-nums; min-width:120px; line-height:1; }
-.cw-main.green  .cw-time { color:#10b981; }
-.cw-main.yellow .cw-time { color:#f59e0b; }
-.cw-main.red    .cw-time { color:#ef4444; }
-.cw-main.over   .cw-time { color:#c77dff; }
+.cw-main.green .cw-time { color:#10b981; }
+.cw-main.red   .cw-time { color:#ef4444; }
+.cw-main.over  .cw-time { color:#c77dff; }
 .cw-info { flex:1; display:flex; flex-direction:column; gap:5px; }
 .cw-label { font-size:0.78rem; color:#aaa; }
 .cw-status { font-size:0.95rem; font-weight:700; }
-.cw-main.green  .cw-status { color:#10b981; }
-.cw-main.yellow .cw-status { color:#f59e0b; }
-.cw-main.red    .cw-status { color:#ef4444; }
-.cw-main.over   .cw-status { color:#c77dff; }
+.cw-main.green .cw-status { color:#10b981; }
+.cw-main.red   .cw-status { color:#ef4444; }
+.cw-main.over  .cw-status { color:#c77dff; }
 .cw-tasks { font-size:0.82rem; color:#888; }
 
 /* ── NO TASKS ── */
@@ -133,20 +129,25 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .room-input-big:focus { border-color:#c77dff; }
 .room-input-big::placeholder { color:#444; font-size:0.85rem; letter-spacing:1px; font-weight:400; }
 
-/* ── MISC ── */
+/* ── STATS ── */
 .all-done { text-align:center; padding:1.5rem 1rem; }
 .all-done h2 { font-size:1.8rem; font-weight:800; color:#f9d71c; }
 .all-done p { color:#aaa; margin-top:8px; }
 
 .week-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-top:0.6rem; }
-.day-cell { background:#0f3460; border-radius:8px; padding:6px 4px; text-align:center; }
-.day-label { font-size:0.68rem; color:#888; }
-.day-stars { font-size:0.85rem; color:#f9d71c; font-weight:700; margin-top:2px; min-height:1.2em; }
+.day-cell { background:#0f3460; border-radius:8px; padding:8px 4px; text-align:center; }
+.day-label { font-size:0.68rem; color:#888; margin-bottom:4px; }
+.day-stars-on  { font-size:0.82rem; color:#f9d71c; font-weight:700; min-height:1.1em; }
+.day-stars-late { font-size:0.82rem; color:#f59e0b; opacity:0.6; min-height:1.1em; }
 .day-cell.today { border:1.5px solid #c77dff; }
+
 .stat-row { display:flex; gap:8px; margin-bottom:0.6rem; }
 .stat-box { flex:1; background:#0f3460; border-radius:10px; padding:10px; text-align:center; }
 .stat-num { font-size:1.4rem; font-weight:800; color:#f9d71c; }
 .stat-lbl { font-size:0.72rem; color:#888; margin-top:2px; }
+
+.legend { display:flex; gap:14px; margin-top:8px; font-size:0.78rem; color:#888; justify-content:center; }
+.legend span { display:flex; align-items:center; gap:4px; }
 
 .bnav { position:fixed; bottom:0; left:0; right:0; background:#16213e; border-top:1px solid #0f3460; display:flex; z-index:100; }
 .bnav-btn { flex:1; padding:10px 6px; background:none; border:none; color:#666; font-size:0.72rem; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:2px; }
@@ -186,10 +187,11 @@ const S = {
   tasks:[], checkedIds:{},
   roomKey:null, childRoomKey:null, childKey:null,
   taskInput:'', taskMins:5, taskEmoji:'⭐',
-  childName:'Barnet', weekStats:{},
+  childName:'Barnet', weekStats:[],
   deadline:null, deadlineInput:'07:30',
   customRoomCode:'', pinInput:'', pinStep:'room',
   pollInterval:null, tickInterval:null,
+  lastMinuteTick:-1, lastTickState:'green',
   saving:false, loading:false, error:null, ok:null,
 };
 
@@ -200,18 +202,13 @@ function saveSession(r){lsSet('st_room',r);}
 function loadSession(){return lsGet('st_room');}
 
 // ── DEADLINE PARSING ──────────────────────────────────────────
-// SQL TIME-kolonne returneres som ISO-streng: "1970-01-01T07:30:00.000Z"
-// Vi tar UTC-timer og minutter direkte
 function parseDeadline(dl) {
   if (!dl) return null;
   try {
     const d = new Date(dl);
     if (!isNaN(d.getTime())) {
-      const h = d.getUTCHours().toString().padStart(2,'0');
-      const m = d.getUTCMinutes().toString().padStart(2,'0');
-      return `${h}:${m}`;
+      return d.getUTCHours().toString().padStart(2,'0') + ':' + d.getUTCMinutes().toString().padStart(2,'0');
     }
-    // Fallback: vanlig "HH:MM"-streng
     return String(dl).substring(0, 5);
   } catch(e) { return null; }
 }
@@ -224,6 +221,9 @@ function getDeadlineMs(dl) {
   return d.getTime();
 }
 
+// ── TRAFIKKLYS — 1:1 logikk ───────────────────────────────────
+// Grønn: tid igjen (sekunder) > gjenstående oppgavetid (sekunder)
+// Rød:   tid igjen ≤ gjenstående oppgavetid
 function getTimeStatus() {
   if (!S.deadline) return { state:'green', remSec:null };
   const now     = Date.now();
@@ -233,9 +233,9 @@ function getTimeStatus() {
   const remSec = Math.floor((dlMs - now) / 1000);
   if (now > dlMs) return { state:'over', remSec: -Math.floor((now-dlMs)/1000) };
   const remainingSec = S.tasks.filter(t=>!S.checkedIds[t.id]).reduce((s,t)=>s+t.mins,0) * 60;
-  const bufferSec = remSec - remainingSec;
-  const state = bufferSec < 300 ? 'red' : bufferSec < 600 ? 'yellow' : 'green';
-  return { state, remSec };
+  // 1:1 sammenligning — grønn hvis tid igjen > oppgavetid, rød ellers
+  const state = remSec > remainingSec ? 'green' : 'red';
+  return { state, remSec, remainingSec };
 }
 
 function fmtTime(sec) {
@@ -246,6 +246,42 @@ function fmtTime(sec) {
   return h > 0
     ? `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`
     : `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+// ── LYD HVERT MINUTT ─────────────────────────────────────────
+function playMinuteTick(isRed) {
+  try {
+    const ctx = new(AudioContext||webkitAudioContext)();
+    if (isRed) {
+      // Mer intens lyd når rød — tre raske toner
+      [880, 660, 440].forEach((f,i) => {
+        const o=ctx.createOscillator(), g=ctx.createGain();
+        o.connect(g); g.connect(ctx.destination);
+        o.frequency.value=f; o.type='sine';
+        g.gain.setValueAtTime(0.3, ctx.currentTime+i*0.1);
+        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+i*0.1+0.15);
+        o.start(ctx.currentTime+i*0.1); o.stop(ctx.currentTime+i*0.1+0.2);
+      });
+    } else {
+      // Diskret lyd når grønn — én myk tone
+      const o=ctx.createOscillator(), g=ctx.createGain();
+      o.connect(g); g.connect(ctx.destination);
+      o.frequency.value=523; o.type='sine';
+      g.gain.setValueAtTime(0.1, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.3);
+      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.35);
+    }
+  } catch(e) {}
+}
+
+function checkMinuteTick(ts) {
+  if (!S.deadline || ts.state === 'expired' || ts.remSec === null) return;
+  const currentMinute = Math.floor(Math.abs(ts.remSec) / 60);
+  // Spill lyd når minuttet skifter (og ikke ved oppstart)
+  if (currentMinute !== S.lastMinuteTick && S.lastMinuteTick !== -1) {
+    playMinuteTick(ts.state === 'red');
+  }
+  S.lastMinuteTick = currentMinute;
 }
 
 // ── API ───────────────────────────────────────────────────────
@@ -366,7 +402,6 @@ async function goToPinEntry(){
   try{const r=await api('checkRoom',S.customRoomCode);if(!r.exists){S.error=`Fant ikke rom «${S.customRoomCode}». Sjekk koden eller lag nytt rom.`;render();return;}S.pinStep='pin';S.pinInput='';render();}
   catch(e){S.error='Kunne ikke koble til. Sjekk internett.';render();}
 }
-
 function goToNewRoom(){S.pinStep='new';S.pinInput='';S.customRoomCode='';S.error=null;render();}
 
 async function doLogin(){
@@ -486,6 +521,9 @@ function tplChild(){
   if(S.loading)return`<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster oppgaver...</p></div>`;
   const ts=getTimeStatus();
 
+  // Sjekk minutt-lyd
+  checkMinuteTick(ts);
+
   if(ts.state==='expired') return`
     <div class="child-header over">
       <h1>⭐ StarTask</h1>
@@ -503,23 +541,22 @@ function tplChild(){
   const allDone=done===S.tasks.length&&S.tasks.length>0;
   const remaining=S.tasks.filter(t=>!S.checkedIds[t.id]);
   const next=remaining[0];
-  const headerColor=ts.state==='over'?'red':ts.state;
 
   let cwHtml='';
   if(S.deadline){
     const isOver=ts.state==='over';
     const absSec=Math.abs(ts.remSec||0);
+    const cwState=ts.state==='over'?'over':ts.state;
     let statusText='';
-    if(isOver)              statusText=`⚠️ Fristen er passert!`;
-    else if(ts.state==='red')    statusText=`🔴 Du rekker det IKKE — skynd deg!`;
-    else if(ts.state==='yellow') statusText=`🟡 Det begynner å haste!`;
-    else                         statusText=`🟢 Du rekker det fint — bra jobbet!`;
-    const remTaskText = remaining.length > 0
-      ? `${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`
-      : '🎉 Alle oppgaver er gjort!';
+    if(isOver)             statusText=`⚠️ Fristen er passert!`;
+    else if(ts.state==='red')   statusText=`🔴 Du rekker det IKKE — skynd deg!`;
+    else                        statusText=`🟢 Du rekker det fint — bra jobbet!`;
+    const remTaskText=remaining.length>0
+      ?`${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`
+      :'🎉 Alle oppgaver er gjort!';
     cwHtml=`
       <div class="countdown-widget">
-        <div class="cw-main ${ts.state==='over'?'red':ts.state}">
+        <div class="cw-main ${cwState}">
           <div class="cw-time">${isOver?'-':''}${fmtTime(absSec)}</div>
           <div class="cw-info">
             <div class="cw-label">Frist: ${S.deadline}</div>
@@ -542,7 +579,7 @@ function tplChild(){
   }).join('');
 
   return`
-    <div class="child-header ${headerColor}">
+    <div class="child-header ${ts.state==='over'?'over':ts.state}">
       <h1>⭐ StarTask</h1>
       <div class="greeting">Hei ${S.childName}! Du klarer dette! 💪</div>
       <div class="stars-row">${'⭐'.repeat(done)}${'☆'.repeat(Math.max(0,S.tasks.length-done))}</div>
@@ -562,22 +599,44 @@ function tplChild(){
 // ── STATS ─────────────────────────────────────────────────────
 function tplStats(){
   const today=dateKey(new Date()),week=getWeekDays();
-  const total=Object.values(S.weekStats).reduce((s,v)=>s+(v||0),0);
-  const best=Math.max(0,...Object.values(S.weekStats).map(v=>v||0));
   const isChild=!!S.childKey;
+
+  // Totaler
+  const totalOnTime=S.weekStats.reduce((s,d)=>s+(d.stars_on_time||0),0);
+  const totalLate  =S.weekStats.reduce((s,d)=>s+(d.stars_late||0),0);
+  const total      =totalOnTime+totalLate;
+  const bestDay    =Math.max(0,...S.weekStats.map(d=>d.stars||0));
+
+  // Bygg oppslag per dag
+  const byDay={};
+  S.weekStats.forEach(d=>{byDay[d.checked_at]={onTime:d.stars_on_time||0,late:d.stars_late||0};});
+
+  const dayCells=week.map(d=>{
+    const data=byDay[d.key]||{onTime:0,late:0};
+    return`<div class="day-cell ${d.key===today?'today':''}">
+      <div class="day-label">${d.label}</div>
+      <div class="day-stars-on">${data.onTime>0?'⭐'.repeat(Math.min(data.onTime,5)):'—'}</div>
+      <div class="day-stars-late">${data.late>0?'⏰'.repeat(Math.min(data.late,5)):''}</div>
+    </div>`;
+  }).join('');
+
   return`
     <div class="logo"><h1>⭐ StarTask</h1><p>${isChild?S.childName+'s':'Ukentlig'} statistikk</p></div>
     <div class="view">
       <div class="card">
         <h2>📅 Denne uken</h2>
-        <div class="week-grid">${week.map(d=>`<div class="day-cell ${d.key===today?'today':''}"><div class="day-label">${d.label}</div><div class="day-stars">${(S.weekStats[d.key]||0)>0?'⭐'.repeat(Math.min(S.weekStats[d.key],5)):'—'}</div></div>`).join('')}</div>
+        <div class="week-grid">${dayCells}</div>
+        <div class="legend">
+          <span>⭐ Innenfor fristen</span>
+          <span>⏰ Etter fristen</span>
+        </div>
       </div>
       <div class="stat-row">
-        <div class="stat-box"><div class="stat-num">${total}</div><div class="stat-lbl">Totale stjerner</div></div>
-        <div class="stat-box"><div class="stat-num">${best}</div><div class="stat-lbl">Beste dag</div></div>
-        <div class="stat-box"><div class="stat-num">${calcStreak()}</div><div class="stat-lbl">Dagers rekke</div></div>
+        <div class="stat-box"><div class="stat-num">${totalOnTime}</div><div class="stat-lbl">I tide ⭐</div></div>
+        <div class="stat-box"><div class="stat-num">${totalLate}</div><div class="stat-lbl">Etter frist ⏰</div></div>
+        <div class="stat-box"><div class="stat-num">${bestDay}</div><div class="stat-lbl">Beste dag</div></div>
       </div>
-      <div class="card"><h2>🏆 Motivasjon</h2><p style="font-size:0.9rem;color:#ccc;line-height:1.6">${motMsg(total,calcStreak())}</p></div>
+      <div class="card"><h2>🏆 Motivasjon</h2><p style="font-size:0.9rem;color:#ccc;line-height:1.6">${motMsg(totalOnTime,total)}</p></div>
     </div>
     <div class="bnav">
       <button class="bnav-btn" onclick="${isChild?'goChildTasks()':'goSetup()'}"><span class="bnav-icon">${isChild?'📋':'✏️'}</span>${isChild?'Oppgaver':'Rediger'}</button>
@@ -589,8 +648,14 @@ function tplStats(){
 // ── HELPERS ───────────────────────────────────────────────────
 function dateKey(d){return d.toISOString().split('T')[0];}
 function getWeekDays(){const t=new Date(),d=[];for(let i=6;i>=0;i--){const x=new Date(t);x.setDate(t.getDate()-i);d.push({key:dateKey(x),label:DAYS[x.getDay()===0?6:x.getDay()-1]});}return d;}
-function calcStreak(){let n=0;const d=new Date();for(let i=0;i<30;i++){if((S.weekStats[dateKey(d)]||0)>0)n++;else if(i>0)break;d.setDate(d.getDate()-1);}return n;}
-function motMsg(t,s){if(t===0)return'Start i dag og tjen din første stjerne! 💪';if(s>=5)return`Utrolig! ${s} dager på rad! Du er en ekte SuperHelt! 🦸`;if(t>=20)return`Wow, ${t} stjerner! Du er verdens beste! 🌟`;if(s>=3)return`${s} dager på rad! Kjempebra! 🔥`;return`${t} stjerner denne uken! Fortsett slik! ⭐`;}
+function calcStreak(){let n=0;const d=new Date();for(let i=0;i<30;i++){if((S.weekStats.find(w=>w.checked_at===dateKey(d))?.stars||0)>0)n++;else if(i>0)break;d.setDate(d.getDate()-1);}return n;}
+function motMsg(onTime,total){
+  if(total===0) return 'Start i dag og tjen din første stjerne! 💪';
+  if(onTime>=total&&total>=5) return `Utrolig! ${onTime} stjerner i tide denne uken! Du er en ekte SuperHelt! 🦸`;
+  if(onTime>0&&onTime>=total*0.8) return `Kjempebra! ${onTime} av ${total} stjerner kom i tide! 🌟`;
+  if(total>=3) return `${total} oppgaver gjort! Prøv å få flere innenfor fristen neste gang! 💪`;
+  return 'Fortsett slik — du blir bedre for hver dag! ⭐';
+}
 function genKey(){return Math.random().toString(36).substring(2,8).toUpperCase();}
 function childLink(){const u=new URL(location.href.split('?')[0]);u.searchParams.set('childKey',S.childRoomKey);u.searchParams.set('child','1');return u.toString();}
 function updateParentUrl(r){const u=new URL(location.href);u.searchParams.set('room',r);u.searchParams.delete('child');u.searchParams.delete('childKey');history.replaceState({},'',u.toString());}
@@ -616,7 +681,7 @@ async function saveAndLink(){
 async function toggleTask(id){
   const was=!!S.checkedIds[id];
   if(was){delete S.checkedIds[id];}
-  else{S.checkedIds[id]=true;const today=dateKey(new Date());S.weekStats[today]=(S.weekStats[today]||0)+1;}
+  else{S.checkedIds[id]=true;}
   playTap();render();
   try{await api('check',null,{taskId:id,checked:!was},S.childRoomKey);}catch(e){S.error='Lagring feilet.';render();}
   if(!was&&S.tasks.every(t=>S.checkedIds[t.id]))confetti();
@@ -624,8 +689,8 @@ async function toggleTask(id){
 
 function goSetup(){S.view='parent-setup';stopIntervals();render();}
 async function goStatus(){S.view='parent-status';stopIntervals();render();try{await loadRoom(S.roomKey,null);render();}catch(e){}S.pollInterval=setInterval(async()=>{try{await loadRoom(S.roomKey,null);if(S.view==='parent-status')render();}catch(e){}},3000);}
-async function goStatsParent(){S.view='stats';try{const r=await api('weekStats',S.roomKey);S.weekStats={};r.forEach(x=>{S.weekStats[x.checked_at.split('T')[0]]=x.stars;});}catch(e){}render();}
-async function goChildStats(){S.view='stats';try{const r=await api('weekStats',null,null,S.childRoomKey);S.weekStats={};r.forEach(x=>{S.weekStats[x.checked_at.split('T')[0]]=x.stars;});}catch(e){}render();}
+async function goStatsParent(){S.view='stats';try{S.weekStats=await api('weekStats',S.roomKey);}catch(e){S.weekStats=[];}render();}
+async function goChildStats(){S.view='stats';try{S.weekStats=await api('weekStats',null,null,S.childRoomKey);}catch(e){S.weekStats=[];}render();}
 function goChildTasks(){S.view='child';render();}
 function stopIntervals(){if(S.pollInterval){clearInterval(S.pollInterval);S.pollInterval=null;}if(S.tickInterval){clearInterval(S.tickInterval);S.tickInterval=null;}}
 
