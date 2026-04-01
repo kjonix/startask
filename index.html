@@ -7,6 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="StarTask">
 <meta name="theme-color" content="#1a1a2e">
+<link rel="manifest" href="/manifest.json">
 <title>StarTask ⭐</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,12 +21,13 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; backgr
 .card { background: #16213e; border-radius: 16px; padding: 1.1rem; margin-bottom: 0.9rem; border: 1px solid #0f3460; }
 .card h2 { font-size: 0.95rem; color: #c77dff; margin-bottom: 0.8rem; display:flex; align-items:center; gap:6px; }
 
-input[type=text], input[type=number], input[type=password] {
+input[type=text], input[type=number], input[type=password], input[type=time] {
   background: #0f3460; border: 1px solid #1a4a8a; border-radius: 10px;
   padding: 9px 12px; color: #fff; font-size: 0.9rem; outline: none; width: 100%;
 }
 input:focus { border-color: #c77dff; }
 input::placeholder { color: #555; }
+input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .row { display:flex; gap:8px; align-items:center; }
 .row input[type=text] { flex:1; }
 .row input[type=number] { width:62px; text-align:center; }
@@ -65,15 +67,47 @@ input::placeholder { color: #555; }
 .pstat-task.done .ptn { text-decoration:line-through; color:#555; }
 .ptn { flex:1; font-size:0.95rem; }
 
-.child-header { background:linear-gradient(135deg,#4c1d95,#7c3aed); padding:1.2rem 1rem 0.8rem; text-align:center; }
+/* ── CHILD HEADER MED TRAFIKKLYS ── */
+.child-header { padding:1.2rem 1rem 0.8rem; text-align:center; transition:background 0.5s; }
+.child-header.green  { background:linear-gradient(135deg,#065f46,#10b981); }
+.child-header.yellow { background:linear-gradient(135deg,#78350f,#f59e0b); }
+.child-header.red    { background:linear-gradient(135deg,#7f1d1d,#ef4444); }
+.child-header.over   { background:linear-gradient(135deg,#3b0764,#7c3aed); }
 .child-header h1 { font-size:1.8rem; font-weight:800; }
 .stars-row { font-size:0.95rem; margin-top:5px; color:#f9d71c; letter-spacing:2px; }
+
+/* ── COUNTDOWN WIDGET ── */
+.countdown-widget { margin: 0 1rem 0.8rem; max-width: 520px; margin-left:auto; margin-right:auto; }
+.cw-main { border-radius: 16px; padding: 1rem 1.2rem; display:flex; align-items:center; gap:1rem; }
+.cw-main.green  { background:#0d2a1e; border:2px solid #10b981; }
+.cw-main.yellow { background:#2a1a00; border:2px solid #f59e0b; }
+.cw-main.red    { background:#2a0a0a; border:2px solid #ef4444; }
+.cw-main.over   { background:#1a0a2e; border:2px solid #c77dff; }
+.cw-time { font-size:2.2rem; font-weight:800; font-variant-numeric:tabular-nums; min-width:110px; }
+.cw-main.green  .cw-time { color:#10b981; }
+.cw-main.yellow .cw-time { color:#f59e0b; }
+.cw-main.red    .cw-time { color:#ef4444; }
+.cw-main.over   .cw-time { color:#c77dff; }
+.cw-info { flex:1; }
+.cw-label { font-size:0.78rem; color:#aaa; margin-bottom:4px; }
+.cw-status { font-size:0.9rem; font-weight:700; }
+.cw-main.green  .cw-status { color:#10b981; }
+.cw-main.yellow .cw-status { color:#f59e0b; }
+.cw-main.red    .cw-status { color:#ef4444; }
+.cw-main.over   .cw-status { color:#c77dff; }
+.cw-tasks { font-size:0.78rem; color:#888; margin-top:2px; }
+
+/* ── INGEN OPPGAVER ── */
+.no-tasks { text-align:center; padding:3rem 1.5rem; }
+.no-tasks .nt-icon { font-size:4rem; margin-bottom:1rem; }
+.no-tasks h2 { font-size:1.3rem; font-weight:800; color:#888; }
+.no-tasks p { color:#555; font-size:0.9rem; margin-top:8px; line-height:1.5; }
 
 .child-task { background:#16213e; border-radius:20px; padding:14px 16px; display:flex; align-items:center; gap:12px; border:2px solid #0f3460; transition:all 0.3s; cursor:pointer; margin-bottom:10px; }
 .child-task:active { transform:scale(0.97); }
 .child-task.done { background:#0b2018; border-color:#10b981; }
 .child-task.done .ct-name { text-decoration:line-through; color:#555; }
-.child-task.active-task { border-color:#f9d71c; box-shadow:0 0 0 3px rgba(249,215,28,0.2); }
+.child-task.next-up { border-color:#f9d71c; }
 .ct-emoji { font-size:1.9rem; }
 .ct-info { flex:1; min-width:0; }
 .ct-name { font-size:1rem; font-weight:700; }
@@ -81,21 +115,16 @@ input::placeholder { color: #555; }
 .ct-check { width:36px; height:36px; border-radius:50%; border:2.5px solid #333; display:flex; align-items:center; justify-content:center; font-size:1.2rem; transition:all 0.3s; flex-shrink:0; }
 .child-task.done .ct-check { background:#10b981; border-color:#10b981; }
 
-.countdown { font-size:0.8rem; font-weight:700; }
-.countdown.ok   { color:#10b981; }
-.countdown.warn { color:#f9d71c; }
-.countdown.late { color:#ff6b6b; }
-
 .alert-banner { display:none; position:fixed; top:0; left:0; right:0; z-index:998; background:linear-gradient(135deg,#7c3aed,#c77dff); padding:15px 18px; text-align:center; animation:sd 0.3s ease; }
 .alert-banner.show { display:block; }
 .alert-banner h2 { font-size:1.1rem; font-weight:800; }
 .alert-banner p { font-size:0.82rem; opacity:0.9; }
 @keyframes sd { from{transform:translateY(-100%)} to{transform:translateY(0)} }
 
-/* LOGIN */
-.login-wrap { max-width: 380px; margin: 0 auto; padding: 2rem 1.5rem 5rem; }
-.login-logo { text-align:center; padding: 2rem 0 1.5rem; }
-.login-logo h1 { font-size: 2.5rem; font-weight: 800; background: linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+/* ── LOGIN ── */
+.login-wrap { max-width:380px; margin:0 auto; padding:2rem 1.5rem 5rem; }
+.login-logo { text-align:center; padding:2rem 0 1.5rem; }
+.login-logo h1 { font-size:2.5rem; font-weight:800; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 .login-logo p { color:#888; font-size:0.9rem; margin-top:6px; }
 .pin-dots { display:flex; gap:10px; justify-content:center; margin:1rem 0; }
 .pin-dot { width:16px; height:16px; border-radius:50%; border:2px solid #555; transition:all 0.2s; }
@@ -109,7 +138,7 @@ input::placeholder { color: #555; }
 .room-input-big:focus { border-color:#c77dff; }
 .room-input-big::placeholder { color:#444; font-size:0.85rem; letter-spacing:1px; font-weight:400; }
 
-/* MODAL */
+/* ── MODAL ── */
 .modal-overlay { display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); z-index:1000; align-items:flex-end; justify-content:center; }
 .modal-overlay.show { display:flex; }
 .modal { background:#16213e; border-radius:20px 20px 0 0; padding:1.8rem 1.5rem 2.5rem; width:100%; max-width:520px; border-top:2px solid #c77dff; text-align:center; }
@@ -121,17 +150,14 @@ input::placeholder { color: #555; }
 .step-os { font-size:0.75rem; font-weight:700; color:#f9d71c; min-width:60px; padding-top:2px; }
 .step-desc { font-size:0.85rem; color:#ccc; line-height:1.4; }
 
-/* ROMKODE VISNING */
+/* ── PWA INSTALL KNAPP ── */
+.pwa-btn { display:none; background:#0f3460; border:1px solid #1a4a8a; border-radius:10px; padding:8px 14px; color:#c77dff; font-size:0.82rem; cursor:pointer; align-items:center; gap:6px; margin:0 auto 0.8rem; }
+.pwa-btn.show { display:flex; }
+
+/* ── ROMKODE VISNING ── */
 .room-code-display { background:#0f3460; border-radius:12px; padding:0.8rem 1rem; margin:0.8rem 0; display:flex; align-items:center; justify-content:space-between; gap:10px; }
 .room-code-display .code { font-size:1.4rem; font-weight:800; color:#f9d71c; letter-spacing:4px; }
 .room-code-display .label { font-size:0.75rem; color:#888; }
-
-/* HINT */
-.hint-banner { background:#1a0a2e; border:1px solid #7c3aed; border-radius:12px; padding:0.9rem 1rem; margin-bottom:0.9rem; display:flex; gap:10px; align-items:flex-start; }
-.hint-icon { font-size:1.5rem; flex-shrink:0; }
-.hint-text { font-size:0.82rem; color:#ccc; line-height:1.5; flex:1; }
-.hint-text strong { color:#c77dff; display:block; margin-bottom:3px; font-size:0.85rem; }
-.hint-close { background:none; border:none; color:#555; font-size:1.2rem; cursor:pointer; flex-shrink:0; }
 
 .push-card { background:#0d2040; border:1px solid #1a4a8a; border-radius:14px; padding:1rem; margin-bottom:0.9rem; }
 .push-card h3 { font-size:0.9rem; color:#f9d71c; margin-bottom:0.5rem; }
@@ -140,7 +166,7 @@ input::placeholder { color: #555; }
 .push-err { background:#2a0a0a; border:1px solid #ff6b6b; border-radius:10px; padding:0.6rem 0.9rem; font-size:0.82rem; color:#ff9999; margin-bottom:0.9rem; }
 .dot { width:8px; height:8px; border-radius:50%; background:#10b981; flex-shrink:0; }
 
-.all-done { text-align:center; padding:2rem 1rem; }
+.all-done { text-align:center; padding:1.5rem 1rem; }
 .all-done h2 { font-size:1.8rem; font-weight:800; color:#f9d71c; }
 .all-done p { color:#aaa; margin-top:8px; }
 
@@ -182,10 +208,10 @@ input::placeholder { color: #555; }
   <div class="modal">
     <div class="modal-icon">📌</div>
     <h2>Lagre StarTask på hjemskjermen!</h2>
-    <p>Legg siden til på hjemskjermen så du alltid finner tilbake med ett trykk.</p>
+    <p>Legg siden til på hjemskjermen så du alltid finner tilbake med ett trykk — uten adressefelt.</p>
     <div class="steps">
       <div class="step-row"><span class="step-os">iPhone</span><span class="step-desc">Trykk Del-knappen (firkant med pil opp) → «Legg til på hjemskjerm»</span></div>
-      <div class="step-row"><span class="step-os">Android</span><span class="step-desc">Trykk meny (tre prikker) → «Legg til på startskjerm»</span></div>
+      <div class="step-row"><span class="step-os">Android</span><span class="step-desc">Trykk meny (tre prikker) → «Legg til på startskjerm» — eller trykk «Installer»-knappen som vises</span></div>
     </div>
     <button class="btn btn-gold btn-full" onclick="closeModal('modal-parent')" style="margin-top:0">Forstått! ⭐</button>
   </div>
@@ -196,10 +222,10 @@ input::placeholder { color: #555; }
   <div class="modal">
     <div class="modal-icon">📱</div>
     <h2>Legg StarTask på hjemskjermen!</h2>
-    <p>Da finner du alltid oppgavene dine med ett trykk og får lyd og varsler!</p>
+    <p>Da åpner StarTask som en ekte app — uten adressefelt — og du får lyd og varsler!</p>
     <div class="steps">
       <div class="step-row"><span class="step-os">iPhone</span><span class="step-desc">Trykk Del-knappen (firkant med pil opp) → «Legg til på hjemskjerm»</span></div>
-      <div class="step-row"><span class="step-os">Android</span><span class="step-desc">Trykk meny (tre prikker) → «Legg til på startskjerm»</span></div>
+      <div class="step-row"><span class="step-os">Android</span><span class="step-desc">Trykk «Installer»-knappen som vises, eller meny (tre prikker) → «Legg til på startskjerm»</span></div>
     </div>
     <button class="btn btn-gold btn-full" onclick="closeModal('modal-child')" style="margin-top:0">Kult, jeg gjør det! ⭐</button>
   </div>
@@ -221,29 +247,98 @@ const VAPID_PUB_KEY = 'BNT1BSBplMNZzI_c4lpIjvXYlzc_yLa5KnjEkQgdHpvVvd8hEZvEbWrH2
 const EMOJIS = ['🦷','👕','🎒','🥣','👟','🛁','🚿','📚','🥤','😴','🧴','🧦','🍎','🎨','🧹'];
 const QUICK  = [{e:'🦷',n:'Pusse tenner',m:3},{e:'👕',n:'Kle på deg',m:5},{e:'🥣',n:'Spise frokost',m:10},{e:'🎒',n:'Pakke sekken',m:5},{e:'👟',n:'Ta på sko',m:2}];
 const DAYS   = ['Man','Tir','Ons','Tor','Fre','Lør','Søn'];
+const GRACE_MINUTES = 30; // Minutter etter deadline før oppgaver skjules
 
 const S = {
-  view: 'login',
-  tasks:[], checkedIds:{}, taskStartTimes:{},
+  view:'login',
+  tasks:[], checkedIds:{},
   roomKey:null, childKey:null, childRoomKey:null,
   taskInput:'', taskMins:5, taskEmoji:'⭐',
   childName:'Barnet', weekStats:{},
-  customRoomCode:'', pinInput:'', pinConfirm:'', pinStep:'enter',
-  isNewRoom: false,
+  deadline:null, // 'HH:MM'
+  deadlineInput:'07:30',
+  customRoomCode:'', pinInput:'', pinStep:'room',
   push:'unknown', pushSub:null,
   alertInterval:null, pollInterval:null, tickInterval:null,
   saving:false, loading:false, error:null, ok:null,
+  deferredInstallPrompt:null,
 };
+
+// ── PWA INSTALL PROMPT ────────────────────────────────────────
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  S.deferredInstallPrompt = e;
+  // Vis install-knapp
+  document.querySelectorAll('.pwa-btn').forEach(b => b.classList.add('show'));
+});
+
+async function installPWA() {
+  if (!S.deferredInstallPrompt) return;
+  S.deferredInstallPrompt.prompt();
+  const result = await S.deferredInstallPrompt.userChoice;
+  if (result.outcome === 'accepted') {
+    S.deferredInstallPrompt = null;
+    document.querySelectorAll('.pwa-btn').forEach(b => b.classList.remove('show'));
+  }
+}
 
 // ── LOCALSTORAGE ──────────────────────────────────────────────
 function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
-
-function saveSession(roomKey){lsSet('st_room',roomKey);}
+function saveSession(r){lsSet('st_room',r);}
 function loadSession(){return lsGet('st_room');}
 
-function saveTimers(key){try{localStorage.setItem('st_timers_'+key,JSON.stringify(S.taskStartTimes));}catch(e){}}
-function loadTimers(key){try{const r=localStorage.getItem('st_timers_'+key);if(r)S.taskStartTimes=JSON.parse(r);}catch(e){}}
+// ── TIDSSTYRING ───────────────────────────────────────────────
+function getDeadlineMs(deadlineStr) {
+  if (!deadlineStr) return null;
+  const [h,m] = deadlineStr.split(':').map(Number);
+  const d = new Date();
+  d.setHours(h, m, 0, 0);
+  return d.getTime();
+}
+
+function getTimeStatus() {
+  if (!S.deadline) return { state:'green', remSec:null, behindSec:0 };
+
+  const now     = Date.now();
+  const dlMs    = getDeadlineMs(S.deadline);
+  const graceMs = dlMs + GRACE_MINUTES * 60000;
+  const remSec  = Math.floor((dlMs - now) / 1000);
+
+  // Tid til å fullføre gjenstående oppgaver (sekunder)
+  const remainingMins = S.tasks.filter(t=>!S.checkedIds[t.id]).reduce((s,t)=>s+t.mins,0);
+  const remainingSec  = remainingMins * 60;
+
+  if (now > graceMs) {
+    return { state:'expired', remSec:0, behindSec:0 };
+  }
+
+  if (now > dlMs) {
+    const overSec = Math.floor((now - dlMs) / 1000);
+    return { state:'over', remSec:-overSec, behindSec:overSec };
+  }
+
+  // Beregn om barnet er foran eller bak
+  const bufferSec = remSec - remainingSec;
+  let state = 'green';
+  if (bufferSec < 0) state = 'red';         // Rekker det ikke
+  else if (bufferSec < 300) state = 'red';  // Mindre enn 5 min buffer
+  else if (bufferSec < 600) state = 'yellow'; // Mindre enn 10 min buffer
+
+  return { state, remSec, behindSec: -bufferSec, remainingSec };
+}
+
+function fmtTime(totalSec) {
+  const neg = totalSec < 0;
+  const abs = Math.abs(totalSec);
+  const h = Math.floor(abs/3600);
+  const m = Math.floor((abs%3600)/60);
+  const s = abs%60;
+  const str = h > 0
+    ? `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`
+    : `${m}:${s.toString().padStart(2,'0')}`;
+  return neg ? `-${str}` : str;
+}
 
 // ── API ───────────────────────────────────────────────────────
 async function api(action, roomId, body, childKey) {
@@ -263,6 +358,9 @@ async function loadRoom(roomId, childKey) {
   const rows = await api('getRoom', roomId, null, childKey);
   if (!rows?.length) return false;
   S.childName = rows[0].child_name || 'Barnet';
+  // Parse deadline — SQL returnerer 'HH:MM:SS' eller null
+  const dl = rows[0].deadline;
+  S.deadline = dl ? dl.substring(0,5) : null;
   const m = {};
   rows.forEach(r => {
     if (!r.task_id) return;
@@ -290,7 +388,7 @@ async function enablePush(){
     const reg=await navigator.serviceWorker.ready;
     const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:b64ToUint8(VAPID_PUB_KEY)});
     S.pushSub=sub;S.push='granted';
-    await api('savePushSub', null, {subscription:JSON.parse(JSON.stringify(sub)),childKey:S.childRoomKey}, S.childRoomKey);
+    await api('savePushSub',null,{subscription:JSON.parse(JSON.stringify(sub)),childKey:S.childRoomKey},S.childRoomKey);
     S.ok='Lydvarsler er aktivert!';render();
   }catch(e){S.push='denied';S.error='Kunne ikke aktivere varsler: '+e.message;render();}
 }
@@ -316,95 +414,83 @@ function render(){
 
 // ── LOGIN ─────────────────────────────────────────────────────
 function tplLogin(){
-  const savedRoom = loadSession();
-  const pinFilled = S.pinInput.length;
-  const dots = [0,1,2,3].map(i=>`<div class="pin-dot ${i<pinFilled?'filled':''}"></div>`).join('');
+  const savedRoom=loadSession();
+  const pinFilled=S.pinInput.length;
+  const dots=[0,1,2,3].map(i=>`<div class="pin-dot ${i<pinFilled?'filled':''}"></div>`).join('');
 
-  if (S.pinStep === 'room') {
-    return `
-      <div class="login-wrap">
-        <div class="login-logo"><h1>⭐ StarTask</h1><p>Logg inn med romkode og PIN</p></div>
-        ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
-        <div class="card">
-          <h2>🔑 Romkode</h2>
-          <input class="room-input-big" type="text" placeholder="F.eks. EMMA" id="room-inp" value="${S.customRoomCode}" oninput="S.customRoomCode=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').substring(0,12)" maxlength="12">
-          ${savedRoom?`<div style="margin-top:8px;font-size:0.78rem;color:#888">Sist brukt: <button onclick="S.customRoomCode='${savedRoom}';render()" style="background:none;border:none;color:#c77dff;cursor:pointer;font-size:0.78rem;text-decoration:underline">${savedRoom}</button></div>`:''}
-        </div>
-        <button class="btn btn-gold btn-full" onclick="goToPinEntry()" ${!S.customRoomCode?'disabled':''}>Neste →</button>
-        <div style="text-align:center;margin-top:1.5rem;">
-          <button onclick="goToNewRoom()" style="background:none;border:none;color:#c77dff;cursor:pointer;font-size:0.85rem;text-decoration:underline">Lag nytt rom</button>
-        </div>
-      </div>`;
-  }
+  if(S.pinStep==='room'){return`
+    <div class="login-wrap">
+      <div class="login-logo"><h1>⭐ StarTask</h1><p>Logg inn med romkode og PIN</p></div>
+      ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
+      <div class="card">
+        <h2>🔑 Romkode</h2>
+        <input class="room-input-big" type="text" placeholder="F.eks. EMMA" value="${S.customRoomCode}" oninput="S.customRoomCode=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').substring(0,12)" maxlength="12">
+        ${savedRoom?`<div style="margin-top:8px;font-size:0.78rem;color:#888">Sist brukt: <button onclick="S.customRoomCode='${savedRoom}';render()" style="background:none;border:none;color:#c77dff;cursor:pointer;font-size:0.78rem;text-decoration:underline">${savedRoom}</button></div>`:''}
+      </div>
+      <button class="btn btn-gold btn-full" onclick="goToPinEntry()" ${!S.customRoomCode?'disabled':''}>Neste →</button>
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button onclick="goToNewRoom()" style="background:none;border:none;color:#c77dff;cursor:pointer;font-size:0.85rem;text-decoration:underline">Lag nytt rom</button>
+      </div>
+    </div>`;}
 
-  if (S.pinStep === 'pin') {
-    return `
-      <div class="login-wrap">
-        <div class="login-logo"><h1>⭐ StarTask</h1><p>ROM: <strong style="color:#f9d71c">${S.customRoomCode}</strong></p></div>
-        ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
-        <div class="card">
-          <h2>🔐 Skriv inn PIN</h2>
-          <div class="pin-dots">${dots}</div>
-          <div class="pin-pad">
-            ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="pin-btn" onclick="pinPress(${n})">${n}</button>`).join('')}
-            <button class="pin-btn empty"></button>
-            <button class="pin-btn" onclick="pinPress(0)">0</button>
-            <button class="pin-btn del" onclick="pinDel()">⌫</button>
-          </div>
+  if(S.pinStep==='pin'){return`
+    <div class="login-wrap">
+      <div class="login-logo"><h1>⭐ StarTask</h1><p>ROM: <strong style="color:#f9d71c">${S.customRoomCode}</strong></p></div>
+      ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
+      <div class="card">
+        <h2>🔐 Skriv inn PIN</h2>
+        <div class="pin-dots">${dots}</div>
+        <div class="pin-pad">
+          ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="pin-btn" onclick="pinPress(${n})">${n}</button>`).join('')}
+          <button class="pin-btn empty"></button>
+          <button class="pin-btn" onclick="pinPress(0)">0</button>
+          <button class="pin-btn del" onclick="pinDel()">⌫</button>
         </div>
-        <button onclick="S.pinStep='room';S.pinInput='';S.error=null;render()" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;width:100%;text-align:center;margin-top:0.5rem">← Tilbake</button>
-      </div>`;
-  }
+      </div>
+      <button onclick="S.pinStep='room';S.pinInput='';S.error=null;render()" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;width:100%;text-align:center;margin-top:0.5rem">← Tilbake</button>
+    </div>`;}
 
-  if (S.pinStep === 'new') {
-    return `
-      <div class="login-wrap">
-        <div class="login-logo"><h1>⭐ StarTask</h1><p>Opprett nytt rom</p></div>
-        ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
-        <div class="card">
-          <h2>👶 Barnets navn</h2>
-          <input type="text" value="${S.childName}" placeholder="F.eks. Emma" oninput="S.childName=this.value">
+  if(S.pinStep==='new'){return`
+    <div class="login-wrap">
+      <div class="login-logo"><h1>⭐ StarTask</h1><p>Opprett nytt rom</p></div>
+      ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
+      <div class="card">
+        <h2>👶 Barnets navn</h2>
+        <input type="text" value="${S.childName}" placeholder="F.eks. Emma" oninput="S.childName=this.value">
+      </div>
+      <div class="card">
+        <h2>🔑 Velg romkode</h2>
+        <input class="room-input-big" type="text" placeholder="F.eks. EMMA (la stå for tilfeldig)" value="${S.customRoomCode}" oninput="S.customRoomCode=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').substring(0,12)" maxlength="12">
+        <div style="font-size:0.75rem;color:#888;margin-top:5px;text-align:center">Kun bokstaver og tall. Tomt = tilfeldig kode.</div>
+      </div>
+      <div class="card">
+        <h2>🔐 Velg PIN-kode (4 siffer)</h2>
+        <div class="pin-dots">${[0,1,2,3].map(i=>`<div class="pin-dot ${i<S.pinInput.length?'filled':''}"></div>`).join('')}</div>
+        <div class="pin-pad">
+          ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="pin-btn" onclick="pinPress(${n})">${n}</button>`).join('')}
+          <button class="pin-btn empty"></button>
+          <button class="pin-btn" onclick="pinPress(0)">0</button>
+          <button class="pin-btn del" onclick="pinDel()">⌫</button>
         </div>
-        <div class="card">
-          <h2>🔑 Velg romkode</h2>
-          <input class="room-input-big" type="text" placeholder="F.eks. EMMA (la stå for tilfeldig)" id="room-inp" value="${S.customRoomCode}" oninput="S.customRoomCode=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').substring(0,12)" maxlength="12">
-          <div style="font-size:0.75rem;color:#888;margin-top:5px;text-align:center">Kun bokstaver og tall. Tomt = tilfeldig kode.</div>
-        </div>
-        <div class="card">
-          <h2>🔐 Velg PIN-kode (4 siffer)</h2>
-          <div class="pin-dots">${[0,1,2,3].map(i=>`<div class="pin-dot ${i<S.pinInput.length?'filled':''}"></div>`).join('')}</div>
-          <div class="pin-pad">
-            ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="pin-btn" onclick="pinPress(${n})">${n}</button>`).join('')}
-            <button class="pin-btn empty"></button>
-            <button class="pin-btn" onclick="pinPress(0)">0</button>
-            <button class="pin-btn del" onclick="pinDel()">⌫</button>
-          </div>
-        </div>
-        <button class="btn btn-gold btn-full" onclick="createNewRoom()" ${S.pinInput.length<4||!S.childName?'disabled':''}>Opprett rom →</button>
-        <button onclick="S.pinStep='room';S.pinInput='';S.error=null;render()" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;width:100%;text-align:center;margin-top:0.8rem">← Tilbake</button>
-      </div>`;
-  }
-
+      </div>
+      <button class="btn btn-gold btn-full" onclick="createNewRoom()" ${S.pinInput.length<4||!S.childName?'disabled':''}>Opprett rom →</button>
+      <button onclick="S.pinStep='room';S.pinInput='';S.error=null;render()" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;width:100%;text-align:center;margin-top:0.8rem">← Tilbake</button>
+    </div>`;}
   return '';
 }
 
 function pinPress(n){
-  if(S.pinInput.length>=4) return;
-  S.pinInput+=n;
-  render();
-  if(S.pinInput.length===4 && S.pinStep==='pin') doLogin();
+  if(S.pinInput.length>=4)return;
+  S.pinInput+=n;render();
+  if(S.pinInput.length===4&&S.pinStep==='pin')doLogin();
 }
 function pinDel(){S.pinInput=S.pinInput.slice(0,-1);render();}
 
 async function goToPinEntry(){
   if(!S.customRoomCode)return;
   S.error=null;
-  // Sjekk om rom finnes
-  try{
-    const r=await api('checkRoom',S.customRoomCode);
-    if(!r.exists){S.error=`Fant ikke rom «${S.customRoomCode}». Sjekk koden eller lag nytt rom.`;render();return;}
-    S.pinStep='pin';S.pinInput='';render();
-  }catch(e){S.error='Kunne ikke koble til. Sjekk internett.';render();}
+  try{const r=await api('checkRoom',S.customRoomCode);if(!r.exists){S.error=`Fant ikke rom «${S.customRoomCode}». Sjekk koden eller lag nytt rom.`;render();return;}S.pinStep='pin';S.pinInput='';render();}
+  catch(e){S.error='Kunne ikke koble til. Sjekk internett.';render();}
 }
 
 function goToNewRoom(){S.pinStep='new';S.pinInput='';S.customRoomCode='';S.error=null;render();}
@@ -414,20 +500,15 @@ async function doLogin(){
   try{
     const r=await api('login',S.customRoomCode,{pin:S.pinInput});
     if(r.ok){
-      S.roomKey=S.customRoomCode;
-      S.childRoomKey=r.childKey;
+      S.roomKey=S.customRoomCode;S.childRoomKey=r.childKey;
       saveSession(S.roomKey);
       await loadRoom(S.roomKey,null);
+      S.deadlineInput=S.deadline||'07:30';
       updateParentUrl(S.roomKey);
-      S.view='parent-setup';
-      render();
+      S.view='parent-setup';render();
       setTimeout(()=>showModal('modal-parent'),600);
     }
-  }catch(e){
-    S.error='Feil PIN eller romkode. Prøv igjen.';
-    S.pinInput='';
-    render();
-  }
+  }catch(e){S.error='Feil PIN eller romkode. Prøv igjen.';S.pinInput='';render();}
 }
 
 async function createNewRoom(){
@@ -435,19 +516,12 @@ async function createNewRoom(){
   S.error=null;S.saving=true;render();
   try{
     const key=S.customRoomCode||genKey();
-    // Sjekk om koden er opptatt
     const exists=await api('checkRoom',key);
     if(exists.exists){S.error=`Romkoden «${key}» er allerede i bruk. Velg en annen.`;S.saving=false;render();return;}
-    // Opprett rom med dummy tasks (forelder legger til etterpå)
-    const r=await api('saveRoom',key,{childName:S.childName,tasks:[],pin:S.pinInput});
-    S.roomKey=key;
-    S.childRoomKey=r.childKey;
-    S.customRoomCode=key;
-    saveSession(key);
-    updateParentUrl(key);
-    S.saving=false;
-    S.view='parent-setup';
-    render();
+    const r=await api('saveRoom',key,{childName:S.childName,tasks:[],pin:S.pinInput,deadline:S.deadlineInput});
+    S.roomKey=key;S.childRoomKey=r.childKey;S.customRoomCode=key;
+    saveSession(key);updateParentUrl(key);
+    S.saving=false;S.view='parent-setup';render();
     setTimeout(()=>showModal('modal-parent'),600);
   }catch(e){S.error='Kunne ikke opprette rom. Sjekk internett.';S.saving=false;render();}
 }
@@ -461,33 +535,35 @@ function tplSetup(){
       <button class="btn-icon" onclick="removeTask(${i})">✕</button>
     </li>`).join('');
 
+  const totalMins=S.tasks.reduce((s,t)=>s+t.mins,0);
+
   const linkBox=S.childRoomKey?`
     <div class="link-box">
-      <p>📱 Send denne lenken til ${S.childName}:</p>
+      <p>📱 Send denne lenken til ${S.childName} — lenken er alltid den samme:</p>
       <div class="link-url">${childLink()}</div>
       <div class="copy-row">
         <button class="btn btn-purple btn-sm" onclick="copyChildLink()">📋 Kopier til barnet</button>
         <button class="btn btn-gray btn-sm" onclick="goStatus()">👀 Se status</button>
       </div>
-    </div>
-    <div class="hint-banner">
-      <span class="hint-icon">📌</span>
-      <div class="hint-text">
-        <strong>Husk å bokmerke denne siden!</strong>
-        Legg siden til på hjemskjermen. Din romkode er <strong style="color:#f9d71c;font-size:1rem;letter-spacing:2px">${S.roomKey}</strong>
-      </div>
-      <button class="hint-close" onclick="this.parentElement.style.display='none'">✕</button>
     </div>` : '';
 
-  return `
-    <div class="logo"><h1>⭐ StarTask</h1><p>Hei! Romkode: <strong style="color:#f9d71c">${S.roomKey}</strong></p></div>
+  return`
+    <div class="logo"><h1>⭐ StarTask</h1><p>Rom: <strong style="color:#f9d71c">${S.roomKey}</strong></p></div>
     <div class="view">
       ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
       ${S.ok?`<div class="success-box">✅ ${S.ok}</div>`:''}
+
       <div class="card">
         <h2>👶 Barnets navn</h2>
         <input type="text" value="${S.childName}" placeholder="F.eks. Emma" oninput="S.childName=this.value">
       </div>
+
+      <div class="card">
+        <h2>⏰ Frist — alt skal være ferdig innen:</h2>
+        <input type="time" value="${S.deadlineInput}" oninput="S.deadlineInput=this.value" style="font-size:1.3rem;font-weight:800;text-align:center;padding:12px;">
+        <div style="font-size:0.75rem;color:#888;margin-top:6px">Barnet ser nedtelling og trafikklys basert på denne fristen</div>
+      </div>
+
       <div class="card">
         <h2>✏️ Legg til oppgave</h2>
         <span class="section-lbl">Velg ikon:</span>
@@ -500,15 +576,21 @@ function tplSetup(){
         </div>
         <div class="quick-btns">${QUICK.map(q=>`<button class="quick-btn" onclick="quickAdd('${q.e}','${q.n}',${q.m})">${q.e} ${q.n}</button>`).join('')}</div>
       </div>
+
       ${S.tasks.length?`
       <div class="card">
-        <h2>📋 Oppgaver (${S.tasks.length}) — ${S.tasks.reduce((s,t)=>s+t.mins,0)} min totalt</h2>
+        <h2>📋 Oppgaver (${S.tasks.length}) — ${totalMins} min totalt</h2>
         <ul class="task-list">${rows}</ul>
       </div>`:''}
+
       <button class="btn btn-gold btn-full" ${(!S.tasks.length||S.saving)?'disabled':''} onclick="saveAndLink()">
         ${S.saving?'⏳ Lagrer...':'🚀 Lagre og lag lenke til '+(S.childName||'barnet')+'!'}
       </button>
       ${linkBox}
+
+      <div style="text-align:center;margin-top:1rem;">
+        <button onclick="doLogout()" style="background:none;border:none;color:#555;cursor:pointer;font-size:0.82rem;text-decoration:underline">Logg ut</button>
+      </div>
     </div>`;
 }
 
@@ -521,16 +603,13 @@ function tplStatus(){
     <div class="logo"><h1>⭐ StarTask</h1><p>Status for ${S.childName}</p></div>
     <div class="view">
       <div class="card">
-        <h2>📊 Fremgang akkurat nå</h2>
+        <h2>📊 Fremgang</h2>
         <div class="prog-bg"><div class="prog-fill" style="width:${pct}%"></div></div>
         <div class="prog-txt">${done} av ${S.tasks.length} gjort — ${pct}%</div>
-        <div style="margin-top:8px;font-size:0.8rem;color:#555">Oppdateres automatisk hvert 3. sek</div>
+        ${S.deadline?`<div style="margin-top:6px;font-size:0.8rem;color:#888">Frist: <strong style="color:#f9d71c">${S.deadline}</strong></div>`:''}
+        <div style="margin-top:4px;font-size:0.78rem;color:#555">Oppdateres automatisk hvert 3. sek</div>
       </div>
       <div class="card" style="padding-bottom:0.5rem">${rows||'<p class="muted">Ingen oppgaver ennå.</p>'}</div>
-      <div class="room-code-display">
-        <div><div class="label">Romkode — bokmerke denne siden!</div><div class="code">${S.roomKey}</div></div>
-        <button class="btn btn-purple btn-sm" onclick="copyParentLink()">📋 Min lenke</button>
-      </div>
     </div>
     <div class="bnav">
       <button class="bnav-btn" onclick="goSetup()"><span class="bnav-icon">✏️</span>Rediger</button>
@@ -542,36 +621,94 @@ function tplStatus(){
 // ── CHILD VIEW ────────────────────────────────────────────────
 function tplChild(){
   if(S.loading)return`<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster oppgaver...</p></div>`;
+
+  const ts = getTimeStatus();
+
+  // Etter grace-perioden — ingen oppgaver
+  if(ts.state==='expired'){
+    return`
+      <div class="child-header over">
+        <h1>⭐ StarTask</h1>
+        <div style="color:rgba(255,255,255,0.8);font-size:0.88rem">Hei ${S.childName}!</div>
+      </div>
+      <div class="view" style="padding-top:1rem">
+        <div class="no-tasks">
+          <div class="nt-icon">😴</div>
+          <h2>Ingen oppgaver akkurat nå</h2>
+          <p>Fristen for i dag er passert.<br>Foreldre legger ut nye oppgaver til i morgen!</p>
+        </div>
+      </div>`;
+  }
+
   const done=S.tasks.filter(t=>S.checkedIds[t.id]).length;
   const allDone=done===S.tasks.length&&S.tasks.length>0;
-  const next=S.tasks.find(t=>!S.checkedIds[t.id]);
+  const remaining=S.tasks.filter(t=>!S.checkedIds[t.id]);
+  const next=remaining[0];
+
+  // Trafikklys-farge på header
+  const headerColor = ts.state==='over' ? 'red' : ts.state;
+
+  // Countdown widget
+  let cwHtml='';
+  if(S.deadline){
+    const timeStr = fmtTime(ts.remSec||0);
+    let statusText='';
+    if(ts.state==='over') statusText=`⚠️ Fristen er passert! ${fmtTime(Math.abs(ts.remSec||0))} over tid`;
+    else if(ts.state==='red') statusText=`🔴 Du rekker det IKKE — skynd deg!`;
+    else if(ts.state==='yellow') statusText=`🟡 Det begynner å haste — hold fokus!`;
+    else statusText=`🟢 Du rekker det fint — bra jobbet!`;
+
+    const remTaskText=remaining.length>0
+      ? `${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`
+      : '🎉 Alle oppgaver er gjort!';
+
+    cwHtml=`
+      <div class="countdown-widget">
+        <div class="cw-main ${ts.state==='over'?'red':ts.state}">
+          <div class="cw-time">${ts.state==='over'?'-':''}${fmtTime(Math.abs(ts.remSec||0))}</div>
+          <div class="cw-info">
+            <div class="cw-label">Frist: ${S.deadline}</div>
+            <div class="cw-status">${statusText}</div>
+            <div class="cw-tasks">${remTaskText}</div>
+          </div>
+        </div>
+      </div>`;
+  }
 
   let pushUI='';
-  if(S.push==='granted') pushUI=`<div class="push-ok"><div class="dot"></div>🔔 Lydvarsler er aktivert</div>`;
-  else if(S.push==='denied') pushUI=`<div class="push-err">🔕 Varsler blokkert — gå til telefoninnstillinger → StarTask → Tillat varsler</div>`;
-  else if(S.push==='unknown'||S.push==='pending') pushUI=`<div class="push-card"><h3>🔔 Aktiver lydvarsler</h3><p>Få lyd og varsel hvert 30. sekund!</p><button class="btn btn-purple btn-full" onclick="enablePush()" style="margin-top:0">🔔 Aktiver</button></div>`;
+  if(S.push==='granted') pushUI=`<div class="push-ok" style="margin:0 0 0.8rem"><div class="dot"></div>🔔 Lydvarsler er aktivert</div>`;
+  else if(S.push==='denied') pushUI=`<div class="push-err" style="margin:0 0 0.8rem">🔕 Varsler blokkert — gå til telefoninnstillinger → Tillat varsler</div>`;
+  else if(S.push==='unknown'||S.push==='pending') pushUI=`
+    <div class="push-card">
+      <h3>🔔 Aktiver lydvarsler</h3>
+      <p>Få lyd og varsel på telefonen hvert 30. sekund!</p>
+      <button class="btn btn-purple btn-full" onclick="enablePush()" style="margin-top:0">🔔 Aktiver</button>
+    </div>`;
 
   const cards=S.tasks.map(t=>{
-    const isDone=!!S.checkedIds[t.id],isNext=!isDone&&t===next;
-    let cd='';
-    if(isNext&&S.taskStartTimes[t.id]){const rem=t.mins*60-Math.floor((Date.now()-S.taskStartTimes[t.id])/1000);cd=fmtCd(rem,t.mins*60);}
-    else if(isNext) cd=`<span class="countdown ok">Trykk for å starte! 👆</span>`;
-    return`<div class="child-task ${isDone?'done':''} ${isNext?'active-task':''}" onclick="toggleTask('${t.id}')">
+    const isDone=!!S.checkedIds[t.id];
+    const isNext=!isDone&&t===next;
+    return`<div class="child-task ${isDone?'done':''} ${isNext?'next-up':''}" onclick="toggleTask('${t.id}')">
       <span class="ct-emoji">${t.emoji}</span>
-      <div class="ct-info"><div class="ct-name">${t.name}</div><div class="ct-sub">${t.mins} min &nbsp;${cd}</div></div>
+      <div class="ct-info">
+        <div class="ct-name">${t.name}</div>
+        <div class="ct-sub">${t.mins} min${isNext?' ← neste!':''}</div>
+      </div>
       <div class="ct-check">${isDone?'✅':''}</div>
     </div>`;
   }).join('');
 
   return`
-    <div class="child-header">
+    <div class="child-header ${headerColor}">
       <h1>⭐ StarTask</h1>
-      <div style="color:rgba(255,255,255,0.8);font-size:0.88rem">Hei ${S.childName}! Du klarer dette! 💪</div>
+      <div style="color:rgba(255,255,255,0.85);font-size:0.88rem">Hei ${S.childName}! Du klarer dette! 💪</div>
       <div class="stars-row">${'⭐'.repeat(done)}${'☆'.repeat(Math.max(0,S.tasks.length-done))}</div>
     </div>
-    <div class="view" style="padding-top:0.8rem">
+    ${cwHtml}
+    <button class="pwa-btn" onclick="installPWA()">📲 Installer StarTask som app</button>
+    <div class="view" style="padding-top:0.5rem">
       ${pushUI}
-      ${allDone?`<div class="all-done"><h2>🎉 Fantastisk!</h2><p>Du er en ekte stjerne!</p></div>`:''}
+      ${allDone?`<div class="all-done"><h2>🎉 Fantastisk!</h2><p>Du er en ekte stjerne! Alle oppgaver er gjort!</p></div>`:''}
       ${cards}
       ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
     </div>
@@ -609,38 +746,43 @@ function tplStats(){
 }
 
 // ── HELPERS ───────────────────────────────────────────────────
-function fmtCd(rem,tot){if(rem<=0)return`<span class="countdown late">⚠️ Tiden er ute!</span>`;const m=Math.floor(rem/60),s=rem%60,c=rem<60?'late':rem<tot*0.3?'warn':'ok';return`<span class="countdown ${c}">⏱ ${m}:${s.toString().padStart(2,'0')} igjen</span>`;}
 function dateKey(d){return d.toISOString().split('T')[0];}
 function getWeekDays(){const t=new Date(),d=[];for(let i=6;i>=0;i--){const x=new Date(t);x.setDate(t.getDate()-i);d.push({key:dateKey(x),label:DAYS[x.getDay()===0?6:x.getDay()-1]});}return d;}
 function calcStreak(){let n=0;const d=new Date();for(let i=0;i<30;i++){if((S.weekStats[dateKey(d)]||0)>0)n++;else if(i>0)break;d.setDate(d.getDate()-1);}return n;}
 function motMsg(t,s){if(t===0)return'Start i dag og tjen din første stjerne! 💪';if(s>=5)return`Utrolig! ${s} dager på rad! Du er en ekte SuperHelt! 🦸`;if(t>=20)return`Wow, ${t} stjerner! Du er verdens beste! 🌟`;if(s>=3)return`${s} dager på rad! Kjempebra! 🔥`;return`${t} stjerner denne uken! Fortsett slik! ⭐`;}
 function genKey(){return Math.random().toString(36).substring(2,8).toUpperCase();}
 function copyChildLink(){navigator.clipboard.writeText(childLink()).then(()=>{S.ok='Barnets lenke er kopiert — send den via SMS eller WhatsApp!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
-function copyParentLink(){navigator.clipboard.writeText(parentLink()).then(()=>{S.ok='Din lenke er kopiert — legg den til som bokmerke!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
 
 // ── ACTIONS ───────────────────────────────────────────────────
 function selEmoji(e){S.taskEmoji=e;render();}
 function addTask(){const el=document.getElementById('ti');const n=(el?el.value:S.taskInput).trim();if(!n)return;S.tasks.push({id:Date.now().toString(),name:n,mins:S.taskMins,emoji:S.taskEmoji});S.taskInput='';render();}
 function quickAdd(e,n,m){S.tasks.push({id:Date.now().toString(),name:n,mins:m,emoji:e});render();}
 function removeTask(i){S.tasks.splice(i,1);render();}
+function doLogout(){saveSession('');S.roomKey=null;S.childRoomKey=null;S.pinStep='room';S.customRoomCode='';S.view='login';render();}
 
 async function saveAndLink(){
   if(!S.tasks.length)return;
   S.error=null;S.saving=true;render();
   try{
-    const r=await api('saveRoom',S.roomKey,{childName:S.childName,tasks:S.tasks,childKey:S.childRoomKey});
-    if(r.childKey) S.childRoomKey=r.childKey;
+    const r=await api('saveRoom',S.roomKey,{childName:S.childName,tasks:S.tasks,childKey:S.childRoomKey,deadline:S.deadlineInput});
+    if(r.childKey)S.childRoomKey=r.childKey;
+    S.deadline=S.deadlineInput;
+    S.ok='Lagret! Barnet ser oppdaterte oppgaver neste gang de refresher.';
     S.saving=false;render();
+    setTimeout(()=>{S.ok=null;render();},4000);
   }catch(e){S.error='Kunne ikke lagre. Sjekk internett.';S.saving=false;render();}
 }
 
 async function toggleTask(id){
   const was=!!S.checkedIds[id];
-  if(was){delete S.checkedIds[id];delete S.taskStartTimes[id];}
-  else{S.checkedIds[id]=true;const today=dateKey(new Date());S.weekStats[today]=(S.weekStats[today]||0)+1;const nx=S.tasks.find(t=>!S.checkedIds[t.id]);if(nx&&!S.taskStartTimes[nx.id])S.taskStartTimes[nx.id]=Date.now();}
-  saveTimers(S.childRoomKey||S.roomKey);
+  if(was){delete S.checkedIds[id];}
+  else{
+    S.checkedIds[id]=true;
+    const today=dateKey(new Date());
+    S.weekStats[today]=(S.weekStats[today]||0)+1;
+  }
   playTap();render();
-  try{await api('check',null,{taskId:id,checked:!was,childKey:S.childRoomKey},S.childRoomKey);}catch(e){S.error='Lagring feilet.';render();}
+  try{await api('check',null,{taskId:id,checked:!was},S.childRoomKey);}catch(e){S.error='Lagring feilet.';render();}
   if(!was&&S.tasks.every(t=>S.checkedIds[t.id]))confetti();
 }
 
@@ -656,45 +798,53 @@ function stopIntervals(){if(S.pollInterval){clearInterval(S.pollInterval);S.poll
 function playTap(){try{const c=new(AudioContext||webkitAudioContext)();[523,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(0.2,c.currentTime+i*0.08);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.08+0.15);o.start(c.currentTime+i*0.08);o.stop(c.currentTime+i*0.08+0.2);});}catch(e){}}
 function playAlert(){try{const c=new(AudioContext||webkitAudioContext)();[523,659,784,1047].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(0.3,c.currentTime+i*0.12);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.12+0.2);o.start(c.currentTime+i*0.12);o.stop(c.currentTime+i*0.12+0.25);});}catch(e){}}
 function showFallbackAlert(name,emoji){document.getElementById('alert-msg').textContent=`${emoji} ${name} — husk å hake av!`;document.getElementById('alert-sub').textContent='Trykk på oppgaven når du er ferdig ✅';const b=document.getElementById('alert-banner');b.classList.add('show');setTimeout(()=>b.classList.remove('show'),6000);if(S.push!=='granted')playAlert();}
-function startAlerts(){if(S.alertInterval)clearInterval(S.alertInterval);S.alertInterval=setInterval(()=>{const nx=S.tasks.find(t=>!S.checkedIds[t.id]);if(nx&&S.push!=='granted')showFallbackAlert(nx.name,nx.emoji);},30000);}
+function startAlerts(){if(S.alertInterval)clearInterval(S.alertInterval);S.alertInterval=setInterval(()=>{const ts=getTimeStatus();if(ts.state==='expired')return;const nx=S.tasks.find(t=>!S.checkedIds[t.id]);if(nx&&S.push!=='granted')showFallbackAlert(nx.name,nx.emoji);},30000);}
 function confetti(){const c=['#f9d71c','#ff6b6b','#c77dff','#10b981','#ff8c42','#60a5fa'];for(let i=0;i<70;i++){setTimeout(()=>{const el=document.createElement('div');el.className='cp';el.style.cssText=`left:${Math.random()*100}vw;background:${c[Math.floor(Math.random()*c.length)]};animation-duration:${1.5+Math.random()*2}s;`;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);},i*35);}}
 
 // ── INIT ──────────────────────────────────────────────────────
 async function init(){
+  // Registrer service worker
+  if('serviceWorker' in navigator){
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  }
+
   const params=new URLSearchParams(location.search);
   const childKey=params.get('childKey');
   const isChild=params.get('child')==='1';
   const roomParam=params.get('room');
 
   if(childKey&&isChild){
-    // BARNETS VISNING — bruker lang hemmelig nøkkel
+    // BARNETS VISNING — statisk URL, alltid oppdaterte oppgaver
     S.childRoomKey=childKey;S.childKey=childKey;S.view='child';S.loading=true;render();
     await initPush();
-    loadTimers(childKey);
     try{
       await loadRoom(null,childKey);
-      const f=S.tasks.find(t=>!S.checkedIds[t.id]);
-      if(f&&!S.taskStartTimes[f.id]){S.taskStartTimes[f.id]=Date.now();saveTimers(childKey);}
       S.loading=false;render();
       setTimeout(()=>showModal('modal-child'),1000);
     }catch(e){S.error='Kunne ikke laste oppgaver. Sjekk internett.';S.loading=false;render();}
-    S.pollInterval=setInterval(async()=>{try{await loadRoom(null,childKey);if(S.view==='child')render();}catch(e){}},10000);
+
+    // Poll for oppdateringer fra forelder hvert 30. sek
+    S.pollInterval=setInterval(async()=>{
+      try{
+        const prevChecked={...S.checkedIds};
+        await loadRoom(null,childKey);
+        // Behold lokale avhukinger
+        Object.keys(prevChecked).forEach(id=>{if(prevChecked[id])S.checkedIds[id]=true;});
+        if(S.view==='child')render();
+      }catch(e){}
+    },30000);
+
+    // Tick hvert sekund for nedtelling
     S.tickInterval=setInterval(()=>{if(S.view==='child')render();},1000);
     startAlerts();
 
   } else if(roomParam){
-    // Forelder åpner med romkode i URL — gå til innlogging med romkode forhåndsutfylt
     S.customRoomCode=roomParam;
     S.pinStep='pin';
-    // Sjekk om rom finnes
-    try{
-      const r=await api('checkRoom',roomParam);
-      if(!r.exists){S.pinStep='room';S.customRoomCode='';}
-    }catch(e){}
+    try{const r=await api('checkRoom',roomParam);if(!r.exists){S.pinStep='room';S.customRoomCode='';}}catch(e){}
     S.view='login';render();
 
   } else {
-    // Sjekk om forelder har lagret sesjon
     const saved=loadSession();
     if(saved){S.customRoomCode=saved;S.pinStep='pin';}
     else{S.pinStep='room';}
