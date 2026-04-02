@@ -72,10 +72,15 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .task-name { flex:1; font-size:0.9rem; }
 .tag { font-size:0.75rem; background:rgba(249,215,28,0.15); color:#f9d71c; border-radius:6px; padding:2px 7px; white-space:nowrap; }
 
+/* ── LINK BOX ── */
 .link-box { background:#0a1a30; border-radius:12px; padding:11px 13px; margin-top:0.8rem; border:1px solid #1a4a8a; }
 .link-box p { font-size:0.78rem; color:#888; margin-bottom:6px; }
 .link-url { background:#16213e; border-radius:8px; padding:7px 10px; font-size:0.75rem; color:#c77dff; word-break:break-all; border:1px solid #1a4a8a; margin-bottom:8px; }
 .copy-row { display:flex; gap:6px; flex-wrap:wrap; }
+
+/* ── SHARE BUTTON ── */
+.btn-share { background:linear-gradient(135deg,#7c3aed,#c77dff); color:#fff; font-weight:700; border:none; border-radius:10px; padding:9px 16px; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; gap:6px; transition:transform 0.12s; box-shadow:0 3px 12px rgba(124,58,237,0.4); }
+.btn-share:active { transform:scale(0.96); }
 
 .prog-bg { background:#0f3460; border-radius:20px; height:16px; overflow:hidden; }
 .prog-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,#10b981,#f9d71c); transition:width 0.5s; }
@@ -224,19 +229,16 @@ const GRACE_MINUTES = 30;
 const S = {
   view: 'login',
   loginTab: 'login',
-  pinInput: '',
-  emailInput: '',
+  pinInput: '', emailInput: '',
   userId: null,
-  lists: [],
-  activeRoom: null,
+  lists: [], activeRoom: null,
   tasks: [], checkedIds: {},
   taskInput: '', taskMins: 5, taskEmoji: '⭐',
   deadlineInput: '07:30',
   showNewList: false,
   childName: '',
   deadline: null,
-  listKey: null,   // barnets hemmelige nøkkel (tidligere childRoomKey)
-  childKey: null,  // settes kun når barnet er innlogget via URL
+  listKey: null, childKey: null,
   weekStats: [],
   pollInterval: null, tickInterval: null,
   lastMinuteTick: -1,
@@ -335,7 +337,7 @@ function checkMinuteTick(ts) {
 async function api(action, body, roomId, listKey) {
   let url = `${API_URL}?action=${action}`;
   if (roomId)  url += `&room=${encodeURIComponent(roomId)}`;
-  if (listKey) url += `&childKey=${encodeURIComponent(listKey)}`; // API bruker fortsatt childKey internt
+  if (listKey) url += `&childKey=${encodeURIComponent(listKey)}`;
   const res = await fetch(url, {
     method: body ? 'POST' : 'GET',
     headers: {'Content-Type':'application/json'},
@@ -361,6 +363,33 @@ async function loadRoom(roomId, listKey) {
   });
   S.tasks = Object.values(m).sort((a,b)=>a.order-b.order);
   return true;
+}
+
+// ── DEL LENKE — Web Share API ─────────────────────────────────
+function childLink() {
+  const u = new URL(location.href.split('?')[0]);
+  u.searchParams.set('listKey', S.listKey);
+  return u.toString();
+}
+
+async function shareChildLink() {
+  const url  = childLink();
+  const name = S.childName || 'deg';
+  const text = `Yo ${name}! 🦊 Stepster har en oppgaveliste til deg. Klikk her:`;
+
+  if (navigator.share) {
+    try {
+      await navigator.share({ title: 'Stepster ⭐', text, url });
+    } catch(e) {
+      // Bruker avbrøt delingen — ingen feil
+    }
+  } else {
+    // Fallback for desktop
+    await navigator.clipboard.writeText(`${text}\n${url}`);
+    S.ok = 'Lenke kopiert til utklippstavlen!';
+    render();
+    setTimeout(()=>{S.ok=null;render();},4000);
+  }
 }
 
 // ── RENDER ────────────────────────────────────────────────────
@@ -532,12 +561,15 @@ function tplSetup() {
       <button class="btn-icon" onclick="removeTask(${i})">✕</button>
     </li>`).join('');
   const totalMins = S.tasks.reduce((s,t)=>s+t.mins,0);
+
   const linkBox = S.listKey ? `
     <div class="link-box">
-      <p>📱 Send denne lenken til ${S.childName||'barnet'} — alltid den samme:</p>
+      <p>📱 Barnets lenke — alltid den samme:</p>
       <div class="link-url">${childLink()}</div>
       <div class="copy-row">
-        <button class="btn btn-purple btn-sm" onclick="copyChildLink()">📋 Kopier lenke</button>
+        <button class="btn-share" onclick="shareChildLink()">
+          📤 Send til ${S.childName||'barnet'}
+        </button>
         <button class="btn btn-gray btn-sm" onclick="goStatus()">👀 Se status</button>
       </div>
     </div>` : '';
@@ -733,14 +765,6 @@ function motMsg(onTime,total){
   if(total>=3)return`${total} oppgaver gjort! Prøv å få flere innenfor fristen! 💪`;
   return'Fortsett slik — du blir bedre for hver dag! ⭐';
 }
-
-// Barnets URL bruker nå ?listKey= i stedet for ?childKey=&child=1
-function childLink(){
-  const u=new URL(location.href.split('?')[0]);
-  u.searchParams.set('listKey', S.listKey);
-  return u.toString();
-}
-function copyChildLink(){navigator.clipboard.writeText(childLink()).then(()=>{S.ok='Lenken er kopiert!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
 function selEmoji(e){S.taskEmoji=e;render();}
 function addTask(){const el=document.getElementById('ti');const n=(el?el.value:S.taskInput).trim();if(!n)return;S.tasks.push({id:Date.now().toString(),name:n,mins:S.taskMins,emoji:S.taskEmoji});S.taskInput='';render();}
 function quickAdd(e,n,m){S.tasks.push({id:Date.now().toString(),name:n,mins:m,emoji:e});render();}
@@ -787,10 +811,9 @@ function confetti(){const c=['#f9d71c','#ff6b6b','#c77dff','#10b981','#ff8c42','
 // ── INIT ──────────────────────────────────────────────────────
 async function init(){
   const params  = new URLSearchParams(location.search);
-  const listKey = params.get('listKey');  // Ny, ren URL-parameter
+  const listKey = params.get('listKey');
 
   if (listKey) {
-    // BARNETS VISNING — ingen child=1 nødvendig
     hideSplash(true);
     S.listKey=listKey; S.childKey=listKey; S.view='child'; S.loading=true; render();
     try{
@@ -808,7 +831,6 @@ async function init(){
     S.tickInterval=setInterval(()=>{if(S.view==='child')render();},1000);
 
   } else {
-    // FORELDER
     const savedUid = loadSession();
     if (savedUid && savedUid !== '' && savedUid !== 'null') {
       S.userId = parseInt(savedUid);
@@ -820,7 +842,6 @@ async function init(){
       }catch(e){S.view='login';render();}
     } else {
       S.view='login'; render();
-      // Splash vises for nye besøkende
     }
   }
 }
