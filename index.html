@@ -673,6 +673,10 @@ function tplChild() {
           ${S.deadline && S.completionMarginSec !== null ? `
             <div class="done-margin ${onTime?'on-time':'late'}">${fmtMargin(S.completionMarginSec)}</div>` : ''}
           <button class="btn-reset" onclick="resetDay()">🔄 Start på nytt</button>
+          <p style="font-size:0.75rem;color:#555;margin-top:10px;line-height:1.6">
+            Oppgavene nullstilles automatisk til i morgen.<br>
+            «Start på nytt» brukes kun hvis du vil gjøre listen om igjen i dag.
+          </p>
         </div>
         <div class="task-list" style="list-style:none;margin-top:1rem;">
           ${S.tasks.map(t=>`
