@@ -34,7 +34,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .btn:active { transform:scale(0.96); }
 .btn-purple { background:#7c3aed; color:#fff; }
 .btn-gray   { background:#0f3460; color:#aaa; }
-.btn-red    { background:#7f1d1d; color:#fca5a5; }
 .btn-gold   { background:linear-gradient(135deg,#f9d71c,#ff8c42); color:#1a1a2e; font-weight:800; }
 .btn-gold:disabled { opacity:0.35; cursor:default; transform:none; }
 .btn-sm   { padding:6px 12px; font-size:0.8rem; border-radius:8px; }
@@ -189,20 +188,20 @@ const DAYS   = ['Man','Tir','Ons','Tor','Fre','Lør','Søn'];
 const GRACE_MINUTES = 30;
 
 const S = {
-  view: 'login',       // login | lists | setup | status | child | stats
-  loginTab: 'login',   // login | register
+  view: 'login',
+  loginTab: 'login',
   pinInput: '',
   emailInput: '',
   userId: null,
 
-  lists: [],           // alle oppgavelister for bruker
-  activeRoom: null,    // { id, name, child_name, deadline, child_key, task_count }
+  lists: [],
+  activeRoom: null,
 
   tasks: [], checkedIds: {},
   taskInput: '', taskMins: 5, taskEmoji: '⭐',
   deadlineInput: '07:30',
-  newListName: '', newChildName: '', newDeadline: '07:30',
   showNewList: false,
+  childName: '',
 
   deadline: null,
   childRoomKey: null, childKey: null,
@@ -216,7 +215,7 @@ const S = {
 // ── LOCALSTORAGE ──────────────────────────────────────────────
 function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
-function saveSession(){lsSet('sp_uid', S.userId);}
+function saveSession(){lsSet('sp_uid', String(S.userId));}
 function loadSession(){return lsGet('sp_uid');}
 
 // ── DEADLINE PARSING ──────────────────────────────────────────
@@ -355,7 +354,7 @@ function tplLogin() {
       ${S.ok?`<div class="success-box">✅ ${S.ok}</div>`:''}
       <div class="card">
         <h2>📧 ${S.loginTab==='login'?'Din epostadresse':'Velg epostadresse'}</h2>
-        <input type="email" placeholder="navn@epost.no" value="${S.emailInput}" oninput="S.emailInput=this.value">
+        <input type="email" id="email-input" placeholder="navn@epost.no" value="${S.emailInput}" oninput="S.emailInput=this.value">
       </div>
       <div class="card">
         <h2>🔐 ${S.loginTab==='login'?'PIN-kode':'Velg PIN-kode (4 siffer)'}</h2>
@@ -372,6 +371,9 @@ function tplLogin() {
 
 function pinPress(n) {
   if (S.pinInput.length >= 4) return;
+  // Hent epost fra DOM hvis ikke allerede satt
+  const emailEl = document.getElementById('email-input');
+  if (emailEl) S.emailInput = emailEl.value;
   S.pinInput += n; render();
   if (S.pinInput.length === 4) {
     if (S.loginTab === 'login') doLogin();
@@ -424,21 +426,21 @@ function tplLists() {
   const newListForm = S.showNewList ? `
     <div class="card">
       <h2>✨ Ny oppgaveliste</h2>
-      <div style="display:flex;flex-direction:column;gap:10px;">
+      <div style="display:flex;flex-direction:column;gap:12px;">
         <div>
           <span class="section-lbl">Navn på listen (f.eks. "Morgenrutine")</span>
-          <input type="text" placeholder="Morgenrutine" value="${S.newListName}" oninput="S.newListName=this.value">
+          <input type="text" id="new-list-name" placeholder="Morgenrutine">
         </div>
         <div>
           <span class="section-lbl">Barnets navn</span>
-          <input type="text" placeholder="F.eks. Emma" value="${S.newChildName}" oninput="S.newChildName=this.value">
+          <input type="text" id="new-child-name" placeholder="F.eks. Emma">
         </div>
         <div>
           <span class="section-lbl">Frist (klokkeslett)</span>
-          <input type="time" value="${S.newDeadline}" oninput="S.newDeadline=this.value">
+          <input type="time" id="new-deadline" value="07:30">
         </div>
-        <div class="row">
-          <button class="btn btn-gold" onclick="createList()" ${(!S.newListName||!S.newChildName)?'disabled':''}>Opprett</button>
+        <div class="row" style="margin-top:4px;">
+          <button class="btn btn-gold" onclick="createList()">Opprett liste</button>
           <button class="btn btn-gray" onclick="S.showNewList=false;render()">Avbryt</button>
         </div>
       </div>
@@ -459,19 +461,26 @@ function tplLists() {
 }
 
 async function createList() {
-  if (!S.newListName || !S.newChildName) return;
-  S.error=null; S.saving=true; render();
+  // Les direkte fra DOM — ikke fra S-state som kan være utdatert
+  const name      = document.getElementById('new-list-name')?.value?.trim();
+  const childName = document.getElementById('new-child-name')?.value?.trim();
+  const deadline  = document.getElementById('new-deadline')?.value || '07:30';
+
+  if (!name)      { S.error='Skriv inn navn på listen'; render(); return; }
+  if (!childName) { S.error='Skriv inn barnets navn'; render(); return; }
+
+  S.error=null; S.saving=true;
   try {
-    const r = await api('createList', {
+    await api('createList', {
       userId:    S.userId,
-      name:      S.newListName,
-      childName: S.newChildName,
-      deadline:  S.newDeadline
+      name,
+      childName,
+      deadline
     });
-    S.newListName=''; S.newChildName=''; S.showNewList=false;
+    S.showNewList = false;
     await fetchLists();
-    S.saving=false;
-    S.ok='Oppgaveliste opprettet!';
+    S.saving = false;
+    S.ok = 'Oppgaveliste opprettet!';
     render();
     setTimeout(()=>{S.ok=null;render();},3000);
   } catch(e) { S.error=e.message; S.saving=false; render(); }
@@ -481,12 +490,11 @@ async function openList(roomId) {
   S.error=null; S.loading=true; S.checkedIds={};
   S.activeRoom = S.lists.find(l=>l.id===roomId);
   S.childRoomKey = S.activeRoom?.child_key;
-  render();
+  S.view='setup'; render();
   try {
     await loadRoom(roomId, null);
     S.deadlineInput = S.deadline || '07:30';
-    S.loading=false;
-    S.view='setup'; render();
+    S.loading=false; render();
   } catch(e) { S.error='Kunne ikke laste liste.'; S.loading=false; render(); }
 }
 
@@ -517,7 +525,7 @@ function tplSetup() {
       ${S.ok?`<div class="success-box">✅ ${S.ok}</div>`:''}
       <div class="card">
         <h2>⏰ Frist — alt skal være ferdig innen:</h2>
-        <input type="time" value="${S.deadlineInput}" oninput="S.deadlineInput=this.value" style="font-size:1.3rem;font-weight:800;text-align:center;padding:12px;">
+        <input type="time" id="deadline-input" value="${S.deadlineInput}" oninput="S.deadlineInput=this.value" style="font-size:1.3rem;font-weight:800;text-align:center;padding:12px;">
         <div style="font-size:0.75rem;color:#888;margin-top:6px">Barnet ser nedtelling og trafikklys basert på denne fristen</div>
       </div>
       <div class="card">
@@ -537,7 +545,7 @@ function tplSetup() {
         <h2>📋 Oppgaver (${S.tasks.length}) — ${totalMins} min totalt</h2>
         <ul class="task-list">${rows}</ul>
       </div>`:''}
-      <button class="btn btn-gold btn-full" ${(!S.tasks.length||S.saving)?'disabled':''} onclick="saveAndLink()">
+      <button class="btn btn-gold btn-full" ${(S.saving)?'disabled':''} onclick="saveAndLink()">
         ${S.saving?'⏳ Lagrer...':'🚀 Lagre oppgaveliste'}
       </button>
       ${linkBox}
@@ -590,20 +598,20 @@ function tplChild() {
       </div>
     </div>`;
 
-  const done     = S.tasks.filter(t=>S.checkedIds[t.id]).length;
-  const allDone  = done === S.tasks.length && S.tasks.length > 0;
+  const done      = S.tasks.filter(t=>S.checkedIds[t.id]).length;
+  const allDone   = done === S.tasks.length && S.tasks.length > 0;
   const remaining = S.tasks.filter(t=>!S.checkedIds[t.id]);
-  const next     = remaining[0];
-  const cwState  = ts.state === 'over' ? 'over' : ts.state;
+  const next      = remaining[0];
+  const cwState   = ts.state === 'over' ? 'over' : ts.state;
 
   let cwHtml = '';
   if (S.deadline) {
-    const isOver   = ts.state === 'over';
-    const absSec   = Math.abs(ts.remSec||0);
+    const isOver = ts.state === 'over';
+    const absSec = Math.abs(ts.remSec||0);
     let statusText = '';
-    if (isOver)             statusText = `⚠️ Fristen er passert!`;
-    else if (ts.state==='red')   statusText = `🔴 Du rekker det IKKE — skynd deg!`;
-    else                         statusText = `🟢 Du rekker det fint — bra jobbet!`;
+    if (isOver)              statusText = `⚠️ Fristen er passert!`;
+    else if (ts.state==='red')    statusText = `🔴 Du rekker det IKKE — skynd deg!`;
+    else                          statusText = `🟢 Du rekker det fint — bra jobbet!`;
     const remTaskText = remaining.length > 0
       ? `${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`
       : '🎉 Alle oppgaver er gjort!';
@@ -702,18 +710,26 @@ function motMsg(onTime,total){
   if(total>=3)return`${total} oppgaver gjort! Prøv å få flere innenfor fristen! 💪`;
   return'Fortsett slik — du blir bedre for hver dag! ⭐';
 }
-function genKey(){return Math.random().toString(36).substring(2,8).toUpperCase();}
 function childLink(){const u=new URL(location.href.split('?')[0]);u.searchParams.set('childKey',S.childRoomKey);u.searchParams.set('child','1');return u.toString();}
 function copyChildLink(){navigator.clipboard.writeText(childLink()).then(()=>{S.ok='Lenken er kopiert!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
 function selEmoji(e){S.taskEmoji=e;render();}
-function addTask(){const el=document.getElementById('ti');const n=(el?el.value:S.taskInput).trim();if(!n)return;S.tasks.push({id:Date.now().toString(),name:n,mins:S.taskMins,emoji:S.taskEmoji});S.taskInput='';render();}
+function addTask(){
+  const el=document.getElementById('ti');
+  const n=(el?el.value:S.taskInput).trim();
+  if(!n)return;
+  S.tasks.push({id:Date.now().toString(),name:n,mins:S.taskMins,emoji:S.taskEmoji});
+  S.taskInput='';render();
+}
 function quickAdd(e,n,m){S.tasks.push({id:Date.now().toString(),name:n,mins:m,emoji:e});render();}
 function removeTask(i){S.tasks.splice(i,1);render();}
 function doLogout(){lsSet('sp_uid','');S.userId=null;S.view='login';S.emailInput='';S.pinInput='';S.error=null;stopIntervals();render();}
 
 async function saveAndLink(){
-  if(!S.tasks.length)return;
-  S.error=null;S.saving=true;render();
+  S.error=null;S.saving=true;
+  // Les deadline fra DOM
+  const dlEl = document.getElementById('deadline-input');
+  if (dlEl) S.deadlineInput = dlEl.value;
+  render();
   try{
     await api('saveRoom',{roomId:S.activeRoom.id,tasks:S.tasks,deadline:S.deadlineInput,childName:S.childName,name:S.activeRoom.name});
     S.deadline=S.deadlineInput;
@@ -753,7 +769,6 @@ async function init(){
   const isChild  = params.get('child') === '1';
 
   if (childKey && isChild) {
-    // BARNETS VISNING
     S.childRoomKey = childKey;
     S.childKey     = childKey;
     S.view         = 'child';
@@ -776,9 +791,8 @@ async function init(){
     S.tickInterval = setInterval(()=>{if(S.view==='child')render();}, 1000);
 
   } else {
-    // FORELDER — sjekk lagret sesjon
     const savedUid = loadSession();
-    if (savedUid) {
+    if (savedUid && savedUid !== '' && savedUid !== 'null') {
       S.userId = parseInt(savedUid);
       try {
         await fetchLists();
