@@ -12,7 +12,6 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; background: #1a1a2e; color: #fff; overflow-x: hidden; }
 
-/* ── SPLASH ── */
 .splash { position:fixed; inset:0; background:linear-gradient(160deg,#0d0d1f 0%,#1a1a2e 50%,#0f0a2e 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999; transition:opacity 0.5s ease; padding:2rem; text-align:center; }
 .splash.hide { opacity:0; pointer-events:none; }
 .splash-mascot { width:180px; height:180px; object-fit:contain; animation:floatBig 3s ease-in-out infinite; filter:drop-shadow(0 0 40px rgba(249,215,28,0.5)); margin-bottom:1.5rem; }
@@ -27,7 +26,6 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; backgr
 .spark { position:fixed; pointer-events:none; font-size:1rem; animation:sparkle 4s ease-in-out infinite; opacity:0.35; }
 @keyframes sparkle { 0%,100%{opacity:0.15;transform:scale(0.8);} 50%{opacity:0.6;transform:scale(1.2);} }
 
-/* ── GENERAL ── */
 .logo { text-align:center; padding:1.2rem 1rem 0.4rem; }
 .logo h1 { font-size:2rem; font-weight:800; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 .logo p { color:#888; font-size:0.82rem; margin-top:3px; }
@@ -59,6 +57,8 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .btn-icon { background:none; border:none; cursor:pointer; font-size:1rem; padding:0 4px; color:#ff6b6b; }
 .btn-share { background:linear-gradient(135deg,#7c3aed,#c77dff); color:#fff; font-weight:700; border:none; border-radius:10px; padding:9px 16px; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; gap:6px; transition:transform 0.12s; box-shadow:0 3px 12px rgba(124,58,237,0.4); }
 .btn-share:active { transform:scale(0.96); }
+.btn-reset { background:#1a0a0a; border:1.5px solid #7f1d1d; color:#fca5a5; border-radius:12px; padding:10px 20px; font-size:0.88rem; font-weight:600; cursor:pointer; transition:transform 0.12s; }
+.btn-reset:active { transform:scale(0.96); }
 
 .emoji-row { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:8px; }
 .ep { background:#0f3460; border:1.5px solid transparent; border-radius:8px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer; }
@@ -91,23 +91,21 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .list-meta { font-size:0.78rem; color:#888; margin-top:3px; }
 .list-arrow { color:#555; font-size:1.2rem; }
 
-/* ── COMPLETION LOG ── */
-.comp-item { display:flex; align-items:center; background:#16213e; border-radius:12px; padding:11px 14px; gap:12px; border:1.5px solid #0f3460; margin-bottom:8px; }
-.comp-item.on-time { border-color:#10b981; }
-.comp-item.late    { border-color:#ef4444; }
-.comp-icon { font-size:1.5rem; flex-shrink:0; }
-.comp-info { flex:1; }
-.comp-date { font-size:0.88rem; font-weight:700; }
-.comp-tasks { font-size:0.75rem; color:#888; margin-top:2px; }
-.comp-margin { font-size:0.9rem; font-weight:800; }
-.comp-item.on-time .comp-margin { color:#10b981; }
-.comp-item.late    .comp-margin { color:#ef4444; }
+/* ── DONE SCREEN ── */
+.done-screen { text-align:center; padding:2rem 1.5rem; }
+.done-mascot { width:120px; animation:floatBig 3s ease-in-out infinite; filter:drop-shadow(0 0 20px rgba(249,215,28,0.5)); margin-bottom:1rem; }
+.done-screen h2 { font-size:2rem; font-weight:900; color:#f9d71c; margin-bottom:0.5rem; }
+.done-screen .done-margin { font-size:1.1rem; font-weight:700; margin:0.8rem 0; }
+.done-screen .done-margin.on-time { color:#10b981; }
+.done-screen .done-margin.late    { color:#ef4444; }
+.done-screen p { color:#aaa; font-size:0.9rem; margin-bottom:1.5rem; }
 
-/* ── CHILD HEADER ── */
+/* ── CHILD TASKS ── */
 .child-header { padding:1.5rem 1rem 1.2rem; text-align:center; transition:background 0.5s; }
 .child-header.green { background:linear-gradient(135deg,#065f46,#10b981); }
 .child-header.red   { background:linear-gradient(135deg,#7f1d1d,#ef4444); }
 .child-header.over  { background:linear-gradient(135deg,#3b0764,#7c3aed); }
+.child-header.done-bg { background:linear-gradient(135deg,#1a1a0a,#3a3a00); }
 .child-header h1 { font-size:1.8rem; font-weight:800; margin-bottom:0.3rem; }
 .child-header .mascot-sm { width:50px; margin-bottom:0.4rem; filter:drop-shadow(0 0 10px rgba(249,215,28,0.4)); }
 .child-header .greeting { color:rgba(255,255,255,0.85); font-size:0.92rem; margin-bottom:0.5rem; }
@@ -136,7 +134,8 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .no-tasks p { color:#555; font-size:0.9rem; margin-top:8px; line-height:1.5; }
 
 .child-task { background:#16213e; border-radius:20px; padding:16px 18px; display:flex; align-items:center; gap:14px; border:2px solid #0f3460; transition:all 0.3s; cursor:pointer; margin-bottom:12px; }
-.child-task:active { transform:scale(0.97); }
+.child-task.locked { cursor:default; opacity:0.7; }
+.child-task:not(.locked):active { transform:scale(0.97); }
 .child-task.done { background:#0b2018; border-color:#10b981; }
 .child-task.done .ct-name { text-decoration:line-through; color:#555; }
 .child-task.next-up { border-color:#f9d71c; }
@@ -161,10 +160,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .pin-btn.del { font-size:1rem; color:#888; }
 .pin-btn.empty { background:transparent; border:none; cursor:default; }
 
-.all-done { text-align:center; padding:1.5rem 1rem; }
-.all-done h2 { font-size:1.8rem; font-weight:800; color:#f9d71c; }
-.all-done p { color:#aaa; margin-top:8px; }
-
 .week-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-top:0.6rem; }
 .day-cell { background:#0f3460; border-radius:8px; padding:8px 4px; text-align:center; }
 .day-label { font-size:0.68rem; color:#888; margin-bottom:4px; }
@@ -176,6 +171,17 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .stat-num { font-size:1.4rem; font-weight:800; color:#f9d71c; }
 .stat-lbl { font-size:0.72rem; color:#888; margin-top:2px; }
 .legend { display:flex; gap:14px; margin-top:8px; font-size:0.78rem; color:#888; justify-content:center; }
+
+.comp-item { display:flex; align-items:center; background:#16213e; border-radius:12px; padding:11px 14px; gap:12px; border:1.5px solid #0f3460; margin-bottom:8px; }
+.comp-item.on-time { border-color:#10b981; }
+.comp-item.late    { border-color:#ef4444; }
+.comp-icon { font-size:1.5rem; flex-shrink:0; }
+.comp-info { flex:1; }
+.comp-date { font-size:0.88rem; font-weight:700; }
+.comp-tasks { font-size:0.75rem; color:#888; margin-top:2px; }
+.comp-margin { font-size:0.9rem; font-weight:800; }
+.comp-item.on-time .comp-margin { color:#10b981; }
+.comp-item.late    .comp-margin { color:#ef4444; }
 
 .bnav { position:fixed; bottom:0; left:0; right:0; background:#16213e; border-top:1px solid #0f3460; display:flex; z-index:100; }
 .bnav-btn { flex:1; padding:10px 6px; background:none; border:none; color:#666; font-size:0.72rem; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:2px; }
@@ -237,21 +243,20 @@ const S = {
   userId: null,
   lists: [], activeRoom: null,
   tasks: [], checkedIds: {},
+  locked: false,          // Oppgavelisten låst etter fullføring
+  completionMarginSec: null, // margin ved fullføring
   taskInput: '', taskMins: 5, taskEmoji: '⭐',
   deadlineInput: '07:30',
   showNewList: false,
   childName: '',
   deadline: null,
   listKey: null, childKey: null,
-  weekStats: [],
-  completions: [],
+  weekStats: [], completions: [],
   pollInterval: null, tickInterval: null,
   lastMinuteTick: -1,
-  completionLogged: false,  // unngå å logge samme fullføring flere ganger
   saving: false, loading: false, error: null, ok: null,
 };
 
-// ── SPLASH ────────────────────────────────────────────────────
 function hideSplash(instant) {
   const el = document.getElementById('splash');
   if (instant) { el.style.display='none'; return; }
@@ -259,13 +264,11 @@ function hideSplash(instant) {
   setTimeout(()=>el.style.display='none', 500);
 }
 
-// ── LOCALSTORAGE ──────────────────────────────────────────────
 function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 function saveSession(){lsSet('sp_uid', String(S.userId));}
 function loadSession(){return lsGet('sp_uid');}
 
-// ── DEADLINE PARSING ──────────────────────────────────────────
 function parseDeadline(dl) {
   if (!dl) return null;
   try {
@@ -284,7 +287,6 @@ function getDeadlineMs(dl) {
   return d.getTime();
 }
 
-// ── TRAFIKKLYS 1:1 ───────────────────────────────────────────
 function getTimeStatus() {
   if (!S.deadline) return { state:'green', remSec:null };
   const now     = Date.now();
@@ -307,17 +309,15 @@ function fmtTime(sec) {
     : `${m}:${s.toString().padStart(2,'0')}`;
 }
 
-// Formater margin for logg — positiv = i tide, negativ = over frist
 function fmtMargin(sec) {
   if (sec === null || sec === undefined) return '—';
   const abs = Math.abs(sec);
   const m = Math.floor(abs/60);
   const s = abs%60;
-  const str = m > 0 ? `${m} min ${s} sek` : `${s} sek`;
-  return sec >= 0 ? `+${str}` : `-${str}`;
+  const str = m > 0 ? `${m} min ${s > 0 ? s+' sek' : ''}`.trim() : `${s} sek`;
+  return sec >= 0 ? `+${str} igjen` : `-${str} over fristen`;
 }
 
-// ── LYD HVERT MINUTT ─────────────────────────────────────────
 function playMinuteTick(isRed) {
   try {
     const ctx = new(AudioContext||webkitAudioContext)();
@@ -342,14 +342,13 @@ function playMinuteTick(isRed) {
 }
 
 function checkMinuteTick(ts) {
-  if (!S.deadline || ts.state==='expired' || ts.remSec===null) return;
+  if (S.locked || !S.deadline || ts.state==='expired' || ts.remSec===null) return;
   const currentMinute = Math.floor(Math.abs(ts.remSec) / 60);
   if (currentMinute !== S.lastMinuteTick && S.lastMinuteTick !== -1)
     playMinuteTick(ts.state === 'red');
   S.lastMinuteTick = currentMinute;
 }
 
-// ── API ───────────────────────────────────────────────────────
 async function api(action, body, roomId, listKey) {
   let url = `${API_URL}?action=${action}`;
   if (roomId)  url += `&room=${encodeURIComponent(roomId)}`;
@@ -378,10 +377,13 @@ async function loadRoom(roomId, listKey) {
     if (r.checked_at) S.checkedIds[r.task_id] = true;
   });
   S.tasks = Object.values(m).sort((a,b)=>a.order-b.order);
+  // Lås automatisk hvis alle allerede er huket av ved lasting
+  if (S.tasks.length > 0 && S.tasks.every(t=>S.checkedIds[t.id])) {
+    S.locked = true;
+  }
   return true;
 }
 
-// ── DEL LENKE ────────────────────────────────────────────────
 function childLink() {
   const u = new URL(location.href.split('?')[0]);
   u.searchParams.set('listKey', S.listKey);
@@ -401,7 +403,6 @@ async function shareChildLink() {
   }
 }
 
-// ── RENDER ────────────────────────────────────────────────────
 function render() {
   const app = document.getElementById('app');
   if      (S.view==='login')       app.innerHTML = tplLogin();
@@ -413,7 +414,6 @@ function render() {
   else if (S.view==='completions') app.innerHTML = tplCompletions();
 }
 
-// ── LOGIN ─────────────────────────────────────────────────────
 function tplLogin() {
   const dots = [0,1,2,3].map(i=>`<div class="pin-dot ${i<S.pinInput.length?'filled':''}"></div>`).join('');
   return `
@@ -479,7 +479,6 @@ async function doRegister() {
   } catch(e) { S.error=e.message; S.pinInput=''; render(); }
 }
 
-// ── LISTS ─────────────────────────────────────────────────────
 async function fetchLists() {
   const r = await api('getLists', {userId: S.userId});
   S.lists = r || [];
@@ -541,7 +540,7 @@ async function createList() {
 }
 
 async function openList(roomId) {
-  S.error=null; S.loading=true; S.checkedIds={};
+  S.error=null; S.loading=true; S.checkedIds={}; S.locked=false; S.completionMarginSec=null;
   S.activeRoom = S.lists.find(l=>l.id===roomId);
   S.listKey = S.activeRoom?.child_key;
   S.view='setup'; render();
@@ -552,7 +551,6 @@ async function openList(roomId) {
   } catch(e) { S.error='Kunne ikke laste liste.'; S.loading=false; render(); }
 }
 
-// ── SETUP ─────────────────────────────────────────────────────
 function tplSetup() {
   if (S.loading) return `<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster...</p></div>`;
   const rows = S.tasks.map((t,i)=>`
@@ -609,7 +607,6 @@ function tplSetup() {
     </div>`;
 }
 
-// ── STATUS ────────────────────────────────────────────────────
 function tplStatus() {
   const done=S.tasks.filter(t=>S.checkedIds[t.id]).length;
   const pct=S.tasks.length?Math.round(done/S.tasks.length*100):0;
@@ -634,44 +631,6 @@ function tplStatus() {
     </div>`;
 }
 
-// ── COMPLETIONS LOG ───────────────────────────────────────────
-function tplCompletions() {
-  const items = S.completions.map(c => {
-    const onTime = c.margin_sec !== null && c.margin_sec >= 0;
-    const dt = new Date(c.completed_at);
-    const dateStr = dt.toLocaleDateString('nb-NO', {day:'numeric', month:'short'});
-    const timeStr = dt.toLocaleTimeString('nb-NO', {hour:'2-digit', minute:'2-digit'});
-    return `
-      <div class="comp-item ${onTime?'on-time':'late'}">
-        <div class="comp-icon">${onTime?'✅':'⏰'}</div>
-        <div class="comp-info">
-          <div class="comp-date">${dateStr} kl. ${timeStr}</div>
-          <div class="comp-tasks">${c.tasks_done} av ${c.tasks_total} oppgaver${c.deadline?' · Frist '+c.deadline:''}</div>
-        </div>
-        <div class="comp-margin">${fmtMargin(c.margin_sec)}</div>
-      </div>`;
-  }).join('');
-
-  return `
-    <div class="logo"><h1>Stepster ⭐</h1><p>${S.activeRoom?.name||'Logg'}</p></div>
-    <div class="view">
-      <div class="card">
-        <h2>📓 Fullføringslogg</h2>
-        <p style="font-size:0.8rem;color:#888;margin-bottom:0.8rem">Viser de 30 siste gangene oppgavelisten ble fullført</p>
-        ${S.completions.length
-          ? items
-          : `<p class="muted" style="text-align:center;padding:1rem">Ingen fullføringer ennå</p>`}
-      </div>
-    </div>
-    <div class="bnav">
-      <button class="bnav-btn" onclick="goSetup()"><span class="bnav-icon">✏️</span>Rediger</button>
-      <button class="bnav-btn" onclick="goStatus()"><span class="bnav-icon">👀</span>Status</button>
-      <button class="bnav-btn" onclick="goStatsParent()"><span class="bnav-icon">📈</span>Statistikk</button>
-      <button class="bnav-btn active"><span class="bnav-icon">📓</span>Logg</button>
-    </div>`;
-}
-
-// ── CHILD ─────────────────────────────────────────────────────
 function tplChild() {
   if (S.loading) return `<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster oppgaver...</p></div>`;
   const ts = getTimeStatus();
@@ -695,7 +654,40 @@ function tplChild() {
   const allDone   = done===S.tasks.length&&S.tasks.length>0;
   const remaining = S.tasks.filter(t=>!S.checkedIds[t.id]);
   const next      = remaining[0];
-  const cwState   = ts.state==='over' ? 'over' : ts.state;
+  const cwState   = S.locked ? 'done-bg' : (ts.state==='over' ? 'over' : ts.state);
+
+  // Fullført og låst — vis ferdig-skjerm
+  if (S.locked && allDone) {
+    const onTime = S.completionMarginSec !== null && S.completionMarginSec >= 0;
+    return `
+      <div class="child-header ${onTime?'green':'red'}">
+        <img src="mascot.png" class="mascot-sm" alt="">
+        <h1>Stepster</h1>
+        <div class="stars-row">${'⭐'.repeat(S.tasks.length)}</div>
+      </div>
+      <div class="view" style="padding-top:1rem">
+        <div class="done-screen">
+          <img src="mascot.png" class="done-mascot" alt="">
+          <h2>🎉 Fantastisk!</h2>
+          <p>Du er en ekte stjerne, ${S.childName||''}!</p>
+          ${S.deadline && S.completionMarginSec !== null ? `
+            <div class="done-margin ${onTime?'on-time':'late'}">${fmtMargin(S.completionMarginSec)}</div>` : ''}
+          <button class="btn-reset" onclick="resetDay()">🔄 Start på nytt</button>
+        </div>
+        <div class="task-list" style="list-style:none;margin-top:1rem;">
+          ${S.tasks.map(t=>`
+            <div class="child-task done locked">
+              <span class="ct-emoji">${t.emoji}</span>
+              <div class="ct-info"><div class="ct-name">${t.name}</div></div>
+              <div class="ct-check">✅</div>
+            </div>`).join('')}
+        </div>
+      </div>
+      <div class="bnav">
+        <button class="bnav-btn active"><span class="bnav-icon">📋</span>Oppgaver</button>
+        <button class="bnav-btn" onclick="goChildStats()"><span class="bnav-icon">⭐</span>Mine stjerner</button>
+      </div>`;
+  }
 
   let cwHtml = '';
   if (S.deadline) {
@@ -709,7 +701,7 @@ function tplChild() {
       : '🎉 Alle oppgaver er gjort!';
     cwHtml = `
       <div class="countdown-widget">
-        <div class="cw-main ${cwState}">
+        <div class="cw-main ${ts.state==='over'?'over':ts.state}">
           <div class="cw-time">${isOver?'-':''}${fmtTime(absSec)}</div>
           <div class="cw-info">
             <div class="cw-label">Frist: ${S.deadline}</div>
@@ -722,11 +714,12 @@ function tplChild() {
 
   const cards = S.tasks.map(t=>{
     const isDone=!!S.checkedIds[t.id], isNext=!isDone&&t===next;
-    return `<div class="child-task ${isDone?'done':''} ${isNext?'next-up':''}" onclick="toggleTask('${t.id}')">
+    return `<div class="child-task ${isDone?'done':''} ${isNext&&!S.locked?'next-up':''} ${S.locked?'locked':''}"
+      onclick="${S.locked?'':` toggleTask('${t.id}')`}">
       <span class="ct-emoji">${t.emoji}</span>
       <div class="ct-info">
         <div class="ct-name">${t.name}</div>
-        <div class="ct-sub">${t.mins} min${isNext?' — neste!':''}</div>
+        <div class="ct-sub">${t.mins} min${isNext&&!S.locked?' — neste!':''}</div>
       </div>
       <div class="ct-check">${isDone?'✅':''}</div>
     </div>`;
@@ -741,7 +734,6 @@ function tplChild() {
     </div>
     ${cwHtml}
     <div class="view" style="padding-top:0.8rem">
-      ${allDone?`<div class="all-done"><h2>🎉 Fantastisk!</h2><p>Du er en ekte stjerne! Alle oppgaver er gjort!</p></div>`:''}
       ${cards}
       ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
     </div>
@@ -751,7 +743,6 @@ function tplChild() {
     </div>`;
 }
 
-// ── STATS ─────────────────────────────────────────────────────
 function tplStats() {
   const today=dateKey(new Date()), week=getWeekDays();
   const isChild=!!S.childKey;
@@ -792,7 +783,39 @@ function tplStats() {
     </div>`;
 }
 
-// ── HELPERS ───────────────────────────────────────────────────
+function tplCompletions() {
+  const items = S.completions.map(c => {
+    const onTime = c.margin_sec !== null && c.margin_sec >= 0;
+    const dt = new Date(c.completed_at);
+    const dateStr = dt.toLocaleDateString('nb-NO', {day:'numeric', month:'short'});
+    const timeStr = dt.toLocaleTimeString('nb-NO', {hour:'2-digit', minute:'2-digit'});
+    return `
+      <div class="comp-item ${onTime?'on-time':'late'}">
+        <div class="comp-icon">${onTime?'✅':'⏰'}</div>
+        <div class="comp-info">
+          <div class="comp-date">${dateStr} kl. ${timeStr}</div>
+          <div class="comp-tasks">${c.tasks_done} av ${c.tasks_total} oppgaver${c.deadline?' · Frist '+c.deadline:''}</div>
+        </div>
+        <div class="comp-margin">${fmtMargin(c.margin_sec)}</div>
+      </div>`;
+  }).join('');
+  return `
+    <div class="logo"><h1>Stepster ⭐</h1><p>${S.activeRoom?.name||'Logg'}</p></div>
+    <div class="view">
+      <div class="card">
+        <h2>📓 Fullføringslogg</h2>
+        <p style="font-size:0.8rem;color:#888;margin-bottom:0.8rem">Viser de 30 siste fullføringene</p>
+        ${S.completions.length ? items : `<p class="muted" style="text-align:center;padding:1rem">Ingen fullføringer ennå</p>`}
+      </div>
+    </div>
+    <div class="bnav">
+      <button class="bnav-btn" onclick="goSetup()"><span class="bnav-icon">✏️</span>Rediger</button>
+      <button class="bnav-btn" onclick="goStatus()"><span class="bnav-icon">👀</span>Status</button>
+      <button class="bnav-btn" onclick="goStatsParent()"><span class="bnav-icon">📈</span>Statistikk</button>
+      <button class="bnav-btn active"><span class="bnav-icon">📓</span>Logg</button>
+    </div>`;
+}
+
 function dateKey(d){return d.toISOString().split('T')[0];}
 function getWeekDays(){const t=new Date(),d=[];for(let i=6;i>=0;i--){const x=new Date(t);x.setDate(t.getDate()-i);d.push({key:dateKey(x),label:DAYS[x.getDay()===0?6:x.getDay()-1]});}return d;}
 function motMsg(onTime,total){
@@ -821,26 +844,28 @@ async function saveAndLink(){
   }catch(e){S.error='Kunne ikke lagre.';S.saving=false;render();}
 }
 
-async function toggleTask(id){
-  const was=!!S.checkedIds[id];
-  if(was){
+async function toggleTask(id) {
+  if (S.locked) return;
+  const was = !!S.checkedIds[id];
+  if (was) {
     delete S.checkedIds[id];
-    S.completionLogged=false; // Tillat ny logging hvis de huker av igjen
   } else {
-    S.checkedIds[id]=true;
+    S.checkedIds[id] = true;
   }
-  playTap();render();
-  try{await api('check',{taskId:id,checked:!was},null,S.listKey);}catch(e){S.error='Lagring feilet.';render();}
+  playTap(); render();
+  try { await api('check', {taskId:id, checked:!was}, null, S.listKey); } catch(e) { S.error='Lagring feilet.'; render(); }
 
-  // Sjekk om alle er ferdig — logg fullføring
-  if (!was && S.tasks.every(t=>S.checkedIds[t.id]) && !S.completionLogged) {
-    S.completionLogged = true;
-    confetti();
+  // Sjekk om alle er ferdig — lås og logg
+  if (!was && S.tasks.every(t=>S.checkedIds[t.id])) {
     const ts = getTimeStatus();
     const marginSec = ts.remSec !== null ? ts.remSec : null;
+    S.completionMarginSec = marginSec;
+    S.locked = true;
+    confetti();
+    render();
+    // Logg til database
     try {
       await api('logCompletion', {
-        roomId:     S.activeRoom?.id || null,
         tasksDone:  S.tasks.length,
         tasksTotal: S.tasks.length,
         deadline:   S.deadline,
@@ -850,7 +875,18 @@ async function toggleTask(id){
   }
 }
 
-function goLists(){S.view='lists';stopIntervals();S.activeRoom=null;S.tasks=[];S.checkedIds={};S.completionLogged=false;render();}
+async function resetDay() {
+  try {
+    await api('resetDay', {}, null, S.listKey);
+    S.checkedIds = {};
+    S.locked = false;
+    S.completionMarginSec = null;
+    S.lastMinuteTick = -1;
+    render();
+  } catch(e) { S.error='Kunne ikke starte på nytt.'; render(); }
+}
+
+function goLists(){S.view='lists';stopIntervals();S.activeRoom=null;S.tasks=[];S.checkedIds={};S.locked=false;S.completionMarginSec=null;render();}
 function goSetup(){S.view='setup';stopIntervals();render();}
 async function goStatus(){
   S.view='status';stopIntervals();render();
@@ -870,7 +906,6 @@ function stopIntervals(){if(S.pollInterval){clearInterval(S.pollInterval);S.poll
 function playTap(){try{const c=new(AudioContext||webkitAudioContext)();[523,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(0.2,c.currentTime+i*0.08);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.08+0.15);o.start(c.currentTime+i*0.08);o.stop(c.currentTime+i*0.08+0.2);});}catch(e){}}
 function confetti(){const c=['#f9d71c','#ff6b6b','#c77dff','#10b981','#ff8c42','#60a5fa'];for(let i=0;i<70;i++){setTimeout(()=>{const el=document.createElement('div');el.className='cp';el.style.cssText=`left:${Math.random()*100}vw;background:${c[Math.floor(Math.random()*c.length)]};animation-duration:${1.5+Math.random()*2}s;`;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);},i*35);}}
 
-// ── INIT ──────────────────────────────────────────────────────
 async function init(){
   const params  = new URLSearchParams(location.search);
   const listKey = params.get('listKey');
@@ -881,8 +916,9 @@ async function init(){
     try{
       await loadRoom(null,listKey);
       S.loading=false; render();
-    }catch(e){S.error='Kunne ikke laste oppgaver. Sjekk internett.';S.loading=false;render();}
+    }catch(e){S.error='Kunne ikke laste oppgaver.';S.loading=false;render();}
     S.pollInterval=setInterval(async()=>{
+      if (S.locked) return; // Ikke poll når låst
       try{
         const prev={...S.checkedIds};
         await loadRoom(null,listKey);
