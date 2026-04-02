@@ -5,9 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="StarTask">
+<meta name="apple-mobile-web-app-title" content="Stepster">
 <meta name="theme-color" content="#1a1a2e">
-<title>StarTask ⭐</title>
+<title>Stepster ⭐</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; background: #1a1a2e; color: #fff; overflow-x: hidden; }
@@ -20,7 +20,7 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; backgr
 .card { background: #16213e; border-radius: 16px; padding: 1.1rem; margin-bottom: 0.9rem; border: 1px solid #0f3460; }
 .card h2 { font-size: 0.95rem; color: #c77dff; margin-bottom: 0.8rem; display:flex; align-items:center; gap:6px; }
 
-input[type=text], input[type=number], input[type=password], input[type=time] {
+input[type=text], input[type=number], input[type=email], input[type=time] {
   background: #0f3460; border: 1px solid #1a4a8a; border-radius: 10px;
   padding: 9px 12px; color: #fff; font-size: 0.9rem; outline: none; width: 100%;
 }
@@ -28,13 +28,13 @@ input:focus { border-color: #c77dff; }
 input::placeholder { color: #555; }
 input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .row { display:flex; gap:8px; align-items:center; }
-.row input[type=text] { flex:1; }
-.row input[type=number] { width:62px; text-align:center; }
+.row input { flex:1; }
 
 .btn { border:none; border-radius:10px; padding:9px 16px; font-size:0.9rem; font-weight:600; cursor:pointer; transition:transform 0.12s; }
 .btn:active { transform:scale(0.96); }
 .btn-purple { background:#7c3aed; color:#fff; }
 .btn-gray   { background:#0f3460; color:#aaa; }
+.btn-red    { background:#7f1d1d; color:#fca5a5; }
 .btn-gold   { background:linear-gradient(135deg,#f9d71c,#ff8c42); color:#1a1a2e; font-weight:800; }
 .btn-gold:disabled { opacity:0.35; cursor:default; transform:none; }
 .btn-sm   { padding:6px 12px; font-size:0.8rem; border-radius:8px; }
@@ -61,10 +61,19 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .prog-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,#10b981,#f9d71c); transition:width 0.5s; }
 .prog-txt { text-align:right; font-size:0.78rem; color:#888; margin-top:3px; }
 
-.pstat-task { display:flex; align-items:center; background:#16213e; border-radius:12px; padding:11px 14px; gap:10px; border:1.5px solid transparent; transition:border 0.3s; margin-bottom:7px; }
+.pstat-task { display:flex; align-items:center; background:#16213e; border-radius:12px; padding:11px 14px; gap:10px; border:1.5px solid transparent; margin-bottom:7px; }
 .pstat-task.done { border-color:#10b981; background:#0d2418; }
 .pstat-task.done .ptn { text-decoration:line-through; color:#555; }
 .ptn { flex:1; font-size:0.95rem; }
+
+/* ── LISTS ── */
+.list-item { background:#16213e; border-radius:14px; padding:1rem 1.1rem; display:flex; align-items:center; gap:12px; border:1.5px solid #0f3460; cursor:pointer; margin-bottom:10px; transition:border 0.2s; }
+.list-item:hover { border-color:#7c3aed; }
+.list-icon { font-size:2rem; }
+.list-info { flex:1; }
+.list-name { font-size:1rem; font-weight:700; }
+.list-meta { font-size:0.78rem; color:#888; margin-top:3px; }
+.list-arrow { color:#555; font-size:1.2rem; }
 
 /* ── CHILD HEADER ── */
 .child-header { padding:1.5rem 1rem 1.2rem; text-align:center; transition:background 0.5s; }
@@ -86,7 +95,7 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .cw-main.red   .cw-time { color:#ef4444; }
 .cw-main.over  .cw-time { color:#c77dff; }
 .cw-info { flex:1; display:flex; flex-direction:column; gap:5px; }
-.cw-label { font-size:0.78rem; color:#aaa; }
+.cw-label  { font-size:0.78rem; color:#aaa; }
 .cw-status { font-size:0.95rem; font-weight:700; }
 .cw-main.green .cw-status { color:#10b981; }
 .cw-main.red   .cw-status { color:#ef4444; }
@@ -113,9 +122,9 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .child-task.done .ct-check { background:#10b981; border-color:#10b981; }
 
 /* ── LOGIN ── */
-.login-wrap { max-width:380px; margin:0 auto; padding:2rem 1.5rem 5rem; }
+.login-wrap { max-width:400px; margin:0 auto; padding:2rem 1.5rem 5rem; }
 .login-logo { text-align:center; padding:2rem 0 1.5rem; }
-.login-logo h1 { font-size:2.5rem; font-weight:800; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.login-logo h1 { font-size:2.8rem; font-weight:800; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 .login-logo p { color:#888; font-size:0.9rem; margin-top:6px; }
 .pin-dots { display:flex; gap:10px; justify-content:center; margin:1rem 0; }
 .pin-dot { width:16px; height:16px; border-radius:50%; border:2px solid #555; transition:all 0.2s; }
@@ -125,9 +134,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .pin-btn:active { background:#0f3460; transform:scale(0.95); }
 .pin-btn.del { font-size:1rem; color:#888; }
 .pin-btn.empty { background:transparent; border:none; cursor:default; }
-.room-input-big { background:#0f3460; border:2px solid #1a4a8a; border-radius:12px; padding:12px 16px; color:#fff; font-size:1.2rem; font-weight:800; letter-spacing:4px; text-transform:uppercase; outline:none; width:100%; text-align:center; }
-.room-input-big:focus { border-color:#c77dff; }
-.room-input-big::placeholder { color:#444; font-size:0.85rem; letter-spacing:1px; font-weight:400; }
 
 /* ── STATS ── */
 .all-done { text-align:center; padding:1.5rem 1rem; }
@@ -137,17 +143,14 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .week-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-top:0.6rem; }
 .day-cell { background:#0f3460; border-radius:8px; padding:8px 4px; text-align:center; }
 .day-label { font-size:0.68rem; color:#888; margin-bottom:4px; }
-.day-stars-on  { font-size:0.82rem; color:#f9d71c; font-weight:700; min-height:1.1em; }
+.day-stars-on   { font-size:0.82rem; color:#f9d71c; font-weight:700; min-height:1.1em; }
 .day-stars-late { font-size:0.82rem; color:#f59e0b; opacity:0.6; min-height:1.1em; }
 .day-cell.today { border:1.5px solid #c77dff; }
-
 .stat-row { display:flex; gap:8px; margin-bottom:0.6rem; }
 .stat-box { flex:1; background:#0f3460; border-radius:10px; padding:10px; text-align:center; }
 .stat-num { font-size:1.4rem; font-weight:800; color:#f9d71c; }
 .stat-lbl { font-size:0.72rem; color:#888; margin-top:2px; }
-
 .legend { display:flex; gap:14px; margin-top:8px; font-size:0.78rem; color:#888; justify-content:center; }
-.legend span { display:flex; align-items:center; gap:4px; }
 
 .bnav { position:fixed; bottom:0; left:0; right:0; background:#16213e; border-top:1px solid #0f3460; display:flex; z-index:100; }
 .bnav-btn { flex:1; padding:10px 6px; background:none; border:none; color:#666; font-size:0.72rem; cursor:pointer; display:flex; flex-direction:column; align-items:center; gap:2px; }
@@ -168,6 +171,9 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .quick-btns  { display:flex; gap:5px; flex-wrap:wrap; margin-top:8px; }
 .quick-btn   { background:#0f3460; border:1px solid #1a4a8a; border-radius:8px; padding:4px 9px; color:#aaa; font-size:0.72rem; cursor:pointer; }
 .muted { color:#888; font-size:0.8rem; }
+.tab-row { display:flex; gap:8px; margin-bottom:1rem; }
+.tab { flex:1; padding:9px; border-radius:10px; border:1.5px solid #0f3460; background:#16213e; color:#888; font-size:0.88rem; font-weight:600; cursor:pointer; text-align:center; }
+.tab.active { border-color:#7c3aed; color:#c77dff; background:#1a0a3a; }
 </style>
 </head>
 <body>
@@ -183,23 +189,35 @@ const DAYS   = ['Man','Tir','Ons','Tor','Fre','Lør','Søn'];
 const GRACE_MINUTES = 30;
 
 const S = {
-  view:'login',
-  tasks:[], checkedIds:{},
-  roomKey:null, childRoomKey:null, childKey:null,
-  taskInput:'', taskMins:5, taskEmoji:'⭐',
-  childName:'Barnet', weekStats:[],
-  deadline:null, deadlineInput:'07:30',
-  customRoomCode:'', pinInput:'', pinStep:'room',
-  pollInterval:null, tickInterval:null,
-  lastMinuteTick:-1, lastTickState:'green',
-  saving:false, loading:false, error:null, ok:null,
+  view: 'login',       // login | lists | setup | status | child | stats
+  loginTab: 'login',   // login | register
+  pinInput: '',
+  emailInput: '',
+  userId: null,
+
+  lists: [],           // alle oppgavelister for bruker
+  activeRoom: null,    // { id, name, child_name, deadline, child_key, task_count }
+
+  tasks: [], checkedIds: {},
+  taskInput: '', taskMins: 5, taskEmoji: '⭐',
+  deadlineInput: '07:30',
+  newListName: '', newChildName: '', newDeadline: '07:30',
+  showNewList: false,
+
+  deadline: null,
+  childRoomKey: null, childKey: null,
+  weekStats: [],
+
+  pollInterval: null, tickInterval: null,
+  lastMinuteTick: -1,
+  saving: false, loading: false, error: null, ok: null,
 };
 
 // ── LOCALSTORAGE ──────────────────────────────────────────────
 function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
-function saveSession(r){lsSet('st_room',r);}
-function loadSession(){return lsGet('st_room');}
+function saveSession(){lsSet('sp_uid', S.userId);}
+function loadSession(){return lsGet('sp_uid');}
 
 // ── DEADLINE PARSING ──────────────────────────────────────────
 function parseDeadline(dl) {
@@ -221,9 +239,7 @@ function getDeadlineMs(dl) {
   return d.getTime();
 }
 
-// ── TRAFIKKLYS — 1:1 logikk ───────────────────────────────────
-// Grønn: tid igjen (sekunder) > gjenstående oppgavetid (sekunder)
-// Rød:   tid igjen ≤ gjenstående oppgavetid
+// ── TRAFIKKLYS 1:1 ───────────────────────────────────────────
 function getTimeStatus() {
   if (!S.deadline) return { state:'green', remSec:null };
   const now     = Date.now();
@@ -233,9 +249,7 @@ function getTimeStatus() {
   const remSec = Math.floor((dlMs - now) / 1000);
   if (now > dlMs) return { state:'over', remSec: -Math.floor((now-dlMs)/1000) };
   const remainingSec = S.tasks.filter(t=>!S.checkedIds[t.id]).reduce((s,t)=>s+t.mins,0) * 60;
-  // 1:1 sammenligning — grønn hvis tid igjen > oppgavetid, rød ellers
-  const state = remSec > remainingSec ? 'green' : 'red';
-  return { state, remSec, remainingSec };
+  return { state: remSec > remainingSec ? 'green' : 'red', remSec, remainingSec };
 }
 
 function fmtTime(sec) {
@@ -253,31 +267,28 @@ function playMinuteTick(isRed) {
   try {
     const ctx = new(AudioContext||webkitAudioContext)();
     if (isRed) {
-      // Mer intens lyd når rød — tre raske toner
-      [880, 660, 440].forEach((f,i) => {
-        const o=ctx.createOscillator(), g=ctx.createGain();
-        o.connect(g); g.connect(ctx.destination);
-        o.frequency.value=f; o.type='sine';
-        g.gain.setValueAtTime(0.3, ctx.currentTime+i*0.1);
-        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+i*0.1+0.15);
-        o.start(ctx.currentTime+i*0.1); o.stop(ctx.currentTime+i*0.1+0.2);
+      [880,660,440].forEach((f,i)=>{
+        const o=ctx.createOscillator(),g=ctx.createGain();
+        o.connect(g);g.connect(ctx.destination);
+        o.frequency.value=f;o.type='sine';
+        g.gain.setValueAtTime(0.3,ctx.currentTime+i*0.1);
+        g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+i*0.1+0.15);
+        o.start(ctx.currentTime+i*0.1);o.stop(ctx.currentTime+i*0.1+0.2);
       });
     } else {
-      // Diskret lyd når grønn — én myk tone
-      const o=ctx.createOscillator(), g=ctx.createGain();
-      o.connect(g); g.connect(ctx.destination);
-      o.frequency.value=523; o.type='sine';
-      g.gain.setValueAtTime(0.1, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime+0.3);
-      o.start(ctx.currentTime); o.stop(ctx.currentTime+0.35);
+      const o=ctx.createOscillator(),g=ctx.createGain();
+      o.connect(g);g.connect(ctx.destination);
+      o.frequency.value=523;o.type='sine';
+      g.gain.setValueAtTime(0.1,ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.3);
+      o.start(ctx.currentTime);o.stop(ctx.currentTime+0.35);
     }
-  } catch(e) {}
+  } catch(e){}
 }
 
 function checkMinuteTick(ts) {
-  if (!S.deadline || ts.state === 'expired' || ts.remSec === null) return;
+  if (!S.deadline || ts.state==='expired' || ts.remSec===null) return;
   const currentMinute = Math.floor(Math.abs(ts.remSec) / 60);
-  // Spill lyd når minuttet skifter (og ikke ved oppstart)
   if (currentMinute !== S.lastMinuteTick && S.lastMinuteTick !== -1) {
     playMinuteTick(ts.state === 'red');
   }
@@ -285,7 +296,7 @@ function checkMinuteTick(ts) {
 }
 
 // ── API ───────────────────────────────────────────────────────
-async function api(action, roomId, body, childKey) {
+async function api(action, body, roomId, childKey) {
   let url = `${API_URL}?action=${action}`;
   if (roomId)   url += `&room=${encodeURIComponent(roomId)}`;
   if (childKey) url += `&childKey=${encodeURIComponent(childKey)}`;
@@ -294,19 +305,22 @@ async function api(action, roomId, body, childKey) {
     headers: {'Content-Type':'application/json'},
     ...(body ? {body: JSON.stringify(body)} : {})
   });
-  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  if (!res.ok) {
+    const err = await res.json().catch(()=>({}));
+    throw new Error(err.error || `HTTP ${res.status}`);
+  }
   return res.json();
 }
 
 async function loadRoom(roomId, childKey) {
-  const rows = await api('getRoom', roomId, null, childKey);
+  const rows = await api('getRoom', null, roomId, childKey);
   if (!rows?.length) return false;
   S.childName = rows[0].child_name || 'Barnet';
   S.deadline  = parseDeadline(rows[0].deadline);
   const m = {};
   rows.forEach(r => {
     if (!r.task_id) return;
-    if (!m[r.task_id]) m[r.task_id] = {id:r.task_id,name:r.name,emoji:r.emoji,mins:r.mins,order:r.sort_order};
+    if (!m[r.task_id]) m[r.task_id] = {id:r.task_id, name:r.task_name, emoji:r.emoji, mins:r.mins, order:r.sort_order};
     if (r.checked_at) S.checkedIds[r.task_id] = true;
   });
   S.tasks = Object.values(m).sort((a,b)=>a.order-b.order);
@@ -314,41 +328,37 @@ async function loadRoom(roomId, childKey) {
 }
 
 // ── RENDER ────────────────────────────────────────────────────
-function render(){
-  const app=document.getElementById('app');
-  if      (S.view==='login')         app.innerHTML=tplLogin();
-  else if (S.view==='parent-setup')  app.innerHTML=tplSetup();
-  else if (S.view==='parent-status') app.innerHTML=tplStatus();
-  else if (S.view==='child')         app.innerHTML=tplChild();
-  else if (S.view==='stats')         app.innerHTML=tplStats();
+function render() {
+  const app = document.getElementById('app');
+  if      (S.view==='login')  app.innerHTML = tplLogin();
+  else if (S.view==='lists')  app.innerHTML = tplLists();
+  else if (S.view==='setup')  app.innerHTML = tplSetup();
+  else if (S.view==='status') app.innerHTML = tplStatus();
+  else if (S.view==='child')  app.innerHTML = tplChild();
+  else if (S.view==='stats')  app.innerHTML = tplStats();
 }
 
-// ── LOGIN ─────────────────────────────────────────────────────
-function tplLogin(){
-  const savedRoom=loadSession();
-  const dots=[0,1,2,3].map(i=>`<div class="pin-dot ${i<S.pinInput.length?'filled':''}"></div>`).join('');
-
-  if(S.pinStep==='room') return`
+// ── LOGIN / REGISTER ──────────────────────────────────────────
+function tplLogin() {
+  const dots = [0,1,2,3].map(i=>`<div class="pin-dot ${i<S.pinInput.length?'filled':''}"></div>`).join('');
+  return `
     <div class="login-wrap">
-      <div class="login-logo"><h1>⭐ StarTask</h1><p>Logg inn med romkode og PIN</p></div>
-      ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
-      <div class="card">
-        <h2>🔑 Romkode</h2>
-        <input class="room-input-big" type="text" placeholder="F.eks. EMMA" value="${S.customRoomCode}" oninput="S.customRoomCode=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').substring(0,12)" maxlength="12">
-        ${savedRoom?`<div style="margin-top:8px;font-size:0.78rem;color:#888">Sist brukt: <button onclick="S.customRoomCode='${savedRoom}';render()" style="background:none;border:none;color:#c77dff;cursor:pointer;font-size:0.78rem;text-decoration:underline">${savedRoom}</button></div>`:''}
+      <div class="login-logo">
+        <h1>Stepster</h1>
+        <p>Gjør morgenstell til en lek! ⭐</p>
       </div>
-      <button class="btn btn-gold btn-full" onclick="goToPinEntry()" ${!S.customRoomCode?'disabled':''}>Neste →</button>
-      <div style="text-align:center;margin-top:1.5rem;">
-        <button onclick="goToNewRoom()" style="background:none;border:none;color:#c77dff;cursor:pointer;font-size:0.85rem;text-decoration:underline">Lag nytt rom</button>
+      <div class="tab-row">
+        <button class="tab ${S.loginTab==='login'?'active':''}" onclick="S.loginTab='login';S.pinInput='';S.error=null;render()">Logg inn</button>
+        <button class="tab ${S.loginTab==='register'?'active':''}" onclick="S.loginTab='register';S.pinInput='';S.error=null;render()">Registrer deg</button>
       </div>
-    </div>`;
-
-  if(S.pinStep==='pin') return`
-    <div class="login-wrap">
-      <div class="login-logo"><h1>⭐ StarTask</h1><p>ROM: <strong style="color:#f9d71c">${S.customRoomCode}</strong></p></div>
       ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
+      ${S.ok?`<div class="success-box">✅ ${S.ok}</div>`:''}
       <div class="card">
-        <h2>🔐 Skriv inn PIN</h2>
+        <h2>📧 ${S.loginTab==='login'?'Din epostadresse':'Velg epostadresse'}</h2>
+        <input type="email" placeholder="navn@epost.no" value="${S.emailInput}" oninput="S.emailInput=this.value">
+      </div>
+      <div class="card">
+        <h2>🔐 ${S.loginTab==='login'?'PIN-kode':'Velg PIN-kode (4 siffer)'}</h2>
         <div class="pin-dots">${dots}</div>
         <div class="pin-pad">
           ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="pin-btn" onclick="pinPress(${n})">${n}</button>`).join('')}
@@ -357,109 +367,154 @@ function tplLogin(){
           <button class="pin-btn del" onclick="pinDel()">⌫</button>
         </div>
       </div>
-      <button onclick="S.pinStep='room';S.pinInput='';S.error=null;render()" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;width:100%;text-align:center;margin-top:0.5rem">← Tilbake</button>
     </div>`;
+}
 
-  if(S.pinStep==='new') return`
-    <div class="login-wrap">
-      <div class="login-logo"><h1>⭐ StarTask</h1><p>Opprett nytt rom</p></div>
-      ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
-      <div class="card">
-        <h2>👶 Barnets navn</h2>
-        <input type="text" value="${S.childName}" placeholder="F.eks. Emma" oninput="S.childName=this.value">
+function pinPress(n) {
+  if (S.pinInput.length >= 4) return;
+  S.pinInput += n; render();
+  if (S.pinInput.length === 4) {
+    if (S.loginTab === 'login') doLogin();
+    else doRegister();
+  }
+}
+function pinDel() { S.pinInput = S.pinInput.slice(0,-1); render(); }
+
+async function doLogin() {
+  if (!S.emailInput) { S.error='Skriv inn epostadresse'; S.pinInput=''; render(); return; }
+  S.error=null;
+  try {
+    const r = await api('login', {email:S.emailInput, pin:S.pinInput});
+    S.userId = r.userId;
+    saveSession();
+    await fetchLists();
+    S.view = 'lists'; render();
+  } catch(e) { S.error = e.message; S.pinInput=''; render(); }
+}
+
+async function doRegister() {
+  if (!S.emailInput) { S.error='Skriv inn epostadresse'; S.pinInput=''; render(); return; }
+  S.error=null;
+  try {
+    const r = await api('register', {email:S.emailInput, pin:S.pinInput});
+    S.userId = r.userId;
+    saveSession();
+    S.lists = [];
+    S.view = 'lists'; render();
+  } catch(e) { S.error = e.message; S.pinInput=''; render(); }
+}
+
+// ── OPPGAVELISTER ─────────────────────────────────────────────
+async function fetchLists() {
+  const r = await api('getLists', {userId: S.userId});
+  S.lists = r || [];
+}
+
+function tplLists() {
+  const listItems = S.lists.map(l => `
+    <div class="list-item" onclick="openList('${l.id}')">
+      <div class="list-icon">📋</div>
+      <div class="list-info">
+        <div class="list-name">${l.name}</div>
+        <div class="list-meta">${l.child_name} · ${l.task_count||0} oppgaver${l.deadline?' · Frist '+parseDeadline(l.deadline):''}</div>
       </div>
-      <div class="card">
-        <h2>🔑 Velg romkode</h2>
-        <input class="room-input-big" type="text" placeholder="F.eks. EMMA (la stå for tilfeldig)" value="${S.customRoomCode}" oninput="S.customRoomCode=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'').substring(0,12)" maxlength="12">
-        <div style="font-size:0.75rem;color:#888;margin-top:5px;text-align:center">Kun bokstaver og tall. Tomt = tilfeldig kode.</div>
-      </div>
-      <div class="card">
-        <h2>🔐 Velg PIN-kode (4 siffer)</h2>
-        <div class="pin-dots">${[0,1,2,3].map(i=>`<div class="pin-dot ${i<S.pinInput.length?'filled':''}"></div>`).join('')}</div>
-        <div class="pin-pad">
-          ${[1,2,3,4,5,6,7,8,9].map(n=>`<button class="pin-btn" onclick="pinPress(${n})">${n}</button>`).join('')}
-          <button class="pin-btn empty"></button>
-          <button class="pin-btn" onclick="pinPress(0)">0</button>
-          <button class="pin-btn del" onclick="pinDel()">⌫</button>
+      <div class="list-arrow">›</div>
+    </div>`).join('');
+
+  const newListForm = S.showNewList ? `
+    <div class="card">
+      <h2>✨ Ny oppgaveliste</h2>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div>
+          <span class="section-lbl">Navn på listen (f.eks. "Morgenrutine")</span>
+          <input type="text" placeholder="Morgenrutine" value="${S.newListName}" oninput="S.newListName=this.value">
+        </div>
+        <div>
+          <span class="section-lbl">Barnets navn</span>
+          <input type="text" placeholder="F.eks. Emma" value="${S.newChildName}" oninput="S.newChildName=this.value">
+        </div>
+        <div>
+          <span class="section-lbl">Frist (klokkeslett)</span>
+          <input type="time" value="${S.newDeadline}" oninput="S.newDeadline=this.value">
+        </div>
+        <div class="row">
+          <button class="btn btn-gold" onclick="createList()" ${(!S.newListName||!S.newChildName)?'disabled':''}>Opprett</button>
+          <button class="btn btn-gray" onclick="S.showNewList=false;render()">Avbryt</button>
         </div>
       </div>
-      <button class="btn btn-gold btn-full" onclick="createNewRoom()" ${S.pinInput.length<4||!S.childName?'disabled':''}>Opprett rom →</button>
-      <button onclick="S.pinStep='room';S.pinInput='';S.error=null;render()" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.85rem;width:100%;text-align:center;margin-top:0.8rem">← Tilbake</button>
+    </div>` : `
+    <button class="btn btn-purple btn-full" onclick="S.showNewList=true;render()">+ Ny oppgaveliste</button>`;
+
+  return `
+    <div class="logo"><h1>Stepster ⭐</h1><p>Velg oppgaveliste</p></div>
+    <div class="view">
+      ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
+      ${S.ok?`<div class="success-box">✅ ${S.ok}</div>`:''}
+      ${S.lists.length ? listItems : `<div class="card" style="text-align:center;color:#888;padding:2rem">Du har ingen oppgavelister ennå.<br>Opprett din første nedenfor!</div>`}
+      ${newListForm}
+      <div style="text-align:center;margin-top:1.5rem;">
+        <button onclick="doLogout()" style="background:none;border:none;color:#555;cursor:pointer;font-size:0.82rem;text-decoration:underline">Logg ut</button>
+      </div>
     </div>`;
-  return '';
 }
 
-function pinPress(n){
-  if(S.pinInput.length>=4)return;
-  S.pinInput+=n;render();
-  if(S.pinInput.length===4&&S.pinStep==='pin')doLogin();
-}
-function pinDel(){S.pinInput=S.pinInput.slice(0,-1);render();}
-
-async function goToPinEntry(){
-  if(!S.customRoomCode)return;
-  S.error=null;
-  try{const r=await api('checkRoom',S.customRoomCode);if(!r.exists){S.error=`Fant ikke rom «${S.customRoomCode}». Sjekk koden eller lag nytt rom.`;render();return;}S.pinStep='pin';S.pinInput='';render();}
-  catch(e){S.error='Kunne ikke koble til. Sjekk internett.';render();}
-}
-function goToNewRoom(){S.pinStep='new';S.pinInput='';S.customRoomCode='';S.error=null;render();}
-
-async function doLogin(){
-  S.error=null;
-  try{
-    const r=await api('login',S.customRoomCode,{pin:S.pinInput});
-    if(r.ok){
-      S.roomKey=S.customRoomCode;S.childRoomKey=r.childKey;
-      saveSession(S.roomKey);
-      await loadRoom(S.roomKey,null);
-      S.deadlineInput=S.deadline||'07:30';
-      updateParentUrl(S.roomKey);
-      S.view='parent-setup';render();
-    }
-  }catch(e){S.error='Feil PIN eller romkode. Prøv igjen.';S.pinInput='';render();}
+async function createList() {
+  if (!S.newListName || !S.newChildName) return;
+  S.error=null; S.saving=true; render();
+  try {
+    const r = await api('createList', {
+      userId:    S.userId,
+      name:      S.newListName,
+      childName: S.newChildName,
+      deadline:  S.newDeadline
+    });
+    S.newListName=''; S.newChildName=''; S.showNewList=false;
+    await fetchLists();
+    S.saving=false;
+    S.ok='Oppgaveliste opprettet!';
+    render();
+    setTimeout(()=>{S.ok=null;render();},3000);
+  } catch(e) { S.error=e.message; S.saving=false; render(); }
 }
 
-async function createNewRoom(){
-  if(S.pinInput.length<4||!S.childName)return;
-  S.error=null;S.saving=true;render();
-  try{
-    const key=S.customRoomCode||genKey();
-    const exists=await api('checkRoom',key);
-    if(exists.exists){S.error=`Romkoden «${key}» er allerede i bruk. Velg en annen.`;S.saving=false;render();return;}
-    const r=await api('saveRoom',key,{childName:S.childName,tasks:[],pin:S.pinInput,deadline:S.deadlineInput,childKey:null});
-    S.roomKey=key;S.childRoomKey=r.childKey;S.customRoomCode=key;
-    saveSession(key);updateParentUrl(key);
-    S.saving=false;S.view='parent-setup';render();
-  }catch(e){S.error='Kunne ikke opprette rom. Sjekk internett.';S.saving=false;render();}
+async function openList(roomId) {
+  S.error=null; S.loading=true; S.checkedIds={};
+  S.activeRoom = S.lists.find(l=>l.id===roomId);
+  S.childRoomKey = S.activeRoom?.child_key;
+  render();
+  try {
+    await loadRoom(roomId, null);
+    S.deadlineInput = S.deadline || '07:30';
+    S.loading=false;
+    S.view='setup'; render();
+  } catch(e) { S.error='Kunne ikke laste liste.'; S.loading=false; render(); }
 }
 
 // ── PARENT SETUP ──────────────────────────────────────────────
-function tplSetup(){
-  const rows=S.tasks.map((t,i)=>`
+function tplSetup() {
+  if (S.loading) return `<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster...</p></div>`;
+  const rows = S.tasks.map((t,i)=>`
     <li class="task-item">
       <span>${t.emoji}</span><span class="task-name">${t.name}</span>
       <span class="tag">${t.mins} min</span>
       <button class="btn-icon" onclick="removeTask(${i})">✕</button>
     </li>`).join('');
-  const totalMins=S.tasks.reduce((s,t)=>s+t.mins,0);
-  const linkBox=S.childRoomKey?`
+  const totalMins = S.tasks.reduce((s,t)=>s+t.mins,0);
+  const linkBox = S.childRoomKey ? `
     <div class="link-box">
-      <p>📱 Send denne lenken til ${S.childName} — lenken er alltid den samme:</p>
+      <p>📱 Send denne lenken til ${S.childName||'barnet'} — lenken er alltid den samme:</p>
       <div class="link-url">${childLink()}</div>
       <div class="copy-row">
-        <button class="btn btn-purple btn-sm" onclick="copyChildLink()">📋 Kopier til barnet</button>
+        <button class="btn btn-purple btn-sm" onclick="copyChildLink()">📋 Kopier lenke</button>
         <button class="btn btn-gray btn-sm" onclick="goStatus()">👀 Se status</button>
       </div>
     </div>` : '';
-  return`
-    <div class="logo"><h1>⭐ StarTask</h1><p>Rom: <strong style="color:#f9d71c">${S.roomKey}</strong></p></div>
+
+  return `
+    <div class="logo"><h1>Stepster ⭐</h1><p>${S.activeRoom?.name||'Oppgaveliste'}</p></div>
     <div class="view">
       ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
       ${S.ok?`<div class="success-box">✅ ${S.ok}</div>`:''}
-      <div class="card">
-        <h2>👶 Barnets navn</h2>
-        <input type="text" value="${S.childName}" placeholder="F.eks. Emma" oninput="S.childName=this.value">
-      </div>
       <div class="card">
         <h2>⏰ Frist — alt skal være ferdig innen:</h2>
         <input type="time" value="${S.deadlineInput}" oninput="S.deadlineInput=this.value" style="font-size:1.3rem;font-weight:800;text-align:center;padding:12px;">
@@ -471,7 +526,7 @@ function tplSetup(){
         <div class="emoji-row">${EMOJIS.map(e=>`<div class="ep ${S.taskEmoji===e?'sel':''}" onclick="selEmoji('${e}')">${e}</div>`).join('')}</div>
         <div class="row">
           <input type="text" id="ti" placeholder="Hva skal gjøres?" value="${S.taskInput}" oninput="S.taskInput=this.value" onkeydown="if(event.key==='Enter')addTask()">
-          <input type="number" id="tm" value="${S.taskMins}" min="1" max="60" oninput="S.taskMins=parseInt(this.value)||1" style="width:62px">
+          <input type="number" id="tm" value="${S.taskMins}" min="1" max="60" oninput="S.taskMins=parseInt(this.value)||1" style="width:62px;flex:none">
           <span class="muted" style="flex-shrink:0">min</span>
           <button class="btn-add" onclick="addTask()">+</button>
         </div>
@@ -483,22 +538,22 @@ function tplSetup(){
         <ul class="task-list">${rows}</ul>
       </div>`:''}
       <button class="btn btn-gold btn-full" ${(!S.tasks.length||S.saving)?'disabled':''} onclick="saveAndLink()">
-        ${S.saving?'⏳ Lagrer...':'🚀 Lagre og lag lenke til '+(S.childName||'barnet')+'!'}
+        ${S.saving?'⏳ Lagrer...':'🚀 Lagre oppgaveliste'}
       </button>
       ${linkBox}
       <div style="text-align:center;margin-top:1rem;">
-        <button onclick="doLogout()" style="background:none;border:none;color:#555;cursor:pointer;font-size:0.82rem;text-decoration:underline">Logg ut</button>
+        <button onclick="goLists()" style="background:none;border:none;color:#888;cursor:pointer;font-size:0.82rem;text-decoration:underline">← Tilbake til mine lister</button>
       </div>
     </div>`;
 }
 
 // ── PARENT STATUS ─────────────────────────────────────────────
-function tplStatus(){
-  const done=S.tasks.filter(t=>S.checkedIds[t.id]).length;
-  const pct=S.tasks.length?Math.round(done/S.tasks.length*100):0;
-  const rows=S.tasks.map(t=>{const d=!!S.checkedIds[t.id];return`<div class="pstat-task ${d?'done':''}"><span style="font-size:1.3rem">${t.emoji}</span><span class="ptn">${t.name}</span><span class="tag">${t.mins} min</span><span>${d?'✅':'⬜'}</span></div>`;}).join('');
-  return`
-    <div class="logo"><h1>⭐ StarTask</h1><p>Status for ${S.childName}</p></div>
+function tplStatus() {
+  const done = S.tasks.filter(t=>S.checkedIds[t.id]).length;
+  const pct  = S.tasks.length ? Math.round(done/S.tasks.length*100) : 0;
+  const rows = S.tasks.map(t=>{const d=!!S.checkedIds[t.id];return`<div class="pstat-task ${d?'done':''}"><span style="font-size:1.3rem">${t.emoji}</span><span class="ptn">${t.name}</span><span class="tag">${t.mins} min</span><span>${d?'✅':'⬜'}</span></div>`;}).join('');
+  return `
+    <div class="logo"><h1>Stepster ⭐</h1><p>${S.activeRoom?.name||'Status'}</p></div>
     <div class="view">
       <div class="card">
         <h2>📊 Fremgang</h2>
@@ -517,17 +572,15 @@ function tplStatus(){
 }
 
 // ── CHILD VIEW ────────────────────────────────────────────────
-function tplChild(){
-  if(S.loading)return`<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster oppgaver...</p></div>`;
-  const ts=getTimeStatus();
-
-  // Sjekk minutt-lyd
+function tplChild() {
+  if (S.loading) return `<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster oppgaver...</p></div>`;
+  const ts = getTimeStatus();
   checkMinuteTick(ts);
 
-  if(ts.state==='expired') return`
+  if (ts.state === 'expired') return `
     <div class="child-header over">
-      <h1>⭐ StarTask</h1>
-      <div class="greeting">Hei ${S.childName}!</div>
+      <h1>Stepster ⭐</h1>
+      <div class="greeting">Hei ${S.childName||''}!</div>
     </div>
     <div class="view" style="padding-top:1rem">
       <div class="no-tasks">
@@ -537,24 +590,24 @@ function tplChild(){
       </div>
     </div>`;
 
-  const done=S.tasks.filter(t=>S.checkedIds[t.id]).length;
-  const allDone=done===S.tasks.length&&S.tasks.length>0;
-  const remaining=S.tasks.filter(t=>!S.checkedIds[t.id]);
-  const next=remaining[0];
+  const done     = S.tasks.filter(t=>S.checkedIds[t.id]).length;
+  const allDone  = done === S.tasks.length && S.tasks.length > 0;
+  const remaining = S.tasks.filter(t=>!S.checkedIds[t.id]);
+  const next     = remaining[0];
+  const cwState  = ts.state === 'over' ? 'over' : ts.state;
 
-  let cwHtml='';
-  if(S.deadline){
-    const isOver=ts.state==='over';
-    const absSec=Math.abs(ts.remSec||0);
-    const cwState=ts.state==='over'?'over':ts.state;
-    let statusText='';
-    if(isOver)             statusText=`⚠️ Fristen er passert!`;
-    else if(ts.state==='red')   statusText=`🔴 Du rekker det IKKE — skynd deg!`;
-    else                        statusText=`🟢 Du rekker det fint — bra jobbet!`;
-    const remTaskText=remaining.length>0
-      ?`${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`
-      :'🎉 Alle oppgaver er gjort!';
-    cwHtml=`
+  let cwHtml = '';
+  if (S.deadline) {
+    const isOver   = ts.state === 'over';
+    const absSec   = Math.abs(ts.remSec||0);
+    let statusText = '';
+    if (isOver)             statusText = `⚠️ Fristen er passert!`;
+    else if (ts.state==='red')   statusText = `🔴 Du rekker det IKKE — skynd deg!`;
+    else                         statusText = `🟢 Du rekker det fint — bra jobbet!`;
+    const remTaskText = remaining.length > 0
+      ? `${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`
+      : '🎉 Alle oppgaver er gjort!';
+    cwHtml = `
       <div class="countdown-widget">
         <div class="cw-main ${cwState}">
           <div class="cw-time">${isOver?'-':''}${fmtTime(absSec)}</div>
@@ -564,11 +617,12 @@ function tplChild(){
             <div class="cw-tasks">${remTaskText}</div>
           </div>
         </div>
-      </div>`;}
+      </div>`;
+  }
 
-  const cards=S.tasks.map(t=>{
-    const isDone=!!S.checkedIds[t.id],isNext=!isDone&&t===next;
-    return`<div class="child-task ${isDone?'done':''} ${isNext?'next-up':''}" onclick="toggleTask('${t.id}')">
+  const cards = S.tasks.map(t=>{
+    const isDone = !!S.checkedIds[t.id], isNext = !isDone && t===next;
+    return `<div class="child-task ${isDone?'done':''} ${isNext?'next-up':''}" onclick="toggleTask('${t.id}')">
       <span class="ct-emoji">${t.emoji}</span>
       <div class="ct-info">
         <div class="ct-name">${t.name}</div>
@@ -578,10 +632,10 @@ function tplChild(){
     </div>`;
   }).join('');
 
-  return`
-    <div class="child-header ${ts.state==='over'?'over':ts.state}">
-      <h1>⭐ StarTask</h1>
-      <div class="greeting">Hei ${S.childName}! Du klarer dette! 💪</div>
+  return `
+    <div class="child-header ${cwState}">
+      <h1>Stepster ⭐</h1>
+      <div class="greeting">Hei ${S.childName||''}! Du klarer dette! 💪</div>
       <div class="stars-row">${'⭐'.repeat(done)}${'☆'.repeat(Math.max(0,S.tasks.length-done))}</div>
     </div>
     ${cwHtml}
@@ -597,39 +651,32 @@ function tplChild(){
 }
 
 // ── STATS ─────────────────────────────────────────────────────
-function tplStats(){
-  const today=dateKey(new Date()),week=getWeekDays();
-  const isChild=!!S.childKey;
-
-  // Totaler
-  const totalOnTime=S.weekStats.reduce((s,d)=>s+(d.stars_on_time||0),0);
-  const totalLate  =S.weekStats.reduce((s,d)=>s+(d.stars_late||0),0);
-  const total      =totalOnTime+totalLate;
-  const bestDay    =Math.max(0,...S.weekStats.map(d=>d.stars||0));
-
-  // Bygg oppslag per dag
-  const byDay={};
+function tplStats() {
+  const today = dateKey(new Date()), week = getWeekDays();
+  const isChild = !!S.childKey;
+  const totalOnTime = S.weekStats.reduce((s,d)=>s+(d.stars_on_time||0),0);
+  const totalLate   = S.weekStats.reduce((s,d)=>s+(d.stars_late||0),0);
+  const total       = totalOnTime + totalLate;
+  const bestDay     = Math.max(0,...S.weekStats.map(d=>d.stars||0));
+  const byDay = {};
   S.weekStats.forEach(d=>{byDay[d.checked_at]={onTime:d.stars_on_time||0,late:d.stars_late||0};});
 
-  const dayCells=week.map(d=>{
-    const data=byDay[d.key]||{onTime:0,late:0};
-    return`<div class="day-cell ${d.key===today?'today':''}">
+  const dayCells = week.map(d=>{
+    const data = byDay[d.key]||{onTime:0,late:0};
+    return `<div class="day-cell ${d.key===today?'today':''}">
       <div class="day-label">${d.label}</div>
       <div class="day-stars-on">${data.onTime>0?'⭐'.repeat(Math.min(data.onTime,5)):'—'}</div>
       <div class="day-stars-late">${data.late>0?'⏰'.repeat(Math.min(data.late,5)):''}</div>
     </div>`;
   }).join('');
 
-  return`
-    <div class="logo"><h1>⭐ StarTask</h1><p>${isChild?S.childName+'s':'Ukentlig'} statistikk</p></div>
+  return `
+    <div class="logo"><h1>Stepster ⭐</h1><p>${isChild?(S.childName||'')+'s statistikk':'Statistikk'}</p></div>
     <div class="view">
       <div class="card">
         <h2>📅 Denne uken</h2>
         <div class="week-grid">${dayCells}</div>
-        <div class="legend">
-          <span>⭐ Innenfor fristen</span>
-          <span>⏰ Etter fristen</span>
-        </div>
+        <div class="legend"><span>⭐ I tide</span><span>⏰ Etter frist</span></div>
       </div>
       <div class="stat-row">
         <div class="stat-box"><div class="stat-num">${totalOnTime}</div><div class="stat-lbl">I tide ⭐</div></div>
@@ -648,30 +695,27 @@ function tplStats(){
 // ── HELPERS ───────────────────────────────────────────────────
 function dateKey(d){return d.toISOString().split('T')[0];}
 function getWeekDays(){const t=new Date(),d=[];for(let i=6;i>=0;i--){const x=new Date(t);x.setDate(t.getDate()-i);d.push({key:dateKey(x),label:DAYS[x.getDay()===0?6:x.getDay()-1]});}return d;}
-function calcStreak(){let n=0;const d=new Date();for(let i=0;i<30;i++){if((S.weekStats.find(w=>w.checked_at===dateKey(d))?.stars||0)>0)n++;else if(i>0)break;d.setDate(d.getDate()-1);}return n;}
 function motMsg(onTime,total){
-  if(total===0) return 'Start i dag og tjen din første stjerne! 💪';
-  if(onTime>=total&&total>=5) return `Utrolig! ${onTime} stjerner i tide denne uken! Du er en ekte SuperHelt! 🦸`;
-  if(onTime>0&&onTime>=total*0.8) return `Kjempebra! ${onTime} av ${total} stjerner kom i tide! 🌟`;
-  if(total>=3) return `${total} oppgaver gjort! Prøv å få flere innenfor fristen neste gang! 💪`;
-  return 'Fortsett slik — du blir bedre for hver dag! ⭐';
+  if(total===0)return'Start i dag og tjen din første stjerne! 💪';
+  if(onTime>=total&&total>=5)return`Utrolig! ${onTime} stjerner i tide! Du er en ekte SuperHelt! 🦸`;
+  if(onTime>0&&onTime>=total*0.8)return`Kjempebra! ${onTime} av ${total} stjerner kom i tide! 🌟`;
+  if(total>=3)return`${total} oppgaver gjort! Prøv å få flere innenfor fristen! 💪`;
+  return'Fortsett slik — du blir bedre for hver dag! ⭐';
 }
 function genKey(){return Math.random().toString(36).substring(2,8).toUpperCase();}
 function childLink(){const u=new URL(location.href.split('?')[0]);u.searchParams.set('childKey',S.childRoomKey);u.searchParams.set('child','1');return u.toString();}
-function updateParentUrl(r){const u=new URL(location.href);u.searchParams.set('room',r);u.searchParams.delete('child');u.searchParams.delete('childKey');history.replaceState({},'',u.toString());}
-function copyChildLink(){navigator.clipboard.writeText(childLink()).then(()=>{S.ok='Barnets lenke er kopiert!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
+function copyChildLink(){navigator.clipboard.writeText(childLink()).then(()=>{S.ok='Lenken er kopiert!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
 function selEmoji(e){S.taskEmoji=e;render();}
 function addTask(){const el=document.getElementById('ti');const n=(el?el.value:S.taskInput).trim();if(!n)return;S.tasks.push({id:Date.now().toString(),name:n,mins:S.taskMins,emoji:S.taskEmoji});S.taskInput='';render();}
 function quickAdd(e,n,m){S.tasks.push({id:Date.now().toString(),name:n,mins:m,emoji:e});render();}
 function removeTask(i){S.tasks.splice(i,1);render();}
-function doLogout(){saveSession('');S.roomKey=null;S.childRoomKey=null;S.pinStep='room';S.customRoomCode='';S.view='login';render();}
+function doLogout(){lsSet('sp_uid','');S.userId=null;S.view='login';S.emailInput='';S.pinInput='';S.error=null;stopIntervals();render();}
 
 async function saveAndLink(){
   if(!S.tasks.length)return;
   S.error=null;S.saving=true;render();
   try{
-    const r=await api('saveRoom',S.roomKey,{childName:S.childName,tasks:S.tasks,childKey:S.childRoomKey,deadline:S.deadlineInput});
-    if(r.childKey)S.childRoomKey=r.childKey;
+    await api('saveRoom',{roomId:S.activeRoom.id,tasks:S.tasks,deadline:S.deadlineInput,childName:S.childName,name:S.activeRoom.name});
     S.deadline=S.deadlineInput;
     S.ok='Lagret!';S.saving=false;render();
     setTimeout(()=>{S.ok=null;render();},4000);
@@ -683,13 +727,18 @@ async function toggleTask(id){
   if(was){delete S.checkedIds[id];}
   else{S.checkedIds[id]=true;}
   playTap();render();
-  try{await api('check',null,{taskId:id,checked:!was},S.childRoomKey);}catch(e){S.error='Lagring feilet.';render();}
+  try{await api('check',{taskId:id,checked:!was},null,S.childRoomKey);}catch(e){S.error='Lagring feilet.';render();}
   if(!was&&S.tasks.every(t=>S.checkedIds[t.id]))confetti();
 }
 
-function goSetup(){S.view='parent-setup';stopIntervals();render();}
-async function goStatus(){S.view='parent-status';stopIntervals();render();try{await loadRoom(S.roomKey,null);render();}catch(e){}S.pollInterval=setInterval(async()=>{try{await loadRoom(S.roomKey,null);if(S.view==='parent-status')render();}catch(e){}},3000);}
-async function goStatsParent(){S.view='stats';try{S.weekStats=await api('weekStats',S.roomKey);}catch(e){S.weekStats=[];}render();}
+function goLists(){S.view='lists';stopIntervals();S.activeRoom=null;S.tasks=[];S.checkedIds={};render();}
+function goSetup(){S.view='setup';stopIntervals();render();}
+async function goStatus(){
+  S.view='status';stopIntervals();render();
+  try{await loadRoom(S.activeRoom.id,null);render();}catch(e){}
+  S.pollInterval=setInterval(async()=>{try{await loadRoom(S.activeRoom.id,null);if(S.view==='status')render();}catch(e){}},3000);
+}
+async function goStatsParent(){S.view='stats';try{S.weekStats=await api('weekStats',null,S.activeRoom.id);}catch(e){S.weekStats=[];}render();}
 async function goChildStats(){S.view='stats';try{S.weekStats=await api('weekStats',null,null,S.childRoomKey);}catch(e){S.weekStats=[];}render();}
 function goChildTasks(){S.view='child';render();}
 function stopIntervals(){if(S.pollInterval){clearInterval(S.pollInterval);S.pollInterval=null;}if(S.tickInterval){clearInterval(S.tickInterval);S.tickInterval=null;}}
@@ -697,36 +746,50 @@ function stopIntervals(){if(S.pollInterval){clearInterval(S.pollInterval);S.poll
 function playTap(){try{const c=new(AudioContext||webkitAudioContext)();[523,784].forEach((f,i)=>{const o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=f;o.type='sine';g.gain.setValueAtTime(0.2,c.currentTime+i*0.08);g.gain.exponentialRampToValueAtTime(0.001,c.currentTime+i*0.08+0.15);o.start(c.currentTime+i*0.08);o.stop(c.currentTime+i*0.08+0.2);});}catch(e){}}
 function confetti(){const c=['#f9d71c','#ff6b6b','#c77dff','#10b981','#ff8c42','#60a5fa'];for(let i=0;i<70;i++){setTimeout(()=>{const el=document.createElement('div');el.className='cp';el.style.cssText=`left:${Math.random()*100}vw;background:${c[Math.floor(Math.random()*c.length)]};animation-duration:${1.5+Math.random()*2}s;`;document.body.appendChild(el);setTimeout(()=>el.remove(),4000);},i*35);}}
 
+// ── INIT ──────────────────────────────────────────────────────
 async function init(){
-  const params=new URLSearchParams(location.search);
-  const childKey=params.get('childKey');
-  const isChild=params.get('child')==='1';
-  const roomParam=params.get('room');
+  const params   = new URLSearchParams(location.search);
+  const childKey = params.get('childKey');
+  const isChild  = params.get('child') === '1';
 
-  if(childKey&&isChild){
-    S.childRoomKey=childKey;S.childKey=childKey;S.view='child';S.loading=true;render();
-    try{
-      await loadRoom(null,childKey);
-      S.loading=false;render();
-    }catch(e){S.error='Kunne ikke laste oppgaver. Sjekk internett.';S.loading=false;render();}
-    S.pollInterval=setInterval(async()=>{
+  if (childKey && isChild) {
+    // BARNETS VISNING
+    S.childRoomKey = childKey;
+    S.childKey     = childKey;
+    S.view         = 'child';
+    S.loading      = true; render();
+    try {
+      await loadRoom(null, childKey);
+      S.loading = false; render();
+    } catch(e) {
+      S.error = 'Kunne ikke laste oppgaver. Sjekk internett.';
+      S.loading = false; render();
+    }
+    S.pollInterval = setInterval(async()=>{
       try{
-        const prevChecked={...S.checkedIds};
-        await loadRoom(null,childKey);
+        const prevChecked = {...S.checkedIds};
+        await loadRoom(null, childKey);
         Object.keys(prevChecked).forEach(id=>{if(prevChecked[id])S.checkedIds[id]=true;});
         if(S.view==='child')render();
       }catch(e){}
-    },30000);
-    S.tickInterval=setInterval(()=>{if(S.view==='child')render();},1000);
-  } else if(roomParam){
-    S.customRoomCode=roomParam;S.pinStep='pin';
-    try{const r=await api('checkRoom',roomParam);if(!r.exists){S.pinStep='room';S.customRoomCode='';}}catch(e){}
-    S.view='login';render();
+    }, 30000);
+    S.tickInterval = setInterval(()=>{if(S.view==='child')render();}, 1000);
+
   } else {
-    const saved=loadSession();
-    if(saved){S.customRoomCode=saved;S.pinStep='pin';}
-    else{S.pinStep='room';}
-    S.view='login';render();
+    // FORELDER — sjekk lagret sesjon
+    const savedUid = loadSession();
+    if (savedUid) {
+      S.userId = parseInt(savedUid);
+      try {
+        await fetchLists();
+        S.view = 'lists';
+      } catch(e) {
+        S.view = 'login';
+      }
+    } else {
+      S.view = 'login';
+    }
+    render();
   }
 }
 
