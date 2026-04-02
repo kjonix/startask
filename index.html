@@ -12,6 +12,86 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; background: #1a1a2e; color: #fff; overflow-x: hidden; }
 
+/* ── SPLASH ── */
+.splash {
+  position: fixed; inset: 0;
+  background: linear-gradient(160deg, #0d0d1f 0%, #1a1a2e 50%, #0f0a2e 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  z-index: 9999;
+  transition: opacity 0.5s ease;
+  padding: 2rem;
+  text-align: center;
+}
+.splash.hide { opacity: 0; pointer-events: none; }
+
+.splash-mascot {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  animation: floatBig 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 40px rgba(249,215,28,0.5));
+  margin-bottom: 1.5rem;
+}
+@keyframes floatBig {
+  0%,100% { transform: translateY(0) rotate(-2deg); }
+  50%      { transform: translateY(-14px) rotate(2deg); }
+}
+
+.splash h1 {
+  font-size: 3rem;
+  font-weight: 900;
+  background: linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 0.5rem;
+}
+.splash .slogan {
+  font-size: 1.1rem;
+  color: #aaa;
+  letter-spacing: 1px;
+  margin-bottom: 2.5rem;
+}
+.splash-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  max-width: 320px;
+}
+.btn-splash-main {
+  background: linear-gradient(135deg,#f9d71c,#ff8c42);
+  color: #1a1a2e;
+  font-weight: 800;
+  font-size: 1.1rem;
+  padding: 15px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(249,215,28,0.3);
+  transition: transform 0.15s;
+}
+.btn-splash-main:active { transform: scale(0.97); }
+.btn-splash-about {
+  background: transparent;
+  color: #888;
+  font-size: 0.88rem;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.spark {
+  position: fixed; pointer-events: none; font-size: 1rem;
+  animation: sparkle 4s ease-in-out infinite; opacity: 0.35;
+}
+@keyframes sparkle {
+  0%,100% { opacity:0.15; transform:scale(0.8); }
+  50%      { opacity:0.6;  transform:scale(1.2); }
+}
+
+/* ── GENERAL ── */
 .logo { text-align: center; padding: 1.2rem 1rem 0.4rem; }
 .logo h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
 .logo p { color: #888; font-size: 0.82rem; margin-top: 3px; }
@@ -65,7 +145,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .pstat-task.done .ptn { text-decoration:line-through; color:#555; }
 .ptn { flex:1; font-size:0.95rem; }
 
-/* ── LISTS ── */
 .list-item { background:#16213e; border-radius:14px; padding:1rem 1.1rem; display:flex; align-items:center; gap:12px; border:1.5px solid #0f3460; cursor:pointer; margin-bottom:10px; transition:border 0.2s; }
 .list-item:hover { border-color:#7c3aed; }
 .list-icon { font-size:2rem; }
@@ -74,16 +153,15 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .list-meta { font-size:0.78rem; color:#888; margin-top:3px; }
 .list-arrow { color:#555; font-size:1.2rem; }
 
-/* ── CHILD HEADER ── */
 .child-header { padding:1.5rem 1rem 1.2rem; text-align:center; transition:background 0.5s; }
 .child-header.green { background:linear-gradient(135deg,#065f46,#10b981); }
 .child-header.red   { background:linear-gradient(135deg,#7f1d1d,#ef4444); }
 .child-header.over  { background:linear-gradient(135deg,#3b0764,#7c3aed); }
 .child-header h1 { font-size:1.8rem; font-weight:800; margin-bottom:0.3rem; }
+.child-header .mascot-sm { width:50px; margin-bottom:0.4rem; filter:drop-shadow(0 0 10px rgba(249,215,28,0.4)); }
 .child-header .greeting { color:rgba(255,255,255,0.85); font-size:0.92rem; margin-bottom:0.5rem; }
 .stars-row { font-size:1.1rem; margin-top:0.3rem; color:#f9d71c; letter-spacing:3px; }
 
-/* ── COUNTDOWN ── */
 .countdown-widget { max-width:520px; margin:0 auto; padding:1rem 1rem 0; }
 .cw-main { border-radius:16px; padding:1.3rem 1.4rem; display:flex; align-items:center; gap:1.2rem; }
 .cw-main.green { background:#0d2a1e; border:2px solid #10b981; }
@@ -101,13 +179,11 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .cw-main.over  .cw-status { color:#c77dff; }
 .cw-tasks { font-size:0.82rem; color:#888; }
 
-/* ── NO TASKS ── */
 .no-tasks { text-align:center; padding:3rem 1.5rem; }
 .no-tasks .nt-icon { font-size:4rem; margin-bottom:1rem; }
 .no-tasks h2 { font-size:1.3rem; font-weight:800; color:#888; }
 .no-tasks p { color:#555; font-size:0.9rem; margin-top:8px; line-height:1.5; }
 
-/* ── CHILD TASKS ── */
 .child-task { background:#16213e; border-radius:20px; padding:16px 18px; display:flex; align-items:center; gap:14px; border:2px solid #0f3460; transition:all 0.3s; cursor:pointer; margin-bottom:12px; }
 .child-task:active { transform:scale(0.97); }
 .child-task.done { background:#0b2018; border-color:#10b981; }
@@ -120,11 +196,11 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .ct-check { width:38px; height:38px; border-radius:50%; border:2.5px solid #333; display:flex; align-items:center; justify-content:center; font-size:1.3rem; transition:all 0.3s; flex-shrink:0; }
 .child-task.done .ct-check { background:#10b981; border-color:#10b981; }
 
-/* ── LOGIN ── */
 .login-wrap { max-width:400px; margin:0 auto; padding:2rem 1.5rem 5rem; }
-.login-logo { text-align:center; padding:2rem 0 1.5rem; }
-.login-logo h1 { font-size:2.8rem; font-weight:800; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.login-logo p { color:#888; font-size:0.9rem; margin-top:6px; }
+.login-logo { text-align:center; padding:1.5rem 0 1.2rem; }
+.login-logo img { width:70px; margin-bottom:0.6rem; filter:drop-shadow(0 0 15px rgba(249,215,28,0.35)); }
+.login-logo h1 { font-size:2.2rem; font-weight:900; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.login-logo p { color:#888; font-size:0.88rem; margin-top:5px; }
 .pin-dots { display:flex; gap:10px; justify-content:center; margin:1rem 0; }
 .pin-dot { width:16px; height:16px; border-radius:50%; border:2px solid #555; transition:all 0.2s; }
 .pin-dot.filled { background:#c77dff; border-color:#c77dff; }
@@ -134,7 +210,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 .pin-btn.del { font-size:1rem; color:#888; }
 .pin-btn.empty { background:transparent; border:none; cursor:default; }
 
-/* ── STATS ── */
 .all-done { text-align:center; padding:1.5rem 1rem; }
 .all-done h2 { font-size:1.8rem; font-weight:800; color:#f9d71c; }
 .all-done p { color:#aaa; margin-top:8px; }
@@ -176,7 +251,26 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 </style>
 </head>
 <body>
+
+<!-- SPARKLES -->
+<div class="spark" style="top:10%;left:4%;animation-delay:0s">✨</div>
+<div class="spark" style="top:20%;right:6%;animation-delay:1.2s">⭐</div>
+<div class="spark" style="top:60%;left:3%;animation-delay:2.1s">💫</div>
+<div class="spark" style="top:80%;right:5%;animation-delay:0.7s">✨</div>
+
+<!-- SPLASH SCREEN -->
+<div class="splash" id="splash">
+  <img src="mascot.png" class="splash-mascot" alt="Stepster">
+  <h1>Stepster</h1>
+  <div class="slogan">Din venn i hverdagen</div>
+  <div class="splash-btns">
+    <button class="btn-splash-main" onclick="hideSplash(false)">Kom i gang ⭐</button>
+    <button class="btn-splash-about" onclick="window.location.href='om.html'">Hva er Stepster?</button>
+  </div>
+</div>
+
 <div id="app"></div>
+
 <script>
 // ════════════════════════════════════════════════════
 const API_URL = 'https://startask-api-gcb3cke7bagha3fu.norwayeast-01.azurewebsites.net/api/api';
@@ -193,24 +287,28 @@ const S = {
   pinInput: '',
   emailInput: '',
   userId: null,
-
   lists: [],
   activeRoom: null,
-
   tasks: [], checkedIds: {},
   taskInput: '', taskMins: 5, taskEmoji: '⭐',
   deadlineInput: '07:30',
   showNewList: false,
   childName: '',
-
   deadline: null,
   childRoomKey: null, childKey: null,
   weekStats: [],
-
   pollInterval: null, tickInterval: null,
   lastMinuteTick: -1,
   saving: false, loading: false, error: null, ok: null,
 };
+
+// ── SPLASH ────────────────────────────────────────────────────
+function hideSplash(skipAnimation) {
+  const el = document.getElementById('splash');
+  if (skipAnimation) { el.style.display='none'; return; }
+  el.classList.add('hide');
+  setTimeout(()=>el.style.display='none', 500);
+}
 
 // ── LOCALSTORAGE ──────────────────────────────────────────────
 function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
@@ -238,7 +336,6 @@ function getDeadlineMs(dl) {
   return d.getTime();
 }
 
-// ── TRAFIKKLYS 1:1 ───────────────────────────────────────────
 function getTimeStatus() {
   if (!S.deadline) return { state:'green', remSec:null };
   const now     = Date.now();
@@ -261,7 +358,6 @@ function fmtTime(sec) {
     : `${m}:${s.toString().padStart(2,'0')}`;
 }
 
-// ── LYD HVERT MINUTT ─────────────────────────────────────────
 function playMinuteTick(isRed) {
   try {
     const ctx = new(AudioContext||webkitAudioContext)();
@@ -337,14 +433,15 @@ function render() {
   else if (S.view==='stats')  app.innerHTML = tplStats();
 }
 
-// ── LOGIN / REGISTER ──────────────────────────────────────────
+// ── LOGIN ─────────────────────────────────────────────────────
 function tplLogin() {
   const dots = [0,1,2,3].map(i=>`<div class="pin-dot ${i<S.pinInput.length?'filled':''}"></div>`).join('');
   return `
     <div class="login-wrap">
       <div class="login-logo">
+        <img src="mascot.png" alt="Stepster">
         <h1>Stepster</h1>
-        <p>Gjør morgenstell til en lek! ⭐</p>
+        <p>Din venn i hverdagen</p>
       </div>
       <div class="tab-row">
         <button class="tab ${S.loginTab==='login'?'active':''}" onclick="S.loginTab='login';S.pinInput='';S.error=null;render()">Logg inn</button>
@@ -371,7 +468,6 @@ function tplLogin() {
 
 function pinPress(n) {
   if (S.pinInput.length >= 4) return;
-  // Hent epost fra DOM hvis ikke allerede satt
   const emailEl = document.getElementById('email-input');
   if (emailEl) S.emailInput = emailEl.value;
   S.pinInput += n; render();
@@ -387,11 +483,10 @@ async function doLogin() {
   S.error=null;
   try {
     const r = await api('login', {email:S.emailInput, pin:S.pinInput});
-    S.userId = r.userId;
-    saveSession();
+    S.userId = r.userId; saveSession();
     await fetchLists();
-    S.view = 'lists'; render();
-  } catch(e) { S.error = e.message; S.pinInput=''; render(); }
+    S.view='lists'; render();
+  } catch(e) { S.error=e.message; S.pinInput=''; render(); }
 }
 
 async function doRegister() {
@@ -399,21 +494,19 @@ async function doRegister() {
   S.error=null;
   try {
     const r = await api('register', {email:S.emailInput, pin:S.pinInput});
-    S.userId = r.userId;
-    saveSession();
-    S.lists = [];
-    S.view = 'lists'; render();
-  } catch(e) { S.error = e.message; S.pinInput=''; render(); }
+    S.userId=r.userId; saveSession();
+    S.lists=[]; S.view='lists'; render();
+  } catch(e) { S.error=e.message; S.pinInput=''; render(); }
 }
 
-// ── OPPGAVELISTER ─────────────────────────────────────────────
+// ── LISTS ─────────────────────────────────────────────────────
 async function fetchLists() {
   const r = await api('getLists', {userId: S.userId});
   S.lists = r || [];
 }
 
 function tplLists() {
-  const listItems = S.lists.map(l => `
+  const listItems = S.lists.map(l=>`
     <div class="list-item" onclick="openList('${l.id}')">
       <div class="list-icon">📋</div>
       <div class="list-info">
@@ -428,8 +521,8 @@ function tplLists() {
       <h2>✨ Ny oppgaveliste</h2>
       <div style="display:flex;flex-direction:column;gap:12px;">
         <div>
-          <span class="section-lbl">Navn på listen (f.eks. "Morgenrutine")</span>
-          <input type="text" id="new-list-name" placeholder="Morgenrutine">
+          <span class="section-lbl">Navn på listen</span>
+          <input type="text" id="new-list-name" placeholder="F.eks. Morgenrutine">
         </div>
         <div>
           <span class="section-lbl">Barnets navn</span>
@@ -448,7 +541,7 @@ function tplLists() {
     <button class="btn btn-purple btn-full" onclick="S.showNewList=true;render()">+ Ny oppgaveliste</button>`;
 
   return `
-    <div class="logo"><h1>Stepster ⭐</h1><p>Velg oppgaveliste</p></div>
+    <div class="logo"><h1>Stepster ⭐</h1><p style="color:#888;font-size:0.82rem">Din venn i hverdagen</p></div>
     <div class="view">
       ${S.error?`<div class="error-box">⚠️ ${S.error}</div>`:''}
       ${S.ok?`<div class="success-box">✅ ${S.ok}</div>`:''}
@@ -461,27 +554,17 @@ function tplLists() {
 }
 
 async function createList() {
-  // Les direkte fra DOM — ikke fra S-state som kan være utdatert
   const name      = document.getElementById('new-list-name')?.value?.trim();
   const childName = document.getElementById('new-child-name')?.value?.trim();
   const deadline  = document.getElementById('new-deadline')?.value || '07:30';
-
   if (!name)      { S.error='Skriv inn navn på listen'; render(); return; }
   if (!childName) { S.error='Skriv inn barnets navn'; render(); return; }
-
   S.error=null; S.saving=true;
   try {
-    await api('createList', {
-      userId:    S.userId,
-      name,
-      childName,
-      deadline
-    });
-    S.showNewList = false;
+    await api('createList', {userId:S.userId, name, childName, deadline});
+    S.showNewList=false;
     await fetchLists();
-    S.saving = false;
-    S.ok = 'Oppgaveliste opprettet!';
-    render();
+    S.saving=false; S.ok='Oppgaveliste opprettet!'; render();
     setTimeout(()=>{S.ok=null;render();},3000);
   } catch(e) { S.error=e.message; S.saving=false; render(); }
 }
@@ -498,7 +581,7 @@ async function openList(roomId) {
   } catch(e) { S.error='Kunne ikke laste liste.'; S.loading=false; render(); }
 }
 
-// ── PARENT SETUP ──────────────────────────────────────────────
+// ── SETUP ─────────────────────────────────────────────────────
 function tplSetup() {
   if (S.loading) return `<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster...</p></div>`;
   const rows = S.tasks.map((t,i)=>`
@@ -510,7 +593,7 @@ function tplSetup() {
   const totalMins = S.tasks.reduce((s,t)=>s+t.mins,0);
   const linkBox = S.childRoomKey ? `
     <div class="link-box">
-      <p>📱 Send denne lenken til ${S.childName||'barnet'} — lenken er alltid den samme:</p>
+      <p>📱 Send denne lenken til ${S.childName||'barnet'} — alltid den samme:</p>
       <div class="link-url">${childLink()}</div>
       <div class="copy-row">
         <button class="btn btn-purple btn-sm" onclick="copyChildLink()">📋 Kopier lenke</button>
@@ -545,7 +628,7 @@ function tplSetup() {
         <h2>📋 Oppgaver (${S.tasks.length}) — ${totalMins} min totalt</h2>
         <ul class="task-list">${rows}</ul>
       </div>`:''}
-      <button class="btn btn-gold btn-full" ${(S.saving)?'disabled':''} onclick="saveAndLink()">
+      <button class="btn btn-gold btn-full" ${S.saving?'disabled':''} onclick="saveAndLink()">
         ${S.saving?'⏳ Lagrer...':'🚀 Lagre oppgaveliste'}
       </button>
       ${linkBox}
@@ -555,7 +638,7 @@ function tplSetup() {
     </div>`;
 }
 
-// ── PARENT STATUS ─────────────────────────────────────────────
+// ── STATUS ────────────────────────────────────────────────────
 function tplStatus() {
   const done = S.tasks.filter(t=>S.checkedIds[t.id]).length;
   const pct  = S.tasks.length ? Math.round(done/S.tasks.length*100) : 0;
@@ -579,7 +662,7 @@ function tplStatus() {
     </div>`;
 }
 
-// ── CHILD VIEW ────────────────────────────────────────────────
+// ── CHILD ─────────────────────────────────────────────────────
 function tplChild() {
   if (S.loading) return `<div class="loading"><div class="spin">⭐</div><p style="margin-top:1rem">Laster oppgaver...</p></div>`;
   const ts = getTimeStatus();
@@ -587,7 +670,8 @@ function tplChild() {
 
   if (ts.state === 'expired') return `
     <div class="child-header over">
-      <h1>Stepster ⭐</h1>
+      <img src="mascot.png" class="mascot-sm" alt="">
+      <h1>Stepster</h1>
       <div class="greeting">Hei ${S.childName||''}!</div>
     </div>
     <div class="view" style="padding-top:1rem">
@@ -608,10 +692,9 @@ function tplChild() {
   if (S.deadline) {
     const isOver = ts.state === 'over';
     const absSec = Math.abs(ts.remSec||0);
-    let statusText = '';
-    if (isOver)              statusText = `⚠️ Fristen er passert!`;
-    else if (ts.state==='red')    statusText = `🔴 Du rekker det IKKE — skynd deg!`;
-    else                          statusText = `🟢 Du rekker det fint — bra jobbet!`;
+    let statusText = isOver ? `⚠️ Fristen er passert!`
+      : ts.state==='red' ? `🔴 Du rekker det IKKE — skynd deg!`
+      : `🟢 Du rekker det fint — bra jobbet!`;
     const remTaskText = remaining.length > 0
       ? `${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`
       : '🎉 Alle oppgaver er gjort!';
@@ -629,7 +712,7 @@ function tplChild() {
   }
 
   const cards = S.tasks.map(t=>{
-    const isDone = !!S.checkedIds[t.id], isNext = !isDone && t===next;
+    const isDone=!!S.checkedIds[t.id], isNext=!isDone&&t===next;
     return `<div class="child-task ${isDone?'done':''} ${isNext?'next-up':''}" onclick="toggleTask('${t.id}')">
       <span class="ct-emoji">${t.emoji}</span>
       <div class="ct-info">
@@ -642,7 +725,8 @@ function tplChild() {
 
   return `
     <div class="child-header ${cwState}">
-      <h1>Stepster ⭐</h1>
+      <img src="mascot.png" class="mascot-sm" alt="">
+      <h1>Stepster</h1>
       <div class="greeting">Hei ${S.childName||''}! Du klarer dette! 💪</div>
       <div class="stars-row">${'⭐'.repeat(done)}${'☆'.repeat(Math.max(0,S.tasks.length-done))}</div>
     </div>
@@ -660,24 +744,22 @@ function tplChild() {
 
 // ── STATS ─────────────────────────────────────────────────────
 function tplStats() {
-  const today = dateKey(new Date()), week = getWeekDays();
-  const isChild = !!S.childKey;
-  const totalOnTime = S.weekStats.reduce((s,d)=>s+(d.stars_on_time||0),0);
-  const totalLate   = S.weekStats.reduce((s,d)=>s+(d.stars_late||0),0);
-  const total       = totalOnTime + totalLate;
-  const bestDay     = Math.max(0,...S.weekStats.map(d=>d.stars||0));
-  const byDay = {};
+  const today=dateKey(new Date()), week=getWeekDays();
+  const isChild=!!S.childKey;
+  const totalOnTime=S.weekStats.reduce((s,d)=>s+(d.stars_on_time||0),0);
+  const totalLate  =S.weekStats.reduce((s,d)=>s+(d.stars_late||0),0);
+  const total      =totalOnTime+totalLate;
+  const bestDay    =Math.max(0,...S.weekStats.map(d=>d.stars||0));
+  const byDay={};
   S.weekStats.forEach(d=>{byDay[d.checked_at]={onTime:d.stars_on_time||0,late:d.stars_late||0};});
-
-  const dayCells = week.map(d=>{
-    const data = byDay[d.key]||{onTime:0,late:0};
+  const dayCells=week.map(d=>{
+    const data=byDay[d.key]||{onTime:0,late:0};
     return `<div class="day-cell ${d.key===today?'today':''}">
       <div class="day-label">${d.label}</div>
       <div class="day-stars-on">${data.onTime>0?'⭐'.repeat(Math.min(data.onTime,5)):'—'}</div>
       <div class="day-stars-late">${data.late>0?'⏰'.repeat(Math.min(data.late,5)):''}</div>
     </div>`;
   }).join('');
-
   return `
     <div class="logo"><h1>Stepster ⭐</h1><p>${isChild?(S.childName||'')+'s statistikk':'Statistikk'}</p></div>
     <div class="view">
@@ -713,29 +795,22 @@ function motMsg(onTime,total){
 function childLink(){const u=new URL(location.href.split('?')[0]);u.searchParams.set('childKey',S.childRoomKey);u.searchParams.set('child','1');return u.toString();}
 function copyChildLink(){navigator.clipboard.writeText(childLink()).then(()=>{S.ok='Lenken er kopiert!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
 function selEmoji(e){S.taskEmoji=e;render();}
-function addTask(){
-  const el=document.getElementById('ti');
-  const n=(el?el.value:S.taskInput).trim();
-  if(!n)return;
-  S.tasks.push({id:Date.now().toString(),name:n,mins:S.taskMins,emoji:S.taskEmoji});
-  S.taskInput='';render();
-}
+function addTask(){const el=document.getElementById('ti');const n=(el?el.value:S.taskInput).trim();if(!n)return;S.tasks.push({id:Date.now().toString(),name:n,mins:S.taskMins,emoji:S.taskEmoji});S.taskInput='';render();}
 function quickAdd(e,n,m){S.tasks.push({id:Date.now().toString(),name:n,mins:m,emoji:e});render();}
 function removeTask(i){S.tasks.splice(i,1);render();}
 function doLogout(){lsSet('sp_uid','');S.userId=null;S.view='login';S.emailInput='';S.pinInput='';S.error=null;stopIntervals();render();}
 
 async function saveAndLink(){
   S.error=null;S.saving=true;
-  // Les deadline fra DOM
-  const dlEl = document.getElementById('deadline-input');
-  if (dlEl) S.deadlineInput = dlEl.value;
+  const dlEl=document.getElementById('deadline-input');
+  if(dlEl)S.deadlineInput=dlEl.value;
   render();
   try{
     await api('saveRoom',{roomId:S.activeRoom.id,tasks:S.tasks,deadline:S.deadlineInput,childName:S.childName,name:S.activeRoom.name});
     S.deadline=S.deadlineInput;
     S.ok='Lagret!';S.saving=false;render();
     setTimeout(()=>{S.ok=null;render();},4000);
-  }catch(e){S.error='Kunne ikke lagre. Sjekk internett.';S.saving=false;render();}
+  }catch(e){S.error='Kunne ikke lagre.';S.saving=false;render();}
 }
 
 async function toggleTask(id){
@@ -769,41 +844,36 @@ async function init(){
   const isChild  = params.get('child') === '1';
 
   if (childKey && isChild) {
-    S.childRoomKey = childKey;
-    S.childKey     = childKey;
-    S.view         = 'child';
-    S.loading      = true; render();
-    try {
-      await loadRoom(null, childKey);
-      S.loading = false; render();
-    } catch(e) {
-      S.error = 'Kunne ikke laste oppgaver. Sjekk internett.';
-      S.loading = false; render();
-    }
-    S.pollInterval = setInterval(async()=>{
-      try{
-        const prevChecked = {...S.checkedIds};
-        await loadRoom(null, childKey);
-        Object.keys(prevChecked).forEach(id=>{if(prevChecked[id])S.checkedIds[id]=true;});
-        if(S.view==='child')render();
-      }catch(e){}
-    }, 30000);
-    S.tickInterval = setInterval(()=>{if(S.view==='child')render();}, 1000);
+    // Barn — hopp over splash
+    hideSplash(true);
+    S.childRoomKey=childKey; S.childKey=childKey; S.view='child'; S.loading=true; render();
+    try{
+      await loadRoom(null,childKey);
+      S.loading=false; render();
+    }catch(e){S.error='Kunne ikke laste oppgaver.';S.loading=false;render();}
+    S.pollInterval=setInterval(async()=>{
+      try{const prev={...S.checkedIds};await loadRoom(null,childKey);Object.keys(prev).forEach(id=>{if(prev[id])S.checkedIds[id]=true;});if(S.view==='child')render();}catch(e){}
+    },30000);
+    S.tickInterval=setInterval(()=>{if(S.view==='child')render();},1000);
 
   } else {
+    // Forelder — sjekk sesjon
     const savedUid = loadSession();
     if (savedUid && savedUid !== '' && savedUid !== 'null') {
       S.userId = parseInt(savedUid);
       try {
         await fetchLists();
-        S.view = 'lists';
+        S.view='lists';
+        hideSplash(true); // Allerede innlogget — hopp over splash
+        render();
       } catch(e) {
-        S.view = 'login';
+        S.view='login'; render();
+        // Splash vises
       }
     } else {
-      S.view = 'login';
+      S.view='login'; render();
+      // Splash vises for nye besøkende
     }
-    render();
   }
 }
 
