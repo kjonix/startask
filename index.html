@@ -17,96 +17,37 @@ body { font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; backgr
   position: fixed; inset: 0;
   background: linear-gradient(160deg, #0d0d1f 0%, #1a1a2e 50%, #0f0a2e 100%);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  z-index: 9999;
-  transition: opacity 0.5s ease;
-  padding: 2rem;
-  text-align: center;
+  z-index: 9999; transition: opacity 0.5s ease; padding: 2rem; text-align: center;
 }
 .splash.hide { opacity: 0; pointer-events: none; }
+.splash-mascot { width:180px; height:180px; object-fit:contain; animation:floatBig 3s ease-in-out infinite; filter:drop-shadow(0 0 40px rgba(249,215,28,0.5)); margin-bottom:1.5rem; }
+@keyframes floatBig { 0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-14px) rotate(2deg);} }
+.splash h1 { font-size:3rem; font-weight:900; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:0.5rem; }
+.splash .slogan { font-size:1.1rem; color:#aaa; letter-spacing:1px; margin-bottom:2.5rem; }
+.splash-btns { display:flex; flex-direction:column; gap:12px; width:100%; max-width:320px; }
+.btn-splash-main { background:linear-gradient(135deg,#f9d71c,#ff8c42); color:#1a1a2e; font-weight:800; font-size:1.1rem; padding:15px; border-radius:50px; border:none; cursor:pointer; box-shadow:0 4px 20px rgba(249,215,28,0.3); transition:transform 0.15s; }
+.btn-splash-main:active { transform:scale(0.97); }
+.btn-splash-about { background:transparent; color:#888; font-size:0.88rem; padding:10px; border:none; cursor:pointer; text-decoration:underline; }
 
-.splash-mascot {
-  width: 180px;
-  height: 180px;
-  object-fit: contain;
-  animation: floatBig 3s ease-in-out infinite;
-  filter: drop-shadow(0 0 40px rgba(249,215,28,0.5));
-  margin-bottom: 1.5rem;
-}
-@keyframes floatBig {
-  0%,100% { transform: translateY(0) rotate(-2deg); }
-  50%      { transform: translateY(-14px) rotate(2deg); }
-}
-
-.splash h1 {
-  font-size: 3rem;
-  font-weight: 900;
-  background: linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.5rem;
-}
-.splash .slogan {
-  font-size: 1.1rem;
-  color: #aaa;
-  letter-spacing: 1px;
-  margin-bottom: 2.5rem;
-}
-.splash-btns {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-  max-width: 320px;
-}
-.btn-splash-main {
-  background: linear-gradient(135deg,#f9d71c,#ff8c42);
-  color: #1a1a2e;
-  font-weight: 800;
-  font-size: 1.1rem;
-  padding: 15px;
-  border-radius: 50px;
-  border: none;
-  cursor: pointer;
-  box-shadow: 0 4px 20px rgba(249,215,28,0.3);
-  transition: transform 0.15s;
-}
-.btn-splash-main:active { transform: scale(0.97); }
-.btn-splash-about {
-  background: transparent;
-  color: #888;
-  font-size: 0.88rem;
-  padding: 10px;
-  border: none;
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.spark {
-  position: fixed; pointer-events: none; font-size: 1rem;
-  animation: sparkle 4s ease-in-out infinite; opacity: 0.35;
-}
-@keyframes sparkle {
-  0%,100% { opacity:0.15; transform:scale(0.8); }
-  50%      { opacity:0.6;  transform:scale(1.2); }
-}
+.spark { position:fixed; pointer-events:none; font-size:1rem; animation:sparkle 4s ease-in-out infinite; opacity:0.35; }
+@keyframes sparkle { 0%,100%{opacity:0.15;transform:scale(0.8);} 50%{opacity:0.6;transform:scale(1.2);} }
 
 /* ── GENERAL ── */
-.logo { text-align: center; padding: 1.2rem 1rem 0.4rem; }
-.logo h1 { font-size: 2rem; font-weight: 800; background: linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
-.logo p { color: #888; font-size: 0.82rem; margin-top: 3px; }
+.logo { text-align:center; padding:1.2rem 1rem 0.4rem; }
+.logo h1 { font-size:2rem; font-weight:800; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.logo p { color:#888; font-size:0.82rem; margin-top:3px; }
 
-.view { max-width: 520px; margin: 0 auto; padding: 0 1rem 5rem; }
-.card { background: #16213e; border-radius: 16px; padding: 1.1rem; margin-bottom: 0.9rem; border: 1px solid #0f3460; }
-.card h2 { font-size: 0.95rem; color: #c77dff; margin-bottom: 0.8rem; display:flex; align-items:center; gap:6px; }
+.view { max-width:520px; margin:0 auto; padding:0 1rem 5rem; }
+.card { background:#16213e; border-radius:16px; padding:1.1rem; margin-bottom:0.9rem; border:1px solid #0f3460; }
+.card h2 { font-size:0.95rem; color:#c77dff; margin-bottom:0.8rem; display:flex; align-items:center; gap:6px; }
 
 input[type=text], input[type=number], input[type=email], input[type=time] {
-  background: #0f3460; border: 1px solid #1a4a8a; border-radius: 10px;
-  padding: 9px 12px; color: #fff; font-size: 0.9rem; outline: none; width: 100%;
+  background:#0f3460; border:1px solid #1a4a8a; border-radius:10px;
+  padding:9px 12px; color:#fff; font-size:0.9rem; outline:none; width:100%;
 }
-input:focus { border-color: #c77dff; }
-input::placeholder { color: #555; }
-input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
+input:focus { border-color:#c77dff; }
+input::placeholder { color:#555; }
+input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .row { display:flex; gap:8px; align-items:center; }
 .row input { flex:1; }
 
@@ -252,13 +193,12 @@ input[type=time]::-webkit-calendar-picker-indicator { filter: invert(1); }
 </head>
 <body>
 
-<!-- SPARKLES -->
 <div class="spark" style="top:10%;left:4%;animation-delay:0s">✨</div>
 <div class="spark" style="top:20%;right:6%;animation-delay:1.2s">⭐</div>
 <div class="spark" style="top:60%;left:3%;animation-delay:2.1s">💫</div>
 <div class="spark" style="top:80%;right:5%;animation-delay:0.7s">✨</div>
 
-<!-- SPLASH SCREEN -->
+<!-- SPLASH -->
 <div class="splash" id="splash">
   <img src="mascot.png" class="splash-mascot" alt="Stepster">
   <h1>Stepster</h1>
@@ -295,7 +235,8 @@ const S = {
   showNewList: false,
   childName: '',
   deadline: null,
-  childRoomKey: null, childKey: null,
+  listKey: null,   // barnets hemmelige nøkkel (tidligere childRoomKey)
+  childKey: null,  // settes kun når barnet er innlogget via URL
   weekStats: [],
   pollInterval: null, tickInterval: null,
   lastMinuteTick: -1,
@@ -303,9 +244,9 @@ const S = {
 };
 
 // ── SPLASH ────────────────────────────────────────────────────
-function hideSplash(skipAnimation) {
+function hideSplash(instant) {
   const el = document.getElementById('splash');
-  if (skipAnimation) { el.style.display='none'; return; }
+  if (instant) { el.style.display='none'; return; }
   el.classList.add('hide');
   setTimeout(()=>el.style.display='none', 500);
 }
@@ -321,9 +262,8 @@ function parseDeadline(dl) {
   if (!dl) return null;
   try {
     const d = new Date(dl);
-    if (!isNaN(d.getTime())) {
+    if (!isNaN(d.getTime()))
       return d.getUTCHours().toString().padStart(2,'0') + ':' + d.getUTCMinutes().toString().padStart(2,'0');
-    }
     return String(dl).substring(0, 5);
   } catch(e) { return null; }
 }
@@ -336,6 +276,7 @@ function getDeadlineMs(dl) {
   return d.getTime();
 }
 
+// ── TRAFIKKLYS 1:1 ───────────────────────────────────────────
 function getTimeStatus() {
   if (!S.deadline) return { state:'green', remSec:null };
   const now     = Date.now();
@@ -345,7 +286,7 @@ function getTimeStatus() {
   const remSec = Math.floor((dlMs - now) / 1000);
   if (now > dlMs) return { state:'over', remSec: -Math.floor((now-dlMs)/1000) };
   const remainingSec = S.tasks.filter(t=>!S.checkedIds[t.id]).reduce((s,t)=>s+t.mins,0) * 60;
-  return { state: remSec > remainingSec ? 'green' : 'red', remSec, remainingSec };
+  return { state: remSec > remainingSec ? 'green' : 'red', remSec };
 }
 
 function fmtTime(sec) {
@@ -358,6 +299,7 @@ function fmtTime(sec) {
     : `${m}:${s.toString().padStart(2,'0')}`;
 }
 
+// ── LYD HVERT MINUTT ─────────────────────────────────────────
 function playMinuteTick(isRed) {
   try {
     const ctx = new(AudioContext||webkitAudioContext)();
@@ -384,17 +326,16 @@ function playMinuteTick(isRed) {
 function checkMinuteTick(ts) {
   if (!S.deadline || ts.state==='expired' || ts.remSec===null) return;
   const currentMinute = Math.floor(Math.abs(ts.remSec) / 60);
-  if (currentMinute !== S.lastMinuteTick && S.lastMinuteTick !== -1) {
+  if (currentMinute !== S.lastMinuteTick && S.lastMinuteTick !== -1)
     playMinuteTick(ts.state === 'red');
-  }
   S.lastMinuteTick = currentMinute;
 }
 
 // ── API ───────────────────────────────────────────────────────
-async function api(action, body, roomId, childKey) {
+async function api(action, body, roomId, listKey) {
   let url = `${API_URL}?action=${action}`;
-  if (roomId)   url += `&room=${encodeURIComponent(roomId)}`;
-  if (childKey) url += `&childKey=${encodeURIComponent(childKey)}`;
+  if (roomId)  url += `&room=${encodeURIComponent(roomId)}`;
+  if (listKey) url += `&childKey=${encodeURIComponent(listKey)}`; // API bruker fortsatt childKey internt
   const res = await fetch(url, {
     method: body ? 'POST' : 'GET',
     headers: {'Content-Type':'application/json'},
@@ -407,8 +348,8 @@ async function api(action, body, roomId, childKey) {
   return res.json();
 }
 
-async function loadRoom(roomId, childKey) {
-  const rows = await api('getRoom', null, roomId, childKey);
+async function loadRoom(roomId, listKey) {
+  const rows = await api('getRoom', null, roomId, listKey);
   if (!rows?.length) return false;
   S.childName = rows[0].child_name || 'Barnet';
   S.deadline  = parseDeadline(rows[0].deadline);
@@ -483,7 +424,7 @@ async function doLogin() {
   S.error=null;
   try {
     const r = await api('login', {email:S.emailInput, pin:S.pinInput});
-    S.userId = r.userId; saveSession();
+    S.userId=r.userId; saveSession();
     await fetchLists();
     S.view='lists'; render();
   } catch(e) { S.error=e.message; S.pinInput=''; render(); }
@@ -572,7 +513,7 @@ async function createList() {
 async function openList(roomId) {
   S.error=null; S.loading=true; S.checkedIds={};
   S.activeRoom = S.lists.find(l=>l.id===roomId);
-  S.childRoomKey = S.activeRoom?.child_key;
+  S.listKey = S.activeRoom?.child_key;
   S.view='setup'; render();
   try {
     await loadRoom(roomId, null);
@@ -591,7 +532,7 @@ function tplSetup() {
       <button class="btn-icon" onclick="removeTask(${i})">✕</button>
     </li>`).join('');
   const totalMins = S.tasks.reduce((s,t)=>s+t.mins,0);
-  const linkBox = S.childRoomKey ? `
+  const linkBox = S.listKey ? `
     <div class="link-box">
       <p>📱 Send denne lenken til ${S.childName||'barnet'} — alltid den samme:</p>
       <div class="link-url">${childLink()}</div>
@@ -640,9 +581,9 @@ function tplSetup() {
 
 // ── STATUS ────────────────────────────────────────────────────
 function tplStatus() {
-  const done = S.tasks.filter(t=>S.checkedIds[t.id]).length;
-  const pct  = S.tasks.length ? Math.round(done/S.tasks.length*100) : 0;
-  const rows = S.tasks.map(t=>{const d=!!S.checkedIds[t.id];return`<div class="pstat-task ${d?'done':''}"><span style="font-size:1.3rem">${t.emoji}</span><span class="ptn">${t.name}</span><span class="tag">${t.mins} min</span><span>${d?'✅':'⬜'}</span></div>`;}).join('');
+  const done=S.tasks.filter(t=>S.checkedIds[t.id]).length;
+  const pct=S.tasks.length?Math.round(done/S.tasks.length*100):0;
+  const rows=S.tasks.map(t=>{const d=!!S.checkedIds[t.id];return`<div class="pstat-task ${d?'done':''}"><span style="font-size:1.3rem">${t.emoji}</span><span class="ptn">${t.name}</span><span class="tag">${t.mins} min</span><span>${d?'✅':'⬜'}</span></div>`;}).join('');
   return `
     <div class="logo"><h1>Stepster ⭐</h1><p>${S.activeRoom?.name||'Status'}</p></div>
     <div class="view">
@@ -683,19 +624,19 @@ function tplChild() {
     </div>`;
 
   const done      = S.tasks.filter(t=>S.checkedIds[t.id]).length;
-  const allDone   = done === S.tasks.length && S.tasks.length > 0;
+  const allDone   = done===S.tasks.length&&S.tasks.length>0;
   const remaining = S.tasks.filter(t=>!S.checkedIds[t.id]);
   const next      = remaining[0];
-  const cwState   = ts.state === 'over' ? 'over' : ts.state;
+  const cwState   = ts.state==='over' ? 'over' : ts.state;
 
   let cwHtml = '';
   if (S.deadline) {
-    const isOver = ts.state === 'over';
+    const isOver = ts.state==='over';
     const absSec = Math.abs(ts.remSec||0);
-    let statusText = isOver ? `⚠️ Fristen er passert!`
+    const statusText = isOver ? `⚠️ Fristen er passert!`
       : ts.state==='red' ? `🔴 Du rekker det IKKE — skynd deg!`
       : `🟢 Du rekker det fint — bra jobbet!`;
-    const remTaskText = remaining.length > 0
+    const remTaskText = remaining.length>0
       ? `${remaining.length} oppgave${remaining.length>1?'r':''} igjen (${remaining.reduce((s,t)=>s+t.mins,0)} min)`
       : '🎉 Alle oppgaver er gjort!';
     cwHtml = `
@@ -792,7 +733,13 @@ function motMsg(onTime,total){
   if(total>=3)return`${total} oppgaver gjort! Prøv å få flere innenfor fristen! 💪`;
   return'Fortsett slik — du blir bedre for hver dag! ⭐';
 }
-function childLink(){const u=new URL(location.href.split('?')[0]);u.searchParams.set('childKey',S.childRoomKey);u.searchParams.set('child','1');return u.toString();}
+
+// Barnets URL bruker nå ?listKey= i stedet for ?childKey=&child=1
+function childLink(){
+  const u=new URL(location.href.split('?')[0]);
+  u.searchParams.set('listKey', S.listKey);
+  return u.toString();
+}
 function copyChildLink(){navigator.clipboard.writeText(childLink()).then(()=>{S.ok='Lenken er kopiert!';render();setTimeout(()=>{S.ok=null;render();},4000);});}
 function selEmoji(e){S.taskEmoji=e;render();}
 function addTask(){const el=document.getElementById('ti');const n=(el?el.value:S.taskInput).trim();if(!n)return;S.tasks.push({id:Date.now().toString(),name:n,mins:S.taskMins,emoji:S.taskEmoji});S.taskInput='';render();}
@@ -818,7 +765,7 @@ async function toggleTask(id){
   if(was){delete S.checkedIds[id];}
   else{S.checkedIds[id]=true;}
   playTap();render();
-  try{await api('check',{taskId:id,checked:!was},null,S.childRoomKey);}catch(e){S.error='Lagring feilet.';render();}
+  try{await api('check',{taskId:id,checked:!was},null,S.listKey);}catch(e){S.error='Lagring feilet.';render();}
   if(!was&&S.tasks.every(t=>S.checkedIds[t.id]))confetti();
 }
 
@@ -830,7 +777,7 @@ async function goStatus(){
   S.pollInterval=setInterval(async()=>{try{await loadRoom(S.activeRoom.id,null);if(S.view==='status')render();}catch(e){}},3000);
 }
 async function goStatsParent(){S.view='stats';try{S.weekStats=await api('weekStats',null,S.activeRoom.id);}catch(e){S.weekStats=[];}render();}
-async function goChildStats(){S.view='stats';try{S.weekStats=await api('weekStats',null,null,S.childRoomKey);}catch(e){S.weekStats=[];}render();}
+async function goChildStats(){S.view='stats';try{S.weekStats=await api('weekStats',null,null,S.listKey);}catch(e){S.weekStats=[];}render();}
 function goChildTasks(){S.view='child';render();}
 function stopIntervals(){if(S.pollInterval){clearInterval(S.pollInterval);S.pollInterval=null;}if(S.tickInterval){clearInterval(S.tickInterval);S.tickInterval=null;}}
 
@@ -839,37 +786,38 @@ function confetti(){const c=['#f9d71c','#ff6b6b','#c77dff','#10b981','#ff8c42','
 
 // ── INIT ──────────────────────────────────────────────────────
 async function init(){
-  const params   = new URLSearchParams(location.search);
-  const childKey = params.get('childKey');
-  const isChild  = params.get('child') === '1';
+  const params  = new URLSearchParams(location.search);
+  const listKey = params.get('listKey');  // Ny, ren URL-parameter
 
-  if (childKey && isChild) {
-    // Barn — hopp over splash
+  if (listKey) {
+    // BARNETS VISNING — ingen child=1 nødvendig
     hideSplash(true);
-    S.childRoomKey=childKey; S.childKey=childKey; S.view='child'; S.loading=true; render();
+    S.listKey=listKey; S.childKey=listKey; S.view='child'; S.loading=true; render();
     try{
-      await loadRoom(null,childKey);
+      await loadRoom(null, listKey);
       S.loading=false; render();
-    }catch(e){S.error='Kunne ikke laste oppgaver.';S.loading=false;render();}
+    }catch(e){S.error='Kunne ikke laste oppgaver. Sjekk internett.';S.loading=false;render();}
     S.pollInterval=setInterval(async()=>{
-      try{const prev={...S.checkedIds};await loadRoom(null,childKey);Object.keys(prev).forEach(id=>{if(prev[id])S.checkedIds[id]=true;});if(S.view==='child')render();}catch(e){}
+      try{
+        const prev={...S.checkedIds};
+        await loadRoom(null,listKey);
+        Object.keys(prev).forEach(id=>{if(prev[id])S.checkedIds[id]=true;});
+        if(S.view==='child')render();
+      }catch(e){}
     },30000);
     S.tickInterval=setInterval(()=>{if(S.view==='child')render();},1000);
 
   } else {
-    // Forelder — sjekk sesjon
+    // FORELDER
     const savedUid = loadSession();
     if (savedUid && savedUid !== '' && savedUid !== 'null') {
       S.userId = parseInt(savedUid);
-      try {
+      try{
         await fetchLists();
         S.view='lists';
-        hideSplash(true); // Allerede innlogget — hopp over splash
+        hideSplash(true);
         render();
-      } catch(e) {
-        S.view='login'; render();
-        // Splash vises
-      }
+      }catch(e){S.view='login';render();}
     } else {
       S.view='login'; render();
       // Splash vises for nye besøkende
