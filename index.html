@@ -13,13 +13,8 @@
 body { font-family: 'Segoe UI', system-ui, sans-serif; min-height: 100vh; background: #1a1a2e; color: #fff; overflow-x: hidden; }
 
 /* ── SPLASH ── */
-.splash {
-  position: fixed; inset: 0;
-  background: linear-gradient(160deg, #0d0d1f 0%, #1a1a2e 50%, #0f0a2e 100%);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  z-index: 9999; transition: opacity 0.5s ease; padding: 2rem; text-align: center;
-}
-.splash.hide { opacity: 0; pointer-events: none; }
+.splash { position:fixed; inset:0; background:linear-gradient(160deg,#0d0d1f 0%,#1a1a2e 50%,#0f0a2e 100%); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:9999; transition:opacity 0.5s ease; padding:2rem; text-align:center; }
+.splash.hide { opacity:0; pointer-events:none; }
 .splash-mascot { width:180px; height:180px; object-fit:contain; animation:floatBig 3s ease-in-out infinite; filter:drop-shadow(0 0 40px rgba(249,215,28,0.5)); margin-bottom:1.5rem; }
 @keyframes floatBig { 0%,100%{transform:translateY(0) rotate(-2deg);} 50%{transform:translateY(-14px) rotate(2deg);} }
 .splash h1 { font-size:3rem; font-weight:900; background:linear-gradient(135deg,#f9d71c,#ff6b6b,#c77dff); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; margin-bottom:0.5rem; }
@@ -62,6 +57,8 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .btn-add  { background:#c77dff; border-radius:10px; width:38px; height:38px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:#fff; cursor:pointer; border:none; flex-shrink:0; }
 .btn-add:hover { background:#a855f7; }
 .btn-icon { background:none; border:none; cursor:pointer; font-size:1rem; padding:0 4px; color:#ff6b6b; }
+.btn-share { background:linear-gradient(135deg,#7c3aed,#c77dff); color:#fff; font-weight:700; border:none; border-radius:10px; padding:9px 16px; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; gap:6px; transition:transform 0.12s; box-shadow:0 3px 12px rgba(124,58,237,0.4); }
+.btn-share:active { transform:scale(0.96); }
 
 .emoji-row { display:flex; gap:5px; flex-wrap:wrap; margin-bottom:8px; }
 .ep { background:#0f3460; border:1.5px solid transparent; border-radius:8px; width:34px; height:34px; display:flex; align-items:center; justify-content:center; font-size:1.15rem; cursor:pointer; }
@@ -72,15 +69,10 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .task-name { flex:1; font-size:0.9rem; }
 .tag { font-size:0.75rem; background:rgba(249,215,28,0.15); color:#f9d71c; border-radius:6px; padding:2px 7px; white-space:nowrap; }
 
-/* ── LINK BOX ── */
 .link-box { background:#0a1a30; border-radius:12px; padding:11px 13px; margin-top:0.8rem; border:1px solid #1a4a8a; }
 .link-box p { font-size:0.78rem; color:#888; margin-bottom:6px; }
 .link-url { background:#16213e; border-radius:8px; padding:7px 10px; font-size:0.75rem; color:#c77dff; word-break:break-all; border:1px solid #1a4a8a; margin-bottom:8px; }
 .copy-row { display:flex; gap:6px; flex-wrap:wrap; }
-
-/* ── SHARE BUTTON ── */
-.btn-share { background:linear-gradient(135deg,#7c3aed,#c77dff); color:#fff; font-weight:700; border:none; border-radius:10px; padding:9px 16px; font-size:0.9rem; cursor:pointer; display:flex; align-items:center; gap:6px; transition:transform 0.12s; box-shadow:0 3px 12px rgba(124,58,237,0.4); }
-.btn-share:active { transform:scale(0.96); }
 
 .prog-bg { background:#0f3460; border-radius:20px; height:16px; overflow:hidden; }
 .prog-fill { height:100%; border-radius:20px; background:linear-gradient(90deg,#10b981,#f9d71c); transition:width 0.5s; }
@@ -99,6 +91,19 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 .list-meta { font-size:0.78rem; color:#888; margin-top:3px; }
 .list-arrow { color:#555; font-size:1.2rem; }
 
+/* ── COMPLETION LOG ── */
+.comp-item { display:flex; align-items:center; background:#16213e; border-radius:12px; padding:11px 14px; gap:12px; border:1.5px solid #0f3460; margin-bottom:8px; }
+.comp-item.on-time { border-color:#10b981; }
+.comp-item.late    { border-color:#ef4444; }
+.comp-icon { font-size:1.5rem; flex-shrink:0; }
+.comp-info { flex:1; }
+.comp-date { font-size:0.88rem; font-weight:700; }
+.comp-tasks { font-size:0.75rem; color:#888; margin-top:2px; }
+.comp-margin { font-size:0.9rem; font-weight:800; }
+.comp-item.on-time .comp-margin { color:#10b981; }
+.comp-item.late    .comp-margin { color:#ef4444; }
+
+/* ── CHILD HEADER ── */
 .child-header { padding:1.5rem 1rem 1.2rem; text-align:center; transition:background 0.5s; }
 .child-header.green { background:linear-gradient(135deg,#065f46,#10b981); }
 .child-header.red   { background:linear-gradient(135deg,#7f1d1d,#ef4444); }
@@ -203,7 +208,6 @@ input[type=time]::-webkit-calendar-picker-indicator { filter:invert(1); }
 <div class="spark" style="top:60%;left:3%;animation-delay:2.1s">💫</div>
 <div class="spark" style="top:80%;right:5%;animation-delay:0.7s">✨</div>
 
-<!-- SPLASH -->
 <div class="splash" id="splash">
   <img src="mascot.png" class="splash-mascot" alt="Stepster">
   <h1>Stepster</h1>
@@ -240,8 +244,10 @@ const S = {
   deadline: null,
   listKey: null, childKey: null,
   weekStats: [],
+  completions: [],
   pollInterval: null, tickInterval: null,
   lastMinuteTick: -1,
+  completionLogged: false,  // unngå å logge samme fullføring flere ganger
   saving: false, loading: false, error: null, ok: null,
 };
 
@@ -299,6 +305,16 @@ function fmtTime(sec) {
   return h > 0
     ? `${h}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`
     : `${m}:${s.toString().padStart(2,'0')}`;
+}
+
+// Formater margin for logg — positiv = i tide, negativ = over frist
+function fmtMargin(sec) {
+  if (sec === null || sec === undefined) return '—';
+  const abs = Math.abs(sec);
+  const m = Math.floor(abs/60);
+  const s = abs%60;
+  const str = m > 0 ? `${m} min ${s} sek` : `${s} sek`;
+  return sec >= 0 ? `+${str}` : `-${str}`;
 }
 
 // ── LYD HVERT MINUTT ─────────────────────────────────────────
@@ -365,7 +381,7 @@ async function loadRoom(roomId, listKey) {
   return true;
 }
 
-// ── DEL LENKE — Web Share API ─────────────────────────────────
+// ── DEL LENKE ────────────────────────────────────────────────
 function childLink() {
   const u = new URL(location.href.split('?')[0]);
   u.searchParams.set('listKey', S.listKey);
@@ -376,18 +392,11 @@ async function shareChildLink() {
   const url  = childLink();
   const name = S.childName || 'deg';
   const text = `Yo ${name}! 🦊 Stepster har en oppgaveliste til deg. Klikk her:`;
-
   if (navigator.share) {
-    try {
-      await navigator.share({ title: 'Stepster ⭐', text, url });
-    } catch(e) {
-      // Bruker avbrøt delingen — ingen feil
-    }
+    try { await navigator.share({title:'Stepster ⭐', text, url}); } catch(e) {}
   } else {
-    // Fallback for desktop
     await navigator.clipboard.writeText(`${text}\n${url}`);
-    S.ok = 'Lenke kopiert til utklippstavlen!';
-    render();
+    S.ok='Lenke kopiert!'; render();
     setTimeout(()=>{S.ok=null;render();},4000);
   }
 }
@@ -395,12 +404,13 @@ async function shareChildLink() {
 // ── RENDER ────────────────────────────────────────────────────
 function render() {
   const app = document.getElementById('app');
-  if      (S.view==='login')  app.innerHTML = tplLogin();
-  else if (S.view==='lists')  app.innerHTML = tplLists();
-  else if (S.view==='setup')  app.innerHTML = tplSetup();
-  else if (S.view==='status') app.innerHTML = tplStatus();
-  else if (S.view==='child')  app.innerHTML = tplChild();
-  else if (S.view==='stats')  app.innerHTML = tplStats();
+  if      (S.view==='login')       app.innerHTML = tplLogin();
+  else if (S.view==='lists')       app.innerHTML = tplLists();
+  else if (S.view==='setup')       app.innerHTML = tplSetup();
+  else if (S.view==='status')      app.innerHTML = tplStatus();
+  else if (S.view==='child')       app.innerHTML = tplChild();
+  else if (S.view==='stats')       app.innerHTML = tplStats();
+  else if (S.view==='completions') app.innerHTML = tplCompletions();
 }
 
 // ── LOGIN ─────────────────────────────────────────────────────
@@ -490,18 +500,9 @@ function tplLists() {
     <div class="card">
       <h2>✨ Ny oppgaveliste</h2>
       <div style="display:flex;flex-direction:column;gap:12px;">
-        <div>
-          <span class="section-lbl">Navn på listen</span>
-          <input type="text" id="new-list-name" placeholder="F.eks. Morgenrutine">
-        </div>
-        <div>
-          <span class="section-lbl">Barnets navn</span>
-          <input type="text" id="new-child-name" placeholder="F.eks. Emma">
-        </div>
-        <div>
-          <span class="section-lbl">Frist (klokkeslett)</span>
-          <input type="time" id="new-deadline" value="07:30">
-        </div>
+        <div><span class="section-lbl">Navn på listen</span><input type="text" id="new-list-name" placeholder="F.eks. Morgenrutine"></div>
+        <div><span class="section-lbl">Barnets navn</span><input type="text" id="new-child-name" placeholder="F.eks. Emma"></div>
+        <div><span class="section-lbl">Frist (klokkeslett)</span><input type="time" id="new-deadline" value="07:30"></div>
         <div class="row" style="margin-top:4px;">
           <button class="btn btn-gold" onclick="createList()">Opprett liste</button>
           <button class="btn btn-gray" onclick="S.showNewList=false;render()">Avbryt</button>
@@ -561,15 +562,12 @@ function tplSetup() {
       <button class="btn-icon" onclick="removeTask(${i})">✕</button>
     </li>`).join('');
   const totalMins = S.tasks.reduce((s,t)=>s+t.mins,0);
-
   const linkBox = S.listKey ? `
     <div class="link-box">
       <p>📱 Barnets lenke — alltid den samme:</p>
       <div class="link-url">${childLink()}</div>
       <div class="copy-row">
-        <button class="btn-share" onclick="shareChildLink()">
-          📤 Send til ${S.childName||'barnet'}
-        </button>
+        <button class="btn-share" onclick="shareChildLink()">📤 Send til ${S.childName||'barnet'}</button>
         <button class="btn btn-gray btn-sm" onclick="goStatus()">👀 Se status</button>
       </div>
     </div>` : '';
@@ -632,6 +630,44 @@ function tplStatus() {
       <button class="bnav-btn" onclick="goSetup()"><span class="bnav-icon">✏️</span>Rediger</button>
       <button class="bnav-btn active"><span class="bnav-icon">👀</span>Status</button>
       <button class="bnav-btn" onclick="goStatsParent()"><span class="bnav-icon">📈</span>Statistikk</button>
+      <button class="bnav-btn" onclick="goCompletions()"><span class="bnav-icon">📓</span>Logg</button>
+    </div>`;
+}
+
+// ── COMPLETIONS LOG ───────────────────────────────────────────
+function tplCompletions() {
+  const items = S.completions.map(c => {
+    const onTime = c.margin_sec !== null && c.margin_sec >= 0;
+    const dt = new Date(c.completed_at);
+    const dateStr = dt.toLocaleDateString('nb-NO', {day:'numeric', month:'short'});
+    const timeStr = dt.toLocaleTimeString('nb-NO', {hour:'2-digit', minute:'2-digit'});
+    return `
+      <div class="comp-item ${onTime?'on-time':'late'}">
+        <div class="comp-icon">${onTime?'✅':'⏰'}</div>
+        <div class="comp-info">
+          <div class="comp-date">${dateStr} kl. ${timeStr}</div>
+          <div class="comp-tasks">${c.tasks_done} av ${c.tasks_total} oppgaver${c.deadline?' · Frist '+c.deadline:''}</div>
+        </div>
+        <div class="comp-margin">${fmtMargin(c.margin_sec)}</div>
+      </div>`;
+  }).join('');
+
+  return `
+    <div class="logo"><h1>Stepster ⭐</h1><p>${S.activeRoom?.name||'Logg'}</p></div>
+    <div class="view">
+      <div class="card">
+        <h2>📓 Fullføringslogg</h2>
+        <p style="font-size:0.8rem;color:#888;margin-bottom:0.8rem">Viser de 30 siste gangene oppgavelisten ble fullført</p>
+        ${S.completions.length
+          ? items
+          : `<p class="muted" style="text-align:center;padding:1rem">Ingen fullføringer ennå</p>`}
+      </div>
+    </div>
+    <div class="bnav">
+      <button class="bnav-btn" onclick="goSetup()"><span class="bnav-icon">✏️</span>Rediger</button>
+      <button class="bnav-btn" onclick="goStatus()"><span class="bnav-icon">👀</span>Status</button>
+      <button class="bnav-btn" onclick="goStatsParent()"><span class="bnav-icon">📈</span>Statistikk</button>
+      <button class="bnav-btn active"><span class="bnav-icon">📓</span>Logg</button>
     </div>`;
 }
 
@@ -752,6 +788,7 @@ function tplStats() {
       <button class="bnav-btn" onclick="${isChild?'goChildTasks()':'goSetup()'}"><span class="bnav-icon">${isChild?'📋':'✏️'}</span>${isChild?'Oppgaver':'Rediger'}</button>
       ${!isChild?`<button class="bnav-btn" onclick="goStatus()"><span class="bnav-icon">👀</span>Status</button>`:''}
       <button class="bnav-btn active"><span class="bnav-icon">📈</span>Statistikk</button>
+      ${!isChild?`<button class="bnav-btn" onclick="goCompletions()"><span class="bnav-icon">📓</span>Logg</button>`:''}
     </div>`;
 }
 
@@ -786,14 +823,34 @@ async function saveAndLink(){
 
 async function toggleTask(id){
   const was=!!S.checkedIds[id];
-  if(was){delete S.checkedIds[id];}
-  else{S.checkedIds[id]=true;}
+  if(was){
+    delete S.checkedIds[id];
+    S.completionLogged=false; // Tillat ny logging hvis de huker av igjen
+  } else {
+    S.checkedIds[id]=true;
+  }
   playTap();render();
   try{await api('check',{taskId:id,checked:!was},null,S.listKey);}catch(e){S.error='Lagring feilet.';render();}
-  if(!was&&S.tasks.every(t=>S.checkedIds[t.id]))confetti();
+
+  // Sjekk om alle er ferdig — logg fullføring
+  if (!was && S.tasks.every(t=>S.checkedIds[t.id]) && !S.completionLogged) {
+    S.completionLogged = true;
+    confetti();
+    const ts = getTimeStatus();
+    const marginSec = ts.remSec !== null ? ts.remSec : null;
+    try {
+      await api('logCompletion', {
+        roomId:     S.activeRoom?.id || null,
+        tasksDone:  S.tasks.length,
+        tasksTotal: S.tasks.length,
+        deadline:   S.deadline,
+        marginSec
+      }, null, S.listKey);
+    } catch(e) { /* loggfeil er ikke kritisk */ }
+  }
 }
 
-function goLists(){S.view='lists';stopIntervals();S.activeRoom=null;S.tasks=[];S.checkedIds={};render();}
+function goLists(){S.view='lists';stopIntervals();S.activeRoom=null;S.tasks=[];S.checkedIds={};S.completionLogged=false;render();}
 function goSetup(){S.view='setup';stopIntervals();render();}
 async function goStatus(){
   S.view='status';stopIntervals();render();
@@ -802,6 +859,11 @@ async function goStatus(){
 }
 async function goStatsParent(){S.view='stats';try{S.weekStats=await api('weekStats',null,S.activeRoom.id);}catch(e){S.weekStats=[];}render();}
 async function goChildStats(){S.view='stats';try{S.weekStats=await api('weekStats',null,null,S.listKey);}catch(e){S.weekStats=[];}render();}
+async function goCompletions(){
+  S.view='completions';stopIntervals();
+  try{S.completions=await api('getCompletions',null,S.activeRoom?.id,S.listKey);}catch(e){S.completions=[];}
+  render();
+}
 function goChildTasks(){S.view='child';render();}
 function stopIntervals(){if(S.pollInterval){clearInterval(S.pollInterval);S.pollInterval=null;}if(S.tickInterval){clearInterval(S.tickInterval);S.tickInterval=null;}}
 
@@ -817,7 +879,7 @@ async function init(){
     hideSplash(true);
     S.listKey=listKey; S.childKey=listKey; S.view='child'; S.loading=true; render();
     try{
-      await loadRoom(null, listKey);
+      await loadRoom(null,listKey);
       S.loading=false; render();
     }catch(e){S.error='Kunne ikke laste oppgaver. Sjekk internett.';S.loading=false;render();}
     S.pollInterval=setInterval(async()=>{
@@ -829,7 +891,6 @@ async function init(){
       }catch(e){}
     },30000);
     S.tickInterval=setInterval(()=>{if(S.view==='child')render();},1000);
-
   } else {
     const savedUid = loadSession();
     if (savedUid && savedUid !== '' && savedUid !== 'null') {
